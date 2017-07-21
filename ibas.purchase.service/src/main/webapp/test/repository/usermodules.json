@@ -1,0 +1,9 @@
+[
+  {
+    "Id": "de9278d9-4914-45a5-8418-9c609118d03f",
+    "Name": "Purchase",
+    "Category": "",
+    "Address": ".../",
+    "Repository": "http://localhost:8080/purchase/services/rest/data"
+  }
+]
