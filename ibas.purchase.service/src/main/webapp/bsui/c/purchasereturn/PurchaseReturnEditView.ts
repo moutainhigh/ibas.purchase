@@ -144,26 +144,31 @@ export class PurchaseReturnEditView extends ibas.BOEditView implements IPurchase
                 new sap.ui.core.Title("",{text: ibas.i18n.prop("purchase_finance_information")}),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_documenttotal") }),
                 new sap.m.Input("", {
+                    editable: false,
                 }).bindProperty("value", {
                     path: "/documentTotal"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_taxrate") }),
                 new sap.m.Input("", {
+                    editable: false,
                 }).bindProperty("value", {
                     path: "/taxRate"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_taxtotal") }),
                 new sap.m.Input("", {
+                    editable: false,
                 }).bindProperty("value", {
                     path: "/taxTotal"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_discount") }),
                 new sap.m.Input("", {
+                    editable: false,
                 }).bindProperty("value", {
                     path: "/discount"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_discounttotal") }),
                 new sap.m.Input("", {
+                    editable: false,
                 }).bindProperty("value", {
                     path: "/discountTotal"
                 }),
@@ -302,6 +307,16 @@ export class PurchaseReturnEditView extends ibas.BOEditView implements IPurchase
                         type: sap.m.InputType.Number
                     }).bindProperty("value", {
                         path: "lineTotal"
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_purchasereturnitem_linestatus"),
+                    template: new sap.m.Select("", {
+                        width: "100%",
+                        items: utils.createComboBoxItems(ibas.emDocumentStatus),
+                    }).bindProperty("selectedKey", {
+                        path: "lineStatus",
+                        type: "sap.ui.model.type.Integer",
                     })
                 }),
             ]
