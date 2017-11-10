@@ -7,7 +7,7 @@
  */
 
 import * as ibas from "ibas/index";
-import { utils } from "openui5/typings/ibas.utils";
+import * as openui5 from "openui5/index";
 import * as bo from "../../../borep/bo/index";
 import { IPurchaseOrderViewView } from "../../../bsapp/purchaseorder/index";
 
@@ -166,7 +166,7 @@ export class PurchaseOrderViewView extends ibas.BOViewView implements IPurchaseO
         });
         this.tablePurchaseOrderItem = new sap.ui.table.Table("", {
             enableSelectAll: false,
-            visibleRowCount: ibas.config.get(utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 10),
+            visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 10),
             rows: "{/rows}",
             columns: [
                 new sap.ui.table.Column("", {

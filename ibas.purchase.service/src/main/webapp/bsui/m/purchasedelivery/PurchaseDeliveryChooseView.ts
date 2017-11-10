@@ -7,7 +7,7 @@
  */
 
 import * as ibas from "ibas/index";
-import { utils } from "openui5/typings/ibas.utils";
+import * as openui5 from "openui5/index";
 import * as bo from "../../../borep/bo/index";
 import { IPurchaseDeliveryChooseView } from "../../../bsapp/purchasedelivery/index";
 export class PurchaseDeliveryChooseView extends ibas.BOChooseView implements IPurchaseDeliveryChooseView {
@@ -34,7 +34,7 @@ export class PurchaseDeliveryChooseView extends ibas.BOChooseView implements IPu
                 press: function (): void {
                     that.fireViewEvents(that.chooseDataEvent,
                         // 获取表格选中的对象
-                        utils.getTableSelecteds<bo.PurchaseDelivery>(that.table)
+                        openui5.utils.getTableSelecteds<bo.PurchaseDelivery>(that.table)
                     );
                 }
             }),
@@ -53,15 +53,15 @@ export class PurchaseDeliveryChooseView extends ibas.BOChooseView implements IPu
         let that: this = this;
         this.table = new sap.ui.table.Table("", {
             enableSelectAll: false,
-            selectionMode: utils.toSelectionMode(this.chooseType),
-            visibleRowCount: ibas.config.get(utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 15),
+            selectionMode: openui5.utils.toSelectionMode(this.chooseType),
+            visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 15),
             rows: "{/rows}",
             columns: [
             ]
         });
         this.id = this.table.getId();
         // 添加列表自动查询事件
-        utils.triggerNextResults({
+        openui5.utils.triggerNextResults({
             listener: this.table,
             next(data: any): void {
                 if (ibas.objects.isNull(that.lastCriteria)) {
