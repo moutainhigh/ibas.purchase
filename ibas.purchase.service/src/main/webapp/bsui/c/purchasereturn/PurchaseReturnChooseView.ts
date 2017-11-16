@@ -102,7 +102,7 @@ export class PurchaseReturnChooseView extends ibas.BOChooseView implements IPurc
                 for (let item of datas) {
                     hDatas.rows.push(item);
                 }
-                model.refresh(false);
+                model.refresh(false);                done = true;
 
             }
         }
