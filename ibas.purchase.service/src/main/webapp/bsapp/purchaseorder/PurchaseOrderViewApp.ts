@@ -40,7 +40,7 @@ export class PurchaseOrderViewApp extends ibas.BOViewService<IPurchaseOrderViewV
         if (ibas.objects.isNull(this.viewData)) {
             // 创建编辑对象实例
             this.viewData = new bo.PurchaseOrder();
-            this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_data_created_new"));
+            this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_data_created_new"));
         }
         this.view.showPurchaseOrder(this.viewData);
         this.view.showPurchaseOrderItems(this.viewData.purchaseOrderItems.filterDeleted());
@@ -86,7 +86,7 @@ export class PurchaseOrderViewApp extends ibas.BOViewService<IPurchaseOrderViewV
                 }
             }
         });
-        this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("sys_shell_fetching_data"));
+        this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_fetching_data"));
     }
     /** 获取服务的契约 */
     protected getServiceProxies(): ibas.IServiceProxy<ibas.IServiceContract>[] {

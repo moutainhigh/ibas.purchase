@@ -40,7 +40,7 @@ export class PurchaseReturnViewApp extends ibas.BOViewService<IPurchaseReturnVie
         if (ibas.objects.isNull(this.viewData)) {
             // 创建编辑对象实例
             this.viewData = new bo.PurchaseReturn();
-            this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_data_created_new"));
+            this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_data_created_new"));
         }
         this.view.showPurchaseReturn(this.viewData);
         this.view.showPurchaseReturnItems(this.viewData.purchaseReturnItems.filterDeleted());
@@ -86,7 +86,7 @@ export class PurchaseReturnViewApp extends ibas.BOViewService<IPurchaseReturnVie
                 }
             }
         });
-        this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("sys_shell_fetching_data"));
+        this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_fetching_data"));
     }
     /** 获取服务的契约 */
     protected getServiceProxies(): ibas.IServiceProxy<ibas.IServiceContract>[] {
