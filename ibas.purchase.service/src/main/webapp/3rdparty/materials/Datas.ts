@@ -8,10 +8,18 @@
 
 // 共享的数据
 import {
+    strings,
+    MODULE_REPOSITORY_NAME_TEMPLATE,
 } from "ibas/index";
 
+/** 模块-标识 */
+export const CONSOLE_ID: string = "bad47859-3d74-4b2b-975a-48c635406be4";
+/** 模块-名称 */
+export const CONSOLE_NAME: string = "Materials";
+/** 模块-版本 */
+export const CONSOLE_VERSION: string = "0.1.0";
 /** 业务仓库名称 */
-export const BO_REPOSITORY_MATERIALS: string = "BORepositoryMaterials";
+export const BO_REPOSITORY_MATERIALS: string = strings.format(MODULE_REPOSITORY_NAME_TEMPLATE, CONSOLE_NAME);
 /** 业务对象编码-库存发货 */
 export const BO_CODE_GOODSISSUE: string = "${Company}_MM_GOODSISSUE";
 /** 业务对象编码-库存收货 */
@@ -20,6 +28,28 @@ export const BO_CODE_GOODSRECEIPT: string = "${Company}_MM_GOODSRECEIPT";
 export const BO_CODE_INVENTORYTRANSFER: string = "${Company}_MM_INVENTORYTRANSFER";
 /** 业务对象编码-物料 */
 export const BO_CODE_MATERIAL: string = "${Company}_MM_MATERIAL";
+/** 业务对象编码-物料扩展 */
+export const BO_CODE_PRODUCT: string = "${Company}_MM_PRODUCT";
+/** 业务对象编码-物料批次 */
+export const BO_CODE_MATERIALBATCH: string = "${Company}_MM_BATCH";
+/** 业务对象编码-物料批次凭证 */
+export const BO_CODE_MATERIALBATCHJOURNAL: string = "${Company}_MM_BATCHJOURNAL";
+/**  业务对象编码-物料批次服务 */
+export const BO_CODE_MATERIALBATCHSERVICE: string = "${Company}_MM_BATCHJOURNAL";
+/** 业务对象编码-物料批次-入 */
+export const BO_CODE_RECEIPT_MATERIALBATCH: string = "${Company}_MM_RECEIEPT_BATCH";
+/** 业务对象编码-物料批次-出 */
+export const BO_CODE_ISSUE_MATERIALBATCH: string = "${Company}_MM_ISSUE_BATCH";
+/** 业务对象编码-物料序列号 */
+export const BO_CODE_MATERIALSERIAL: string = "${Company}_MM_SERIAL";
+/** 业务对象编码-物料序列号凭证 */
+export const BO_CODE_MATERIALSERIALJOURNAL: string = "${Company}_MM_SERIALJOURNAL";
+/** 业务对象编码-物料序列凭证 */
+export const BO_CODE_MATERIALSERIALSERVICE: string = "${Company}_MM_SERIALJOURNAL";
+/** 业务对象编码-物料序列号-入 */
+export const BO_CODE_RECEIPT_MATERIALSERIAL: string = "${Company}_MM_RECEIEPT_SERIAL";
+/** 业务对象编码-物料序列号-出 */
+export const BO_CODE_ISSUE_MATERIALSERIAL: string = "${Company}_MM_ISSUE_SERIAL";
 /** 业务对象编码-物料组 */
 export const BO_CODE_MATERIALGROUP: string = "${Company}_MM_MATERIALGROUP";
 /** 业务对象编码-物料库存 */
@@ -28,6 +58,8 @@ export const BO_CODE_MATERIALINVENTORY: string = "${Company}_MM_MATERIALINVENTOR
 export const BO_CODE_MATERIALJOURNAL: string = "${Company}_MM_MATERIALJOURNAL";
 /** 业务对象编码-仓库 */
 export const BO_CODE_WAREHOUSE: string = "${Company}_MM_WAREHOUSE";
+/** 业务对象编码-价格清单 */
+export const BO_CODE_MATERIALPRICELIST: string = "${Company}_MM_PRICELIST";
 
 /** 物料类型 */
 export enum emItemType {
@@ -35,4 +67,14 @@ export enum emItemType {
     ITEM,
     /** 服务 */
     SERVICES,
+}
+
+/** 排序规则 */
+export enum emAutoSelectBatchSerialRules {
+    /** 先进先出 */
+    FIRSTINFIRSTOUT,
+    /** 先进后出 */
+    FIRSTINLASTOUT,
+    /** 编码排序 */
+    ORDERBYCODE,
 }

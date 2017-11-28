@@ -8,13 +8,26 @@
 
 import {
     FetchCaller,
-    SaveCaller
+    SaveCaller,
+    UploadFileCaller,
+    DownloadFileCaller,
+    FileData
 } from "ibas/index";
 import * as bo from "./bo/index"
 
 /** 业务仓库 */
 export interface IBORepositoryMaterials {
 
+    /**
+     * 上传文件
+     * @param caller 调用者
+     */
+    upload(caller: UploadFileCaller<FileData>);
+    /**
+     * 下载文件
+     * @param caller 调用者
+     */
+    download(caller: DownloadFileCaller<Blob>);
     /**
      * 查询 库存发货
      * @param fetcher 查询者
@@ -85,12 +98,12 @@ export interface IBORepositoryMaterials {
      * 查询 仓库日记账
      * @param fetcher 查询者
      */
-    fetchMaterialJournal(fetcher: FetchCaller<bo.IMaterialJournal>);
+    fetchMaterialInventoryJournal(fetcher: FetchCaller<bo.IMaterialInventoryJournal>);
     /**
      * 保存 仓库日记账
      * @param saver 保存者
      */
-    saveMaterialJournal(saver: SaveCaller<bo.IMaterialJournal>);
+    saveMaterialInventoryJournal(saver: SaveCaller<bo.IMaterialInventoryJournal>);
 
     /**
      * 查询 仓库
@@ -102,6 +115,41 @@ export interface IBORepositoryMaterials {
      * @param saver 保存者
      */
     saveWarehouse(saver: SaveCaller<bo.IWarehouse>);
+    /**
+         * 查询 物料扩展
+         * @param fetcher 查询者
+         */
+    fetchProduct(fetcher: FetchCaller<bo.IProduct>);
+    /**
+     * 查询 物料批次
+     * @param fetcher 查询者
+     */
+    fetchMaterialBatch(fetcher: FetchCaller<bo.IMaterialBatch>);
+    /**
+     * 保存 物料批次
+     * @param saver 保存者
+     */
+    saveMaterialBatch(saver: SaveCaller<bo.IMaterialBatch>);
 
+    /**
+    * 查询 物料序列号
+    * @param fetcher 查询者
+    */
+    fetchMaterialSerial(fetcher: FetchCaller<bo.IMaterialSerial>);
+    /**
+     * 保存 物料序列号
+     * @param saver 保存者
+     */
+    saveMaterialSerial(saver: SaveCaller<bo.IMaterialSerial>);
 
+    /**
+    * 查询 物料价格清单
+    * @param fetcher 查询者
+    */
+    fetchMaterialPriceList(fetcher: FetchCaller<bo.IMaterialPriceList>);
+    /**
+     * 保存 物料价格清单
+     * @param saver 保存者
+     */
+    saveMaterialPriceList(saver: SaveCaller<bo.IMaterialPriceList>);
 }
