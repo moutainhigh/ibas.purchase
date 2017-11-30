@@ -86,7 +86,7 @@ export class PurchaseOrderEditApp extends ibas.BOEditApplication<IPurchaseOrderE
                 return;
             }
         }
-        super.run();
+        super.run.apply(this, args);
     }
     /** 待编辑的数据 */
     protected editData: bo.PurchaseOrder;
