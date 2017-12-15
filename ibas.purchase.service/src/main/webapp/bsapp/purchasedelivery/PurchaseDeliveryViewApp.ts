@@ -56,7 +56,7 @@ export class PurchaseDeliveryViewApp extends ibas.BOViewService<IPurchaseDeliver
     run(): void;
     run(data: bo.PurchaseDelivery): void;
     run(): void {
-        if (!(arguments[0] instanceof bo.PurchaseDelivery)) {
+        if (ibas.objects.instanceOf(arguments[0], bo.PurchaseDelivery)) {
             this.viewData = arguments[0];
             this.show();
         } else {
@@ -110,7 +110,7 @@ export class PurchaseDeliveryLinkServiceMapping extends ibas.BOLinkServiceMappin
         this.boCode = PurchaseDeliveryViewApp.BUSINESS_OBJECT_CODE;
         this.description = ibas.i18n.prop(this.name);
     }
-    /** 创建服务并运行 */
+    /** 创建服务实例 */
     create(): ibas.IService<ibas.IBOLinkServiceCaller> {
         return new PurchaseDeliveryViewApp();
     }

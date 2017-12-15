@@ -56,7 +56,7 @@ export class PurchaseOrderViewApp extends ibas.BOViewService<IPurchaseOrderViewV
     run(): void;
     run(data: bo.PurchaseOrder): void;
     run(): void {
-        if (!(arguments[0] instanceof bo.PurchaseOrder)) {
+        if (ibas.objects.instanceOf(arguments[0], bo.PurchaseOrder)) {
             this.viewData = arguments[0];
             this.show();
         } else {
@@ -110,7 +110,7 @@ export class PurchaseOrderLinkServiceMapping extends ibas.BOLinkServiceMapping {
         this.boCode = PurchaseOrderViewApp.BUSINESS_OBJECT_CODE;
         this.description = ibas.i18n.prop(this.name);
     }
-    /** 创建服务并运行 */
+    /** 创建服务实例 */
     create(): ibas.IService<ibas.IBOLinkServiceCaller> {
         return new PurchaseOrderViewApp();
     }
