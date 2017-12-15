@@ -53,12 +53,14 @@ export class PurchaseReturnViewApp extends ibas.BOViewService<IPurchaseReturnVie
         app.run(this.viewData);
     }
     /** 运行,覆盖原方法 */
-    run(...args: any[]): void {
-        if (arguments[0] instanceof bo.PurchaseReturn) {
+    run(): void;
+    run(data: bo.PurchaseReturn): void;
+    run(): void {
+        if (!(arguments[0] instanceof bo.PurchaseReturn)) {
             this.viewData = arguments[0];
             this.show();
         } else {
-            super.run.apply(this, args);
+            super.run.apply(this, arguments);
         }
     }
     private viewData: bo.PurchaseReturn;
@@ -109,7 +111,7 @@ export class PurchaseReturnLinkServiceMapping extends ibas.BOLinkServiceMapping 
         this.description = ibas.i18n.prop(this.name);
     }
     /** 创建服务并运行 */
-    create(): ibas.IService<ibas.IServiceContract> {
+    create(): ibas.IService<ibas.IBOLinkServiceCaller> {
         return new PurchaseReturnViewApp();
     }
 }
