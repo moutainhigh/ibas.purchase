@@ -7,7 +7,7 @@
  */
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
-import * as material from "../../3rdparty/materials/index";
+import * as material from "3rdparty/materials/index";
 import { BORepositoryPurchase } from "../../borep/BORepositories";
 
 /** 编辑应用-采购交货 */

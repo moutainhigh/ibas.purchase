@@ -25,7 +25,7 @@ import {
 } from "ibas/index";
 import {
     emItemType
-} from "../../3rdparty/materials/index";
+} from "3rdparty/materials/index";
 import {
     IPurchaseOrder,
     IPurchaseOrderItems,
@@ -586,17 +586,17 @@ export class PurchaseOrderItems extends BusinessObjects<PurchaseOrderItem, Purch
                 if (objects.isNull(purchaseOrderItem.lineTotal)) {
                     purchaseOrderItem.lineTotal = 0;
                 }
-                total = Number(total) +  Number(purchaseOrderItem.lineTotal);
+                total = Number(total) + Number(purchaseOrderItem.lineTotal);
                 discount = Number(discount) +
-                Number(purchaseOrderItem.price * purchaseOrderItem.quantity - purchaseOrderItem.lineTotal);
+                    Number(purchaseOrderItem.price * purchaseOrderItem.quantity - purchaseOrderItem.lineTotal);
             }
             this.parent.documentTotal = total;
             this.parent.discountTotal = discount;
             this.parent.discount = discount / total;
         }
-        if(strings.equalsIgnoreCase(name,PurchaseOrderItem.PROPERTY_TAXTOTAL_NAME)) {
+        if (strings.equalsIgnoreCase(name, PurchaseOrderItem.PROPERTY_TAXTOTAL_NAME)) {
             let taxTotal: number = 0;
-            for(let purchaseOrderItem of this.filterDeleted()) {
+            for (let purchaseOrderItem of this.filterDeleted()) {
                 if (objects.isNull(purchaseOrderItem.taxTotal)) {
                     purchaseOrderItem.lineTotal = 0;
                 }
@@ -609,21 +609,21 @@ export class PurchaseOrderItems extends BusinessObjects<PurchaseOrderItem, Purch
         if (isNaN(this.parent.discountTotal)) {
             this.parent.discountTotal = 0;
         }
-        if(isNaN(this.parent.discount)) {
+        if (isNaN(this.parent.discount)) {
             this.parent.discount = 0;
         }
     }
     protected afterRemove(item: PurchaseOrderItem): void {
         super.afterRemove(item);
-        if(this.parent.purchaseOrderItems.length === 0) {
+        if (this.parent.purchaseOrderItems.length === 0) {
             this.parent.taxTotal = 0;
             this.parent.documentTotal = 0;
             this.parent.taxRate = 0;
             this.parent.discountTotal = 0;
             this.parent.discount = 0;
-        }else {
-            this.parent.documentTotal -=   item.lineTotal;
-            this.parent.discountTotal -= (item.quantity*item.price-item.lineTotal) ;
+        } else {
+            this.parent.documentTotal -= item.lineTotal;
+            this.parent.discountTotal -= (item.quantity * item.price - item.lineTotal);
             this.parent.taxTotal -= item.taxTotal;
             this.parent.taxRate = this.parent.taxTotal / (this.parent.documentTotal + this.parent.discountTotal);
             this.parent.discount = this.parent.discountTotal / (this.parent.documentTotal + this.parent.discountTotal);
@@ -645,12 +645,12 @@ export class PurchaseOrderItem extends BODocumentLine<PurchaseOrderItem> impleme
             strings.equalsIgnoreCase(name, PurchaseOrderItem.PROPERTY_DISCOUNT_NAME)) {
             this.lineTotal = this.quantity * this.price;
         }
-        if(strings.equalsIgnoreCase(name,PurchaseOrderItem.PROPERTY_TAXRATE_NAME) ||
-            strings.equalsIgnoreCase(name,PurchaseOrderItem.PROPERTY_PRICE_NAME) ||
-            strings.equalsIgnoreCase(name,PurchaseOrderItem.PROPERTY_TAXTOTAL_NAME) ||
+        if (strings.equalsIgnoreCase(name, PurchaseOrderItem.PROPERTY_TAXRATE_NAME) ||
+            strings.equalsIgnoreCase(name, PurchaseOrderItem.PROPERTY_PRICE_NAME) ||
+            strings.equalsIgnoreCase(name, PurchaseOrderItem.PROPERTY_TAXTOTAL_NAME) ||
             strings.equalsIgnoreCase(name, PurchaseOrderItem.PROPERTY_QUANTITY_NAME)) {
-                this.taxTotal = this.quantity * this.price * this.taxRate;
-         }
+            this.taxTotal = this.quantity * this.price * this.taxRate;
+        }
         // 行总计为NaN时显示为0
         if (isNaN(this.lineTotal)) {
             this.lineTotal = 0;
