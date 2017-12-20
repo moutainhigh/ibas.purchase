@@ -36,22 +36,10 @@ export class PurchaseOrderEditView extends ibas.BOEditView implements IPurchaseO
         let that: this = this;
         this.viewTopForm = new sap.ui.layout.form.SimpleForm("", {
             editable: true,
-            layout: sap.ui.layout.form.SimpleFormLayout.ResponsiveGridLayout,
-            singleContainerFullSize: false,
-            adjustLabelSpan: false,
-            labelSpanL: 2,
-            labelSpanM: 2,
-            labelSpanS: 12,
-            columnsXL: 2,
-            columnsL: 2,
-            columnsM: 1,
-            columnsS: 1,
             content: [
                 // new sap.ui.core.Title("", { text: ibas.i18n.prop("trainingtesting_basis_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchaseorder_suppliercode") }),
                 new sap.m.Input("", {
-                    placeholder: ibas.i18n.prop("bo_purchaseorder_suppliercode"),
-                    tooltip: ibas.i18n.prop("bo_purchaseorder_suppliercode"),
                     showValueHelp: true,
                     valueHelpRequest: function (): void {
                         that.fireViewEvents(that.choosePurchaseOrderSupplierEvent);
@@ -70,40 +58,40 @@ export class PurchaseOrderEditView extends ibas.BOEditView implements IPurchaseO
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchaseorder_postingdate") }),
                 new sap.m.DatePicker("", {
                     valueFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
-                    displayFormat:ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
+                    displayFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
                 }).bindProperty("dateValue", {
                     path: "/postingDate"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchaseorder_documentdate") }),
                 new sap.m.DatePicker("", {
                     valueFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
-                    displayFormat:ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
+                    displayFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
                 }).bindProperty("dateValue", {
                     path: "/documentDate"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchaseorder_deliverydate") }),
                 new sap.m.DatePicker("", {
                     valueFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
-                    displayFormat:ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
+                    displayFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
                 }).bindProperty("dateValue", {
                     path: "/deliveryDate"
                 }),
                 // new sap.ui.core.Title("",{text: ibas.i18n.prop("purchase_docstatus_information")}),
-                new sap.m.Label("",{text: ibas.i18n.prop("bo_purchaseorder_status")}),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_purchaseorder_status") }),
                 new sap.m.Select("", {
                     items: openui5.utils.createComboBoxItems(ibas.emBOStatus)
                 }).bindProperty("selectedKey", {
                     path: "/status",
                     type: "sap.ui.model.type.Integer"
                 }),
-                new sap.m.Label("",{text: ibas.i18n.prop("bo_purchaseorder_documentstatus")}),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_purchaseorder_documentstatus") }),
                 new sap.m.Select("", {
                     items: openui5.utils.createComboBoxItems(ibas.emDocumentStatus)
                 }).bindProperty("selectedKey", {
                     path: "/documentStatus",
                     type: "sap.ui.model.type.Integer"
                 }),
-                new sap.m.Label("",{text: ibas.i18n.prop("bo_purchaseorder_approvalstatus")}),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_purchaseorder_approvalstatus") }),
                 new sap.m.Select("", {
                     items: openui5.utils.createComboBoxItems(ibas.emApprovalStatus)
                 }).bindProperty("selectedKey", {

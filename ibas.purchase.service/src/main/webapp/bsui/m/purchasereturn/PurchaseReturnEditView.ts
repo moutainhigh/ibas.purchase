@@ -36,22 +36,10 @@ export class PurchaseReturnEditView extends ibas.BOEditView implements IPurchase
         let that: this = this;
         this.viewTopForm = new sap.ui.layout.form.SimpleForm("", {
             editable: true,
-            layout: sap.ui.layout.form.SimpleFormLayout.ResponsiveGridLayout,
-            singleContainerFullSize: false,
-            adjustLabelSpan: false,
-            labelSpanL: 2,
-            labelSpanM: 2,
-            labelSpanS: 12,
-            columnsXL: 2,
-            columnsL: 2,
-            columnsM: 1,
-            columnsS: 1,
             content: [
                 // new sap.ui.core.Title("", { text: ibas.i18n.prop("trainingtesting_basis_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_suppliercode") }),
                 new sap.m.Input("", {
-                    placeholder: ibas.i18n.prop("bo_purchasereturn_suppliercode"),
-                    tooltip: ibas.i18n.prop("bo_purchasereturn_suppliercode"),
                     showValueHelp: true,
                     valueHelpRequest: function (): void {
                         that.fireViewEvents(that.choosePurchaseReturnSupplierEvent);
@@ -70,49 +58,49 @@ export class PurchaseReturnEditView extends ibas.BOEditView implements IPurchase
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_postingdate") }),
                 new sap.m.DatePicker("", {
                     valueFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
-                    displayFormat:ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
+                    displayFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
                 }).bindProperty("dateValue", {
                     path: "/postingDate"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_documentdate") }),
                 new sap.m.DatePicker("", {
                     valueFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
-                    displayFormat:ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
+                    displayFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
                 }).bindProperty("dateValue", {
                     path: "/documentDate"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_deliverydate") }),
                 new sap.m.DatePicker("", {
                     valueFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
-                    displayFormat:ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
+                    displayFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
                 }).bindProperty("dateValue", {
                     path: "/deliveryDate"
                 }),
                 // new sap.ui.core.Title("",{text: ibas.i18n.prop("purchase_refrence_information")}),
-                new sap.m.Label("",{text: ibas.i18n.prop("bo_purchasereturn_reference1")}),
-                new sap.m.Input("",{}).bindProperty("value",{
-                    path:"/reference1"
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_reference1") }),
+                new sap.m.Input("", {}).bindProperty("value", {
+                    path: "/reference1"
                 }),
-                new sap.m.Label("",{text: ibas.i18n.prop("bo_purchasereturn_reference2")}),
-                new sap.m.Input("",{}).bindProperty("value",{
-                    path:"/reference2"
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_reference2") }),
+                new sap.m.Input("", {}).bindProperty("value", {
+                    path: "/reference2"
                 }),
                 // new sap.ui.core.Title("",{text: ibas.i18n.prop("purchase_docstatus_information")}),
-                new sap.m.Label("",{text: ibas.i18n.prop("bo_purchasereturn_status")}),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_status") }),
                 new sap.m.Select("", {
                     items: openui5.utils.createComboBoxItems(ibas.emBOStatus)
                 }).bindProperty("selectedKey", {
                     path: "/status",
                     type: "sap.ui.model.type.Integer"
                 }),
-                new sap.m.Label("",{text: ibas.i18n.prop("bo_purchasereturn_documentstatus")}),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_documentstatus") }),
                 new sap.m.Select("", {
                     items: openui5.utils.createComboBoxItems(ibas.emDocumentStatus)
                 }).bindProperty("selectedKey", {
                     path: "/documentStatus",
                     type: "sap.ui.model.type.Integer"
                 }),
-                new sap.m.Label("",{text: ibas.i18n.prop("bo_purchasereturn_approvalstatus")}),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_approvalstatus") }),
                 new sap.m.Select("", {
                     items: openui5.utils.createComboBoxItems(ibas.emApprovalStatus)
                 }).bindProperty("selectedKey", {
@@ -140,7 +128,7 @@ export class PurchaseReturnEditView extends ibas.BOEditView implements IPurchase
             columnsS: 1,
             content: [
                 // new sap.ui.core.Title("", { text: ibas.i18n.prop("bo_purchasereturn_remarks") }),
-                new sap.m.Label("",{text:ibas.i18n.prop("bo_purchasereturn_remarks")}),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_remarks") }),
                 new sap.m.TextArea("", {
                     rows: 3,
                 }).bindProperty("value", {

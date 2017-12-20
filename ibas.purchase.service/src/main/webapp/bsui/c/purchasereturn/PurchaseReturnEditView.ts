@@ -36,7 +36,7 @@ export class PurchaseReturnEditView extends ibas.BOEditView implements IPurchase
         this.topForm = new sap.ui.layout.form.SimpleForm("", {
             editable: true,
             content: [
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("purchase_supplier_information") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("purchase_basis_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_suppliercode") }),
                 new sap.m.Input("", {
                     showValueHelp: true,
@@ -48,7 +48,6 @@ export class PurchaseReturnEditView extends ibas.BOEditView implements IPurchase
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_suppliername") }),
                 new sap.m.Input("", {
-                    showValueHelp: true,
                     editable: false,
                 }).bindProperty("value", {
                     path: "/supplierName"
@@ -60,30 +59,6 @@ export class PurchaseReturnEditView extends ibas.BOEditView implements IPurchase
                 }).bindProperty("value", {
                     path: "/contactPerson"
                 }),
-
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("purchase_date_information") }),
-                new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_postingdate") }),
-                new sap.m.DatePicker("", {
-                    valueFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
-                    displayFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
-                }).bindProperty("dateValue", {
-                    path: "/postingDate"
-                }),
-                new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_documentdate") }),
-                new sap.m.DatePicker("", {
-                    valueFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
-                    displayFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
-                }).bindProperty("dateValue", {
-                    path: "/documentDate"
-                }),
-                new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_deliverydate") }),
-                new sap.m.DatePicker("", {
-                    valueFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
-                    displayFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
-                }).bindProperty("dateValue", {
-                    path: "/deliveryDate"
-                }),
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("purchase_refrence_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_reference1") }),
                 new sap.m.Input("", {}).bindProperty("value", {
                     path: "/reference1"
@@ -92,36 +67,44 @@ export class PurchaseReturnEditView extends ibas.BOEditView implements IPurchase
                 new sap.m.Input("", {}).bindProperty("value", {
                     path: "/reference2"
                 }),
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("purchase_docstatus_information") }),
-                new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_status") }),
-                new sap.m.Select("", {
-                    items: openui5.utils.createComboBoxItems(ibas.emBOStatus)
-                }).bindProperty("selectedKey", {
-                    path: "/status"
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("purchase_status_information") }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_docnum") }),
+                new sap.m.Input("", {
+                }).bindProperty("value", {
+                    path: "docNum",
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_documentstatus") }),
                 new sap.m.Select("", {
-                    items: openui5.utils.createComboBoxItems(ibas.emDocumentStatus)
+                    items: openui5.utils.createComboBoxItems(ibas.emDocumentStatus),
                 }).bindProperty("selectedKey", {
-                    path: "/documentStatus"
+                    path: "documentStatus",
+                    type: "sap.ui.model.type.Integer",
                 }),
-                new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_approvalstatus") }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_canceled") }),
                 new sap.m.Select("", {
-                    items: openui5.utils.createComboBoxItems(ibas.emApprovalStatus)
+                    items: openui5.utils.createComboBoxItems(ibas.emYesNo),
                 }).bindProperty("selectedKey", {
-                    path: "/approvalStatus"
+                    path: "canceled",
+                    type: "sap.ui.model.type.Integer",
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_documentdate") }),
+                new sap.m.DatePicker("", {
+                    valueFormat: "yyyy-MM-dd",
+                }).bindProperty("dateValue", {
+                    path: "documentDate",
                 }),
             ]
         });
         this.bottomForm = new sap.ui.layout.form.SimpleForm("", {
             editable: true,
             content: [
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("purchase_remark_information") }),
-                new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_remarks") }),
-                new sap.m.TextArea("", {}).bindProperty("value", {
-                    path: "/remarks"
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("purchase_remarks_information") }),
+                new sap.m.TextArea("", {
+                    rows: 5,
+                }).bindProperty("value", {
+                    path: "/remarks",
                 }),
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("purchase_finance_information") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("purchase_total_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_documenttotal") }),
                 new sap.m.Input("", {
                     editable: false,
@@ -153,155 +136,122 @@ export class PurchaseReturnEditView extends ibas.BOEditView implements IPurchase
                     path: "/discountTotal"
                 }),
             ]
-        }),
-            this.tablePurchaseReturnItem = new sap.ui.table.Table("", {
-                toolbar: new sap.m.Toolbar("", {
-                    content: [
-                        new sap.m.Button("", {
-                            text: ibas.i18n.prop("shell_data_add"),
-                            type: sap.m.ButtonType.Transparent,
-                            icon: "sap-icon://add",
-                            press: function (): void {
-                                that.fireViewEvents(that.addPurchaseReturnItemEvent);
-                            }
-                        }),
-                        new sap.m.Button("", {
-                            text: ibas.i18n.prop("shell_data_remove"),
-                            type: sap.m.ButtonType.Transparent,
-                            icon: "sap-icon://less",
-                            press: function (): void {
-                                that.fireViewEvents(that.removePurchaseReturnItemEvent,
-                                    // 获取表格选中的对象
-                                    openui5.utils.getTableSelecteds<bo.PurchaseReturnItem>(that.tablePurchaseReturnItem)
-                                );
-                            }
-                        })
-                    ]
-                }),
-                enableSelectAll: false,
-                selectionBehavior: sap.ui.table.SelectionBehavior.Row,
-                visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 5),
-                rows: "{/rows}",
-                columns: [
-                    new sap.ui.table.Column("", {
-                        label: ibas.i18n.prop("bo_purchasereturnitem_itemcode"),
-                        template: new sap.m.Input("", {
-                            width: "100%",
-                            showValueHelp: true,
-                            valueHelpRequest: function (): void {
-                                that.fireViewEvents(that.choosePurchaseReturnItemMaterialEvent,
-                                    // 获取当前对象
-                                    this.getBindingContext().getObject()
-                                );
-                            }
-                        }).bindProperty("value", {
-                            path: "itemCode"
-                        })
+        });
+        this.tablePurchaseReturnItem = new sap.ui.table.Table("", {
+            // title: new sap.ui.core.Title("", { text: ibas.i18n.prop("bo_purchasereturnitem") }),
+            toolbar: new sap.m.Toolbar("", {
+                content: [
+                    new sap.m.Button("", {
+                        text: ibas.i18n.prop("shell_data_add"),
+                        type: sap.m.ButtonType.Transparent,
+                        icon: "sap-icon://add",
+                        press: function (): void {
+                            that.fireViewEvents(that.addPurchaseReturnItemEvent);
+                        }
                     }),
-                    new sap.ui.table.Column("", {
-                        label: ibas.i18n.prop("bo_purchasereturnitem_warehouse"),
-                        template: new sap.m.Input("", {
-                            width: "100%",
-                            showValueHelp: true,
-                            valueHelpRequest: function (): void {
-                                that.fireViewEvents(that.choosePurchaseReturnItemWarehouseEvent,
-                                    // 获取当前对象
-                                    this.getBindingContext().getObject()
-                                );
-                            }
-                        }).bindProperty("value", {
-                            path: "warehouse"
-                        })
-                    }),
-                    new sap.ui.table.Column("", {
-                        label: ibas.i18n.prop("bo_purchasereturnitem_quantity"),
-                        template: new sap.m.Input("", {
-                            width: "100%",
-                            type: sap.m.InputType.Number
-                        }).bindProperty("value", {
-                            path: "quantity"
-                        })
-                    }),
-                    new sap.ui.table.Column("", {
-                        label: ibas.i18n.prop("bo_purchasereturnitem_price"),
-                        template: new sap.m.Input("", {
-                            width: "100%",
-                            type: sap.m.InputType.Number
-                        }).bindProperty("value", {
-                            path: "price"
-                        })
-                    }),
-                    new sap.ui.table.Column("", {
-                        label: ibas.i18n.prop("bo_purchasereturnitem_taxrate"),
-                        template: new sap.m.Input("", {
-                            width: "100%",
-                            type: sap.m.InputType.Number
-                        }).bindProperty("value", {
-                            path: "taxRate"
-                        })
-                    }),
-                    new sap.ui.table.Column("", {
-                        label: ibas.i18n.prop("bo_purchasereturnitem_distributionrule1"),
-                        template: new sap.m.Input("", {
-                            width: "100%",
-                        }).bindProperty("value", {
-                            path: "distributionrule1"
-                        })
-                    }),
-                    new sap.ui.table.Column("", {
-                        label: ibas.i18n.prop("bo_purchasereturnitem_distributionrule2"),
-                        template: new sap.m.Input("", {
-                            width: "100%",
-                        }).bindProperty("value", {
-                            path: "distributionrule2"
-                        })
-                    }),
-                    new sap.ui.table.Column("", {
-                        label: ibas.i18n.prop("bo_purchasereturnitem_distributionrule3"),
-                        template: new sap.m.Input("", {
-                            width: "100%",
-                        }).bindProperty("value", {
-                            path: "distributionrule3"
-                        })
-                    }),
-                    new sap.ui.table.Column("", {
-                        label: ibas.i18n.prop("bo_purchasereturnitem_uom"),
-                        template: new sap.m.Input("", {
-                            width: "100%",
-                        }).bindProperty("value", {
-                            path: "uom"
-                        })
-                    }),
-                    new sap.ui.table.Column("", {
-                        label: ibas.i18n.prop("bo_purchasereturnitem_taxtotal"),
-                        template: new sap.m.Input("", {
-                            width: "100%",
-                            type: sap.m.InputType.Number
-                        }).bindProperty("value", {
-                            path: "taxTotal"
-                        })
-                    }),
-                    new sap.ui.table.Column("", {
-                        label: ibas.i18n.prop("bo_purchasereturnitem_linetotal"),
-                        template: new sap.m.Input("", {
-                            width: "100%",
-                            type: sap.m.InputType.Number
-                        }).bindProperty("value", {
-                            path: "lineTotal"
-                        })
-                    }),
-                    new sap.ui.table.Column("", {
-                        label: ibas.i18n.prop("bo_purchasereturnitem_linestatus"),
-                        template: new sap.m.Select("", {
-                            width: "100%",
-                            items: openui5.utils.createComboBoxItems(ibas.emDocumentStatus),
-                        }).bindProperty("selectedKey", {
-                            path: "lineStatus",
-                            type: "sap.ui.model.type.Integer",
-                        })
-                    }),
+                    new sap.m.Button("", {
+                        text: ibas.i18n.prop("shell_data_remove"),
+                        type: sap.m.ButtonType.Transparent,
+                        icon: "sap-icon://less",
+                        press: function (): void {
+                            that.fireViewEvents(that.removePurchaseReturnItemEvent,
+                                // 获取表格选中的对象
+                                openui5.utils.getTableSelecteds<bo.PurchaseReturnItem>(that.tablePurchaseReturnItem)
+                            );
+                        }
+                    })
                 ]
-            });
+            }),
+            enableSelectAll: false,
+            selectionBehavior: sap.ui.table.SelectionBehavior.Row,
+            visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 5),
+            rows: "{/rows}",
+            columns: [
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_purchasereturnitem_lineid"),
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
+                        path: "lineId",
+                    }),
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_purchasereturnitem_linestatus"),
+                    template: new sap.m.Select("", {
+                        width: "100%",
+                        items: openui5.utils.createComboBoxItems(ibas.emDocumentStatus),
+                    }).bindProperty("selectedKey", {
+                        path: "lineStatus",
+                        type: "sap.ui.model.type.Integer",
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_purchasereturnitem_itemcode"),
+                    template: new sap.m.Input("", {
+                        width: "100%",
+                        showValueHelp: true,
+                        valueHelpRequest: function (): void {
+                            that.fireViewEvents(that.choosePurchaseReturnItemMaterialEvent,
+                                // 获取当前对象
+                                this.getBindingContext().getObject()
+                            );
+                        }
+                    }).bindProperty("value", {
+                        path: "itemCode"
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_purchasereturnitem_warehouse"),
+                    template: new sap.m.Input("", {
+                        width: "100%",
+                        showValueHelp: true,
+                        valueHelpRequest: function (): void {
+                            that.fireViewEvents(that.choosePurchaseReturnItemWarehouseEvent,
+                                // 获取当前对象
+                                this.getBindingContext().getObject()
+                            );
+                        }
+                    }).bindProperty("value", {
+                        path: "warehouse"
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_purchasereturnitem_quantity"),
+                    template: new sap.m.Input("", {
+                        width: "100%",
+                        type: sap.m.InputType.Number
+                    }).bindProperty("value", {
+                        path: "quantity"
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_purchasereturnitem_uom"),
+                    template: new sap.m.Input("", {
+                        width: "100%",
+                    }).bindProperty("value", {
+                        path: "uom"
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_purchasereturnitem_price"),
+                    template: new sap.m.Input("", {
+                        width: "100%",
+                        type: sap.m.InputType.Number
+                    }).bindProperty("value", {
+                        path: "price"
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_purchasereturnitem_linetotal"),
+                    template: new sap.m.Input("", {
+                        width: "100%",
+                        type: sap.m.InputType.Number
+                    }).bindProperty("value", {
+                        path: "lineTotal"
+                    })
+                }),
+            ]
+        });
         this.mainLayout = new sap.ui.layout.VerticalLayout("", {
             content: [
                 this.topForm,
