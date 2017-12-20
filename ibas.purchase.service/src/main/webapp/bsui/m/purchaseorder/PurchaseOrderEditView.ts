@@ -90,15 +90,15 @@ export class PurchaseOrderEditView extends ibas.BOEditView implements IPurchaseO
                 }),
                 // new sap.ui.core.Title("",{text: ibas.i18n.prop("purchase_docstatus_information")}),
                 new sap.m.Label("",{text: ibas.i18n.prop("bo_purchaseorder_status")}),
-                new sap.m.SegmentedButton("", {
-                    items: openui5.utils.createSegmentedButtonItems(ibas.emBOStatus)
+                new sap.m.Select("", {
+                    items: openui5.utils.createComboBoxItems(ibas.emBOStatus)
                 }).bindProperty("selectedKey", {
                     path: "/status",
                     type: "sap.ui.model.type.Integer"
                 }),
                 new sap.m.Label("",{text: ibas.i18n.prop("bo_purchaseorder_documentstatus")}),
-                new sap.m.SegmentedButton("", {
-                    items: openui5.utils.createSegmentedButtonItems(ibas.emDocumentStatus)
+                new sap.m.Select("", {
+                    items: openui5.utils.createComboBoxItems(ibas.emDocumentStatus)
                 }).bindProperty("selectedKey", {
                     path: "/documentStatus",
                     type: "sap.ui.model.type.Integer"
@@ -111,8 +111,8 @@ export class PurchaseOrderEditView extends ibas.BOEditView implements IPurchaseO
                     type: "sap.ui.model.type.Integer"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchaseorder_canceled") }),
-                new sap.m.SegmentedButton("", {
-                    items: openui5.utils.createSegmentedButtonItems(ibas.emYesNo)
+                new sap.m.Select("", {
+                    items: openui5.utils.createComboBoxItems(ibas.emYesNo)
                 }).bindProperty("selectedKey", {
                     path: "canceled",
                     type: "sap.ui.model.type.Integer"
@@ -282,9 +282,9 @@ export class PurchaseOrderEditView extends ibas.BOEditView implements IPurchaseO
             columnsS: 1,
             content: [
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchaseorderitem_linestatus") }),
-                new sap.m.SegmentedButton("", {
+                new sap.m.Select("", {
                     width: "100%",
-                    items: openui5.utils.createSegmentedButtonItems(ibas.emDocumentStatus)
+                    items: openui5.utils.createComboBoxItems(ibas.emDocumentStatus)
                 }).bindProperty("selectedKey", {
                     path: "lineStatus",
                     type: "sap.ui.model.type.Integer"
