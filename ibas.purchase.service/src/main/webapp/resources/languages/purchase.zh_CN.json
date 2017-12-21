@@ -16,9 +16,9 @@
   "purchase_app_purchasereturn_choose": "采购退货选择",
   "purchase_app_purchasereturn_view": "采购退货查看",
   "purchase_app_purchasereturn_edit": "采购退货编辑",
-  "purchase_basis_information": "基本信息",
+  "purchase_general_information": "常规信息",
   "purchase_status_information": "状态信息",
-  "purchase_total_information": "单据总计",
+  "purchase_total_information": "总计",
   "purchase_remarks_information": "备注",
   "purchase_closing_delimiter": "----结束----"
 }

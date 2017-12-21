@@ -12,7 +12,7 @@ import * as bo from "../../../borep/bo/index";
 import { IPurchaseDeliveryViewView } from "../../../bsapp/purchasedelivery/index";
 export class PurchaseDeliveryViewView extends ibas.BOViewView implements IPurchaseDeliveryViewView {
     private page: sap.m.Page;
-    private mainLayout: sap.ui.layout.VerticalLayout;
+    private layoutMain: sap.ui.layout.VerticalLayout;
     private viewTopForm: sap.ui.layout.form.SimpleForm;
     private viewBottomForm: sap.ui.layout.form.SimpleForm;
     private tablePurchaseDeliveryItem: sap.m.List;
@@ -191,7 +191,7 @@ export class PurchaseDeliveryViewView extends ibas.BOViewView implements IPurcha
             path: "/rows",
             template: list_child_customer,
         });
-        this.mainLayout = new sap.ui.layout.VerticalLayout("", {
+        this.layoutMain = new sap.ui.layout.VerticalLayout("", {
             content: [
                 this.viewTopForm,
                 this.tablePurchaseDeliveryItem,
@@ -244,7 +244,7 @@ export class PurchaseDeliveryViewView extends ibas.BOViewView implements IPurcha
                     })
                 ]
             }),
-            content: [this.mainLayout]
+            content: [this.layoutMain]
         });
         this.id = this.page.getId();
         return this.page;
@@ -269,15 +269,15 @@ export class PurchaseDeliveryViewView extends ibas.BOViewView implements IPurcha
                 openui5.utils.changeToolbarSavable(<sap.m.Toolbar>this.page.getSubHeader(), false);
                 openui5.utils.changeToolbarDeletable(<sap.m.Toolbar>this.page.getSubHeader(), false);
             }
-            openui5.utils.changeFormEditable(this.mainLayout, false);
+            openui5.utils.changeFormEditable(this.layoutMain, false);
         }
     }
 
 
     /** 显示数据 */
     showPurchaseDelivery(data: bo.PurchaseDelivery): void {
-        this.mainLayout.setModel(new sap.ui.model.json.JSONModel(data));
-        this.mainLayout.bindObject("/");
+        this.layoutMain.setModel(new sap.ui.model.json.JSONModel(data));
+        this.layoutMain.bindObject("/");
     }
     /** 显示数据 */
     showPurchaseDeliveryItems(datas: bo.PurchaseDeliveryItem[]): void {

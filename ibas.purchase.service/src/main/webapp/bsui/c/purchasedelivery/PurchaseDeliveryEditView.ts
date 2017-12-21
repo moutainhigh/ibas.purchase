@@ -32,10 +32,10 @@ export class PurchaseDeliveryEditView extends ibas.BOEditView implements IPurcha
     /** 绘制视图 */
     darw(): any {
         let that: this = this;
-        this.topForm = new sap.ui.layout.form.SimpleForm("", {
+        let formTop: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
             editable: true,
             content: [
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("purchase_basis_information") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("purchase_general_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasedelivery_suppliercode") }),
                 new sap.m.Input("", {
                     showValueHelp: true,
@@ -43,28 +43,28 @@ export class PurchaseDeliveryEditView extends ibas.BOEditView implements IPurcha
                         that.fireViewEvents(that.choosePurchaseDeliverySupplierEvent);
                     }
                 }).bindProperty("value", {
-                    path: "/supplierCode"
+                    path: "supplierCode"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasedelivery_suppliername") }),
                 new sap.m.Input("", {
                     editable: false,
                 }).bindProperty("value", {
-                    path: "/supplierName"
+                    path: "supplierName"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasedelivery_contactperson") }),
                 new sap.m.Input("", {
                     showValueHelp: true,
                     editable: false,
                 }).bindProperty("value", {
-                    path: "/contactPerson"
+                    path: "contactPerson"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasedelivery_reference1") }),
                 new sap.m.Input("", {}).bindProperty("value", {
-                    path: "/reference1"
+                    path: "reference1"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasedelivery_reference2") }),
                 new sap.m.Input("", {}).bindProperty("value", {
-                    path: "/reference2"
+                    path: "reference2"
                 }),
                 new sap.ui.core.Title("", { text: ibas.i18n.prop("purchase_status_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasedelivery_docnum") }),
@@ -88,56 +88,18 @@ export class PurchaseDeliveryEditView extends ibas.BOEditView implements IPurcha
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasedelivery_documentdate") }),
                 new sap.m.DatePicker("", {
-                    valueFormat: "yyyy-MM-dd",
                 }).bindProperty("dateValue", {
                     path: "documentDate",
                 }),
-            ]
-        });
-        this.bottomForm = new sap.ui.layout.form.SimpleForm("", {
-            editable: true,
-            content: [
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("purchase_remarks_information") }),
-                new sap.m.TextArea("", {
-                    rows: 5,
-                }).bindProperty("value", {
-                    path: "/remarks",
-                }),
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("purchase_total_information") }),
-                new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasedelivery_documenttotal") }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_receipt_dataowner") }),
                 new sap.m.Input("", {
-                    editable: false,
+                    showValueHelp: true,
                 }).bindProperty("value", {
-                    path: "/documentTotal"
-                }),
-                new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasedelivery_taxrate") }),
-                new sap.m.Input("", {
-                    editable: false,
-                }).bindProperty("value", {
-                    path: "/taxRate"
-                }),
-                new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasedelivery_taxtotal") }),
-                new sap.m.Input("", {
-                    editable: false,
-                }).bindProperty("value", {
-                    path: "/taxTotal"
-                }),
-                new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasedelivery_discount") }),
-                new sap.m.Input("", {
-                    editable: false,
-                }).bindProperty("value", {
-                    path: "/discount"
-                }),
-                new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasedelivery_discounttotal") }),
-                new sap.m.Input("", {
-                    editable: false,
-                }).bindProperty("value", {
-                    path: "/discountTotal"
+                    path: "dataOwner",
                 }),
             ]
         });
         this.tablePurchaseDeliveryItem = new sap.ui.table.Table("", {
-            //  title: new sap.ui.core.Title("", { text: ibas.i18n.prop("bo_purchasedeliveryitem") }),
             toolbar: new sap.m.Toolbar("", {
                 content: [
                     new sap.m.Button("", {
@@ -163,7 +125,7 @@ export class PurchaseDeliveryEditView extends ibas.BOEditView implements IPurcha
             }),
             enableSelectAll: false,
             selectionBehavior: sap.ui.table.SelectionBehavior.Row,
-            visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 5),
+            visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 8),
             rows: "{/rows}",
             columns: [
                 new sap.ui.table.Column("", {
@@ -197,6 +159,15 @@ export class PurchaseDeliveryEditView extends ibas.BOEditView implements IPurcha
                         }
                     }).bindProperty("value", {
                         path: "itemCode"
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_purchasedeliveryitem_itemdescription"),
+                    template: new sap.m.Input("", {
+                        width: "100%",
+                        editable: false,
+                    }).bindProperty("value", {
+                        path: "itemDescription"
                     })
                 }),
                 new sap.ui.table.Column("", {
@@ -251,11 +222,60 @@ export class PurchaseDeliveryEditView extends ibas.BOEditView implements IPurcha
                 }),
             ]
         });
-        this.mainLayout = new sap.ui.layout.VerticalLayout("", {
+        let formMiddle: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
+            editable: true,
             content: [
-                this.topForm,
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("bo_purchasedeliveryitem") }),
                 this.tablePurchaseDeliveryItem,
-                this.bottomForm
+            ]
+        });
+        let formBottom: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
+            editable: true,
+            content: [
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("purchase_remarks_information") }),
+                new sap.m.TextArea("", {
+                    rows: 5,
+                }).bindProperty("value", {
+                    path: "remarks",
+                }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("purchase_total_information") }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasedelivery_documenttotal") }),
+                new sap.m.Input("", {
+                    editable: false,
+                }).bindProperty("value", {
+                    path: "documentTotal"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasedelivery_taxrate") }),
+                new sap.m.Input("", {
+                    editable: false,
+                }).bindProperty("value", {
+                    path: "taxRate"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasedelivery_taxtotal") }),
+                new sap.m.Input("", {
+                    editable: false,
+                }).bindProperty("value", {
+                    path: "taxTotal"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasedelivery_discount") }),
+                new sap.m.Input("", {
+                    editable: false,
+                }).bindProperty("value", {
+                    path: "discount"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasedelivery_discounttotal") }),
+                new sap.m.Input("", {
+                    editable: false,
+                }).bindProperty("value", {
+                    path: "discountTotal"
+                }),
+            ]
+        });
+        this.layoutMain = new sap.ui.layout.VerticalLayout("", {
+            content: [
+                formTop,
+                formMiddle,
+                formBottom,
             ]
         });
         this.page = new sap.m.Page("", {
@@ -315,16 +335,13 @@ export class PurchaseDeliveryEditView extends ibas.BOEditView implements IPurcha
                     }),
                 ]
             }),
-            content: [this.mainLayout]
+            content: [this.layoutMain]
         });
-        this.id = this.page.getId();
         return this.page;
     }
     private page: sap.m.Page;
-    private topForm: sap.ui.layout.form.SimpleForm;
     private tablePurchaseDeliveryItem: sap.ui.table.Table;
-    private bottomForm: sap.ui.layout.form.SimpleForm;
-    private mainLayout: sap.ui.layout.VerticalLayout;
+    private layoutMain: sap.ui.layout.VerticalLayout;
     /** 改变视图状态 */
     private changeViewStatus(data: bo.PurchaseDelivery): void {
         if (ibas.objects.isNull(data)) {
@@ -342,16 +359,17 @@ export class PurchaseDeliveryEditView extends ibas.BOEditView implements IPurcha
                 openui5.utils.changeToolbarSavable(<sap.m.Toolbar>this.page.getSubHeader(), false);
                 openui5.utils.changeToolbarDeletable(<sap.m.Toolbar>this.page.getSubHeader(), false);
             }
-            openui5.utils.changeFormEditable(this.mainLayout, false);
+            openui5.utils.changeFormEditable(this.layoutMain, false);
         }
     }
 
 
     /** 显示数据 */
     showPurchaseDelivery(data: bo.PurchaseDelivery): void {
-        this.mainLayout.setModel(new sap.ui.model.json.JSONModel(data));
+        this.layoutMain.setModel(new sap.ui.model.json.JSONModel(data));
+        this.layoutMain.bindObject("/");
         // 监听属性改变，并更新控件
-        openui5.utils.refreshModelChanged(this.mainLayout, data);
+        openui5.utils.refreshModelChanged(this.layoutMain, data);
         // 改变视图状态
         this.changeViewStatus(data);
     }

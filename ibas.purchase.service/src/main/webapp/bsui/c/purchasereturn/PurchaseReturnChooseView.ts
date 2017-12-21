@@ -62,6 +62,86 @@ export class PurchaseReturnChooseView extends ibas.BOChooseView implements IPurc
             visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 15),
             rows: "{/rows}",
             columns: [
+                new sap.ui.table.Column("",{
+                    label: ibas.i18n.prop("bo_purchasereturn_docentry"),
+                    template: new sap.m.Text("",{
+                        wrapping: false
+                    }).bindProperty("text",{
+                        path: "docEntry",
+                    })
+                }),
+                new sap.ui.table.Column("",{
+                    label: ibas.i18n.prop("bo_purchasereturn_documentstatus"),
+                    template: new sap.m.Text("",{
+                        wrapping: false
+                    }).bindProperty("text",{
+                        path: "documentStatus",
+                    })
+                }),
+                new sap.ui.table.Column("",{
+                    label: ibas.i18n.prop("bo_purchasereturn_suppliername"),
+                    template: new sap.m.Text("",{
+                        wrapping: false
+                    }).bindProperty("text",{
+                        path: "supplierName",
+                    })
+                }),
+                new sap.ui.table.Column("",{
+                    label: ibas.i18n.prop("bo_purchasereturn_contactperson"),
+                    template: new sap.m.Text("",{
+                        wrapping: false
+                    }).bindProperty("text",{
+                        path: "contactPerson",
+                    })
+                }),
+                new sap.ui.table.Column("",{
+                    label: ibas.i18n.prop("bo_purchasereturn_documenttotal"),
+                    template: new sap.m.Text("",{
+                        wrapping: false
+                    }).bindProperty("text",{
+                        path: "documentTotal",
+                    })
+                }),
+                new sap.ui.table.Column("",{
+                    label: ibas.i18n.prop("bo_purchasereturn_paidtotal"),
+                    template: new sap.m.Text("",{
+                        wrapping: false
+                    }).bindProperty("text",{
+                        path: "paidTotal",
+                    })
+                }),
+                new sap.ui.table.Column("",{
+                    label: ibas.i18n.prop("bo_purchasereturn_discount"),
+                    template: new sap.m.Text("",{
+                        wrapping: false
+                    }).bindProperty("text",{
+                        path: "discount",
+                    })
+                }),
+                new sap.ui.table.Column("",{
+                    label: ibas.i18n.prop("bo_purchasereturn_discounttotal"),
+                    template: new sap.m.Text("",{
+                        wrapping: false
+                    }).bindProperty("text",{
+                        path: "discountTotal",
+                    })
+                }),
+                new sap.ui.table.Column("",{
+                    label: ibas.i18n.prop("bo_purchasereturn_reference1"),
+                    template: new sap.m.Text("",{
+                        wrapping: false
+                    }).bindProperty("text",{
+                        path: "reference1",
+                    })
+                }),
+                new sap.ui.table.Column("",{
+                    label: ibas.i18n.prop("bo_purchasereturn_reference2"),
+                    template: new sap.m.Text("",{
+                        wrapping: false
+                    }).bindProperty("text",{
+                        path: "reference2",
+                    })
+                }),
             ]
         });
         this.id = this.table.getId();

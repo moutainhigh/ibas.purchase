@@ -34,90 +34,84 @@ export class PurchaseOrderListView extends ibas.BOListView implements IPurchaseO
             visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
             rows: "{/rows}",
             columns: [
-                new sap.ui.table.Column("",{
+                new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_purchasereturn_docentry"),
-                    template: new sap.m.Link("",{
-                        wrapping: false,
-                        press(event: any): void {
-                            ibas.servicesManager.runLinkService({
-                                boCode: bo.PurchaseOrder.BUSINESS_OBJECT_CODE,
-                                linkValue: event.getSource().getText()
-                            });
-                        }
-                    }).bindProperty("text",{
+                    template: new sap.m.Text("", {
+                        wrapping: false
+                    }).bindProperty("text", {
                         path: "docEntry",
                     })
                 }),
-                new sap.ui.table.Column("",{
-                    label: ibas.i18n.prop("bo_purchasereturn_status"),
-                    template: new sap.m.Text("",{
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_purchasereturn_documentstatus"),
+                    template: new sap.m.Text("", {
                         wrapping: false
-                    }).bindProperty("text",{
-                        path: "status",
+                    }).bindProperty("text", {
+                        path: "documentStatus",
                     })
                 }),
-                new sap.ui.table.Column("",{
+                new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_purchasereturn_suppliername"),
-                    template: new sap.m.Text("",{
+                    template: new sap.m.Text("", {
                         wrapping: false
-                    }).bindProperty("text",{
+                    }).bindProperty("text", {
                         path: "supplierName",
                     })
                 }),
-                new sap.ui.table.Column("",{
+                new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_purchasereturn_contactperson"),
-                    template: new sap.m.Text("",{
+                    template: new sap.m.Text("", {
                         wrapping: false
-                    }).bindProperty("text",{
+                    }).bindProperty("text", {
                         path: "contactPerson",
                     })
                 }),
-                new sap.ui.table.Column("",{
+                new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_purchasereturn_documenttotal"),
-                    template: new sap.m.Text("",{
+                    template: new sap.m.Text("", {
                         wrapping: false
-                    }).bindProperty("text",{
+                    }).bindProperty("text", {
                         path: "documentTotal",
                     })
                 }),
-                new sap.ui.table.Column("",{
+                new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_purchasereturn_paidtotal"),
-                    template: new sap.m.Text("",{
+                    template: new sap.m.Text("", {
                         wrapping: false
-                    }).bindProperty("text",{
+                    }).bindProperty("text", {
                         path: "paidTotal",
                     })
                 }),
-                new sap.ui.table.Column("",{
+                new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_purchasereturn_discount"),
-                    template: new sap.m.Text("",{
+                    template: new sap.m.Text("", {
                         wrapping: false
-                    }).bindProperty("text",{
+                    }).bindProperty("text", {
                         path: "discount",
                     })
                 }),
-                new sap.ui.table.Column("",{
+                new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_purchasereturn_discounttotal"),
-                    template: new sap.m.Text("",{
+                    template: new sap.m.Text("", {
                         wrapping: false
-                    }).bindProperty("text",{
+                    }).bindProperty("text", {
                         path: "discountTotal",
                     })
                 }),
-                new sap.ui.table.Column("",{
-                    label: ibas.i18n.prop("bo_purchasereturn_taxrate"),
-                    template: new sap.m.Text("",{
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_purchasereturn_reference1"),
+                    template: new sap.m.Text("", {
                         wrapping: false
-                    }).bindProperty("text",{
-                        path: "taxRate",
+                    }).bindProperty("text", {
+                        path: "reference1",
                     })
                 }),
-                new sap.ui.table.Column("",{
-                    label: ibas.i18n.prop("bo_purchasereturn_taxtotal"),
-                    template: new sap.m.Text("",{
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_purchasereturn_reference2"),
+                    template: new sap.m.Text("", {
                         wrapping: false
-                    }).bindProperty("text",{
-                        path: "taxTotal",
+                    }).bindProperty("text", {
+                        path: "reference2",
                     })
                 }),
             ]
@@ -247,7 +241,7 @@ export class PurchaseOrderListView extends ibas.BOListView implements IPurchaseO
         }
         if (!done) {
             // 没有显示数据
-            this.table.setModel(new sap.ui.model.json.JSONModel({rows: datas}));
+            this.table.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
         }
         this.table.setBusy(false);
     }
