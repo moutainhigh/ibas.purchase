@@ -89,7 +89,6 @@ export class PurchaseReturnEditView extends ibas.BOEditView implements IPurchase
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_documentdate") }),
                 new sap.m.DatePicker("", {
-                    valueFormat: "yyyy-MM-dd",
                 }).bindProperty("dateValue", {
                     path: "documentDate",
                 }),

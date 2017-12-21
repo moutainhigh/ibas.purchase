@@ -88,7 +88,6 @@ export class PurchaseOrderEditView extends ibas.BOEditView implements IPurchaseO
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchaseorder_documentdate") }),
                 new sap.m.DatePicker("", {
-                    valueFormat: "yyyy-MM-dd",
                 }).bindProperty("dateValue", {
                     path: "documentDate",
                 }),

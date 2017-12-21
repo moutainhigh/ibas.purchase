@@ -22,16 +22,6 @@ export class PurchaseDeliveryViewView extends ibas.BOViewView implements IPurcha
         let that: this = this;
         this.viewTopForm = new sap.ui.layout.form.SimpleForm("", {
             editable: true,
-            layout: sap.ui.layout.form.SimpleFormLayout.ResponsiveGridLayout,
-            singleContainerFullSize: false,
-            adjustLabelSpan: false,
-            labelSpanL: 2,
-            labelSpanM: 2,
-            labelSpanS: 12,
-            columnsXL: 2,
-            columnsL: 2,
-            columnsM: 1,
-            columnsS: 1,
             content: [
                 // new sap.ui.core.Title("", { text: ibas.i18n.prop("purchase_base_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasedelivery_docentry") }),
@@ -53,7 +43,7 @@ export class PurchaseDeliveryViewView extends ibas.BOViewView implements IPurcha
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasedelivery_postingdate") }),
                 new sap.m.Text("", {
                     valueFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
-                    displayFormat:ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
+                    displayFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
                 }).bindProperty("text", {
                     path: "/postingDate",
                     type: "sap.ui.model.type.Date",
@@ -61,7 +51,7 @@ export class PurchaseDeliveryViewView extends ibas.BOViewView implements IPurcha
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasedelivery_documentdate") }),
                 new sap.m.Text("", {
                     valueFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
-                    displayFormat:ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
+                    displayFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
                 }).bindProperty("text", {
                     path: "/documentDate",
                     type: "sap.ui.model.type.Date",
@@ -69,7 +59,7 @@ export class PurchaseDeliveryViewView extends ibas.BOViewView implements IPurcha
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasedelivery_deliverydate") }),
                 new sap.m.Text("", {
                     valueFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
-                    displayFormat:ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
+                    displayFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
                 }).bindProperty("text", {
                     path: "/deliveryDate",
                     type: "sap.ui.model.type.Date",
@@ -112,14 +102,6 @@ export class PurchaseDeliveryViewView extends ibas.BOViewView implements IPurcha
         });
         this.viewBottomForm = new sap.ui.layout.form.SimpleForm("", {
             editable: true,
-            layout: sap.ui.layout.form.SimpleFormLayout.ResponsiveGridLayout,
-            labelSpanL: 2,
-            labelSpanM: 2,
-            labelSpanS: 12,
-            columnsXL: 2,
-            columnsL: 2,
-            columnsM: 1,
-            columnsS: 1,
             content: [
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasedelivery_remarks") }),
                 new sap.m.Text("", {
