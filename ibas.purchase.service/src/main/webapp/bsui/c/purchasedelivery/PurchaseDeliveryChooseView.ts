@@ -38,7 +38,7 @@ export class PurchaseDeliveryChooseView extends ibas.BOChooseView implements IPu
                 press: function (): void {
                     that.fireViewEvents(that.chooseDataEvent,
                         // 获取表格选中的对象
-                        openui5.utils.getTableSelecteds<bo.PurchaseDelivery>(that.table)
+                        openui5.utils.getSelecteds<bo.PurchaseDelivery>(that.table)
                     );
                 }
             }),

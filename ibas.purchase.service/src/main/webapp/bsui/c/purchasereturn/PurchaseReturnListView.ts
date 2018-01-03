@@ -136,7 +136,7 @@ export class PurchaseReturnListView extends ibas.BOListView implements IPurchase
                         press: function (): void {
                             that.fireViewEvents(that.viewDataEvent,
                                 // 获取表格选中的对象
-                                openui5.utils.getTableSelecteds<bo.PurchaseReturn>(that.table).firstOrDefault()
+                                openui5.utils.getSelecteds<bo.PurchaseReturn>(that.table).firstOrDefault()
                             );
                         }
                     }),
@@ -147,7 +147,7 @@ export class PurchaseReturnListView extends ibas.BOListView implements IPurchase
                         press: function (): void {
                             that.fireViewEvents(that.editDataEvent,
                                 // 获取表格选中的对象
-                                openui5.utils.getTableSelecteds<bo.PurchaseReturn>(that.table).firstOrDefault()
+                                openui5.utils.getSelecteds<bo.PurchaseReturn>(that.table).firstOrDefault()
                             );
                         }
                     }),
@@ -159,7 +159,7 @@ export class PurchaseReturnListView extends ibas.BOListView implements IPurchase
                         press: function (): void {
                             that.fireViewEvents(that.deleteDataEvent,
                                 // 获取表格选中的对象
-                                openui5.utils.getTableSelecteds<bo.PurchaseReturn>(that.table)
+                                openui5.utils.getSelecteds<bo.PurchaseReturn>(that.table)
                             );
                         }
                     }),
@@ -258,6 +258,6 @@ export class PurchaseReturnListView extends ibas.BOListView implements IPurchase
     }
     /** 获取选择的数据 */
     getSelecteds(): bo.PurchaseReturn[] {
-        return openui5.utils.getTableSelecteds<bo.PurchaseReturn>(this.table);
+        return openui5.utils.getSelecteds<bo.PurchaseReturn>(this.table);
     }
 }

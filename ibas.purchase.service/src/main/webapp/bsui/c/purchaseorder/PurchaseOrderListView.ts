@@ -136,7 +136,7 @@ export class PurchaseOrderListView extends ibas.BOListView implements IPurchaseO
                         press: function (): void {
                             that.fireViewEvents(that.viewDataEvent,
                                 // 获取表格选中的对象
-                                openui5.utils.getTableSelecteds<bo.PurchaseOrder>(that.table).firstOrDefault()
+                                openui5.utils.getSelecteds<bo.PurchaseOrder>(that.table).firstOrDefault()
                             );
                         }
                     }),
@@ -147,7 +147,7 @@ export class PurchaseOrderListView extends ibas.BOListView implements IPurchaseO
                         press: function (): void {
                             that.fireViewEvents(that.editDataEvent,
                                 // 获取表格选中的对象
-                                openui5.utils.getTableSelecteds<bo.PurchaseOrder>(that.table).firstOrDefault()
+                                openui5.utils.getSelecteds<bo.PurchaseOrder>(that.table).firstOrDefault()
                             );
                         }
                     }),
@@ -159,7 +159,7 @@ export class PurchaseOrderListView extends ibas.BOListView implements IPurchaseO
                         press: function (): void {
                             that.fireViewEvents(that.deleteDataEvent,
                                 // 获取表格选中的对象
-                                openui5.utils.getTableSelecteds<bo.PurchaseOrder>(that.table)
+                                openui5.utils.getSelecteds<bo.PurchaseOrder>(that.table)
                             );
                         }
                     }),
@@ -258,6 +258,6 @@ export class PurchaseOrderListView extends ibas.BOListView implements IPurchaseO
     }
     /** 获取选择的数据 */
     getSelecteds(): bo.PurchaseOrder[] {
-        return openui5.utils.getTableSelecteds<bo.PurchaseOrder>(this.table);
+        return openui5.utils.getSelecteds<bo.PurchaseOrder>(this.table);
     }
 }

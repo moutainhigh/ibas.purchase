@@ -34,7 +34,7 @@ export class PurchaseOrderChooseView extends ibas.BOChooseView implements IPurch
                 press: function (): void {
                     that.fireViewEvents(that.chooseDataEvent,
                         // 获取表格选中的对象
-                        openui5.utils.getTableSelecteds<bo.PurchaseOrder>(that.table)
+                        openui5.utils.getSelecteds<bo.PurchaseOrder>(that.table)
                     );
                 }
             }),

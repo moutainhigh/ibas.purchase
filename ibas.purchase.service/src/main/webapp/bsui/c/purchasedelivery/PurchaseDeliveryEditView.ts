@@ -117,7 +117,7 @@ export class PurchaseDeliveryEditView extends ibas.BOEditView implements IPurcha
                         press: function (): void {
                             that.fireViewEvents(that.removePurchaseDeliveryItemEvent,
                                 // 获取表格选中的对象
-                                openui5.utils.getTableSelecteds<bo.PurchaseDeliveryItem>(that.tablePurchaseDeliveryItem)
+                                openui5.utils.getSelecteds<bo.PurchaseDeliveryItem>(that.tablePurchaseDeliveryItem)
                             );
                         }
                     })
