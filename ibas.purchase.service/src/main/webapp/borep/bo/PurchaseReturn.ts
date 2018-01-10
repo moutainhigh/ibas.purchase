@@ -24,6 +24,8 @@ import {
     objects,
 } from "ibas/index";
 import {
+    MaterialSerialJournals,
+    MaterialBatchJournals,
     emItemType
 } from "3rdparty/materials/index";
 import {
@@ -638,24 +640,6 @@ export class PurchaseReturnItem extends BODocumentLine<PurchaseReturnItem> imple
     constructor() {
         super();
     }
-    protected onPropertyChanged(name: string): void {
-        super.onPropertyChanged(name);
-        if (strings.equalsIgnoreCase(name, PurchaseReturnItem.PROPERTY_QUANTITY_NAME) ||
-            strings.equalsIgnoreCase(name, PurchaseReturnItem.PROPERTY_PRICE_NAME) ||
-            strings.equalsIgnoreCase(name, PurchaseReturnItem.PROPERTY_DISCOUNT_NAME)) {
-            this.lineTotal = this.quantity * this.price;
-        }
-        if (strings.equalsIgnoreCase(name, PurchaseReturnItem.PROPERTY_TAXRATE_NAME) ||
-            strings.equalsIgnoreCase(name, PurchaseReturnItem.PROPERTY_PRICE_NAME) ||
-            strings.equalsIgnoreCase(name, PurchaseReturnItem.PROPERTY_TAXTOTAL_NAME) ||
-            strings.equalsIgnoreCase(name, PurchaseReturnItem.PROPERTY_QUANTITY_NAME)) {
-            this.taxTotal = this.quantity * this.price * this.taxRate;
-        }
-        // 行总计为NaN时显示为0
-        if (isNaN(this.lineTotal)) {
-            this.lineTotal = 0;
-        }
-    }
     /** 映射的属性名称-编码 */
     static PROPERTY_DOCENTRY_NAME: string = "DocEntry";
     /** 获取-编码 */
@@ -1250,11 +1234,51 @@ export class PurchaseReturnItem extends BODocumentLine<PurchaseReturnItem> imple
         this.setProperty(PurchaseReturnItem.PROPERTY_DISTRIBUTIONRULE5_NAME, value);
     }
 
+    /** 映射的属性名称-物料批次集合 */
+    static PROPERTY_MATERIALBATCHES_NAME: string = "MaterialBatches";
+    /** 获取-物料批次集合 */
+    get materialBatches(): MaterialBatchJournals {
+        return this.getProperty<MaterialBatchJournals>(PurchaseReturnItem.PROPERTY_MATERIALBATCHES_NAME);
+    }
+    /** 设置-物料批次集合 */
+    set materialBatches(value: MaterialBatchJournals) {
+        this.setProperty(PurchaseReturnItem.PROPERTY_MATERIALBATCHES_NAME, value);
+    }
 
+    /** 映射的属性名称-物料序列集合 */
+    static PROPERTY_MATERIALSERIALS_NAME: string = "MaterialSerials";
+    /** 获取-物料序列集合 */
+    get materialSerials(): MaterialSerialJournals {
+        return this.getProperty<MaterialSerialJournals>(PurchaseReturnItem.PROPERTY_MATERIALSERIALS_NAME);
+    }
+    /** 设置-物料序列集合 */
+    set materialSerials(value: MaterialSerialJournals) {
+        this.setProperty(PurchaseReturnItem.PROPERTY_MATERIALSERIALS_NAME, value);
+    }
 
     /** 初始化数据 */
     protected init(): void {
-        this.objectCode = config.applyVariables(PurchaseReturn.BUSINESS_OBJECT_CODE);
+        this.materialBatches = new MaterialBatchJournals(this);
+        this.materialSerials = new MaterialSerialJournals(this);
+    }
+
+    protected onPropertyChanged(name: string): void {
+        super.onPropertyChanged(name);
+        if (strings.equalsIgnoreCase(name, PurchaseReturnItem.PROPERTY_QUANTITY_NAME) ||
+            strings.equalsIgnoreCase(name, PurchaseReturnItem.PROPERTY_PRICE_NAME) ||
+            strings.equalsIgnoreCase(name, PurchaseReturnItem.PROPERTY_DISCOUNT_NAME)) {
+            this.lineTotal = this.quantity * this.price;
+        }
+        if (strings.equalsIgnoreCase(name, PurchaseReturnItem.PROPERTY_TAXRATE_NAME) ||
+            strings.equalsIgnoreCase(name, PurchaseReturnItem.PROPERTY_PRICE_NAME) ||
+            strings.equalsIgnoreCase(name, PurchaseReturnItem.PROPERTY_TAXTOTAL_NAME) ||
+            strings.equalsIgnoreCase(name, PurchaseReturnItem.PROPERTY_QUANTITY_NAME)) {
+            this.taxTotal = this.quantity * this.price * this.taxRate;
+        }
+        // 行总计为NaN时显示为0
+        if (isNaN(this.lineTotal)) {
+            this.lineTotal = 0;
+        }
     }
 }
 

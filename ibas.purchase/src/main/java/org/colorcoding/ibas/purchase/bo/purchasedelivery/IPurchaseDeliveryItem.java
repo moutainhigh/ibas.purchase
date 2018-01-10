@@ -6,13 +6,16 @@ import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
+import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchJournalsParent;
+import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournalsParent;
 import org.colorcoding.ibas.materials.data.emItemType;
 
 /**
  * 采购交货-行 接口
  * 
  */
-public interface IPurchaseDeliveryItem extends IBODocumentLine {
+public interface IPurchaseDeliveryItem
+		extends IBODocumentLine, IMaterialBatchJournalsParent, IMaterialSerialJournalsParent {
 
 	/**
 	 * 获取-编码

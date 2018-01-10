@@ -3,6 +3,7 @@ package org.colorcoding.ibas.purchase.bo.purchasereturn;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
@@ -12,9 +13,18 @@ import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
+import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
+import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
+import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchJournals;
+import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchJournal;
+import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchJournals;
+import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialJournals;
+import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournal;
+import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialJournals;
 import org.colorcoding.ibas.materials.data.emItemType;
+import org.colorcoding.ibas.materials.logic.IMaterialIssueContract;
 import org.colorcoding.ibas.purchase.MyConfiguration;
 
 /**
@@ -23,7 +33,8 @@ import org.colorcoding.ibas.purchase.MyConfiguration;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = PurchaseReturnItem.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
-public class PurchaseReturnItem extends BusinessObject<PurchaseReturnItem> implements IPurchaseReturnItem {
+public class PurchaseReturnItem extends BusinessObject<PurchaseReturnItem>
+		implements IPurchaseReturnItem, IBusinessLogicsHost {
 
 	/**
 	 * 序列化版本标记
@@ -2079,13 +2090,155 @@ public class PurchaseReturnItem extends BusinessObject<PurchaseReturnItem> imple
 	}
 
 	/**
+	 * 属性名称-物料批次
+	 */
+	private static final String PROPERTY_MATERIALBATCHES_NAME = "MaterialBatches";
+
+	/**
+	 * 库存发货-物料批次的集合属性
+	 *
+	 */
+	public static final IPropertyInfo<IMaterialBatchJournals> PROPERTY_MATERIALBATCHES = registerProperty(
+			PROPERTY_MATERIALBATCHES_NAME, IMaterialBatchJournals.class, MY_CLASS);
+
+	/**
+	 * 获取-物料批次集合
+	 *
+	 * @return 值
+	 */
+	@XmlElementWrapper(name = PROPERTY_MATERIALBATCHES_NAME)
+	@XmlElement(name = MaterialBatchJournal.BUSINESS_OBJECT_NAME, type = MaterialBatchJournal.class)
+	public final IMaterialBatchJournals getMaterialBatches() {
+		return this.getProperty(PROPERTY_MATERIALBATCHES);
+	}
+
+	/**
+	 * 设置-物料批次集合
+	 *
+	 * @param value
+	 *            值
+	 */
+	public final void setMaterialBatches(IMaterialBatchJournals value) {
+		this.setProperty(PROPERTY_MATERIALBATCHES, value);
+	}
+
+	/**
+	 * 属性名称-物料序列
+	 */
+	private static final String PROPERTY_MATERIALSERIALS_NAME = "MaterialSerials";
+
+	/**
+	 * 库存发货-物料序列的集合属性
+	 *
+	 */
+	public static final IPropertyInfo<IMaterialSerialJournals> PROPERTY_MATERIALSERIALS = registerProperty(
+			PROPERTY_MATERIALSERIALS_NAME, IMaterialSerialJournals.class, MY_CLASS);
+
+	/**
+	 * 获取-库存发货-物料序列集合
+	 *
+	 * @return 值
+	 */
+	@XmlElementWrapper(name = PROPERTY_MATERIALSERIALS_NAME)
+	@XmlElement(name = MaterialSerialJournal.BUSINESS_OBJECT_NAME, type = MaterialSerialJournal.class)
+	public final IMaterialSerialJournals getMaterialSerials() {
+		return this.getProperty(PROPERTY_MATERIALSERIALS);
+	}
+
+	/**
+	 * 设置-库存发货-物料序列集合
+	 *
+	 * @param value
+	 *            值
+	 */
+	public final void setMaterialSerials(IMaterialSerialJournals value) {
+		this.setProperty(PROPERTY_MATERIALSERIALS, value);
+	}
+
+	/**
 	 * 初始化数据
 	 */
 	@Override
 	protected void initialize() {
 		super.initialize();// 基类初始化，不可去除
+		this.setMaterialBatches(new MaterialBatchJournals(this));
+		this.setMaterialSerials(new MaterialSerialJournals(this));
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
 
 	}
 
+	/**
+	 * 父项
+	 */
+	IPurchaseReturn parent;
+
+	@Override
+	public IBusinessLogicContract[] getContracts() {
+		return new IBusinessLogicContract[] { new IMaterialIssueContract() {
+			@Override
+			public String getIdentifiers() {
+				return PurchaseReturnItem.this.getIdentifiers();
+			}
+
+			@Override
+			public String getItemCode() {
+				return PurchaseReturnItem.this.getItemCode();
+			}
+
+			@Override
+			public String getItemName() {
+				return PurchaseReturnItem.this.getItemDescription();
+			}
+
+			@Override
+			public String getWarehouse() {
+				return PurchaseReturnItem.this.getWarehouse();
+			}
+
+			@Override
+			public String getBaseDocumentType() {
+				return PurchaseReturnItem.this.getObjectCode();
+			}
+
+			@Override
+			public Integer getBaseDocumentEntry() {
+				return PurchaseReturnItem.this.getDocEntry();
+			}
+
+			@Override
+			public Integer getBaseDocumentLineId() {
+				return PurchaseReturnItem.this.getLineId();
+			}
+
+			@Override
+			public Decimal getQuantity() {
+				return PurchaseReturnItem.this.getQuantity();
+			}
+
+			@Override
+			public DateTime getPostingDate() {
+				return PurchaseReturnItem.this.parent.getPostingDate();
+			}
+
+			@Override
+			public DateTime getDeliveryDate() {
+				return PurchaseReturnItem.this.parent.getDeliveryDate();
+			}
+
+			@Override
+			public DateTime getDocumentDate() {
+				return PurchaseReturnItem.this.parent.getDocumentDate();
+			}
+
+			@Override
+			public emYesNo getCanceled() {
+				return PurchaseReturnItem.this.getCanceled();
+			}
+
+			@Override
+			public emDocumentStatus getStatus() {
+				return PurchaseReturnItem.this.getLineStatus();
+			}
+		} };
+	}
 }

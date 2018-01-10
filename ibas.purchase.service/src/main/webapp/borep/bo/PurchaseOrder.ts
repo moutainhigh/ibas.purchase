@@ -638,24 +638,6 @@ export class PurchaseOrderItem extends BODocumentLine<PurchaseOrderItem> impleme
     constructor() {
         super();
     }
-    protected onPropertyChanged(name: string): void {
-        super.onPropertyChanged(name);
-        if (strings.equalsIgnoreCase(name, PurchaseOrderItem.PROPERTY_QUANTITY_NAME) ||
-            strings.equalsIgnoreCase(name, PurchaseOrderItem.PROPERTY_PRICE_NAME) ||
-            strings.equalsIgnoreCase(name, PurchaseOrderItem.PROPERTY_DISCOUNT_NAME)) {
-            this.lineTotal = this.quantity * this.price;
-        }
-        if (strings.equalsIgnoreCase(name, PurchaseOrderItem.PROPERTY_TAXRATE_NAME) ||
-            strings.equalsIgnoreCase(name, PurchaseOrderItem.PROPERTY_PRICE_NAME) ||
-            strings.equalsIgnoreCase(name, PurchaseOrderItem.PROPERTY_TAXTOTAL_NAME) ||
-            strings.equalsIgnoreCase(name, PurchaseOrderItem.PROPERTY_QUANTITY_NAME)) {
-            this.taxTotal = this.quantity * this.price * this.taxRate;
-        }
-        // 行总计为NaN时显示为0
-        if (isNaN(this.lineTotal)) {
-            this.lineTotal = 0;
-        }
-    }
     /** 映射的属性名称-编码 */
     static PROPERTY_DOCENTRY_NAME: string = "DocEntry";
     /** 获取-编码 */
@@ -1250,11 +1232,28 @@ export class PurchaseOrderItem extends BODocumentLine<PurchaseOrderItem> impleme
         this.setProperty(PurchaseOrderItem.PROPERTY_DISTRIBUTIONRULE5_NAME, value);
     }
 
-
-
     /** 初始化数据 */
     protected init(): void {
-        this.objectCode = config.applyVariables(PurchaseOrder.BUSINESS_OBJECT_CODE);
+        //
+    }
+
+    protected onPropertyChanged(name: string): void {
+        super.onPropertyChanged(name);
+        if (strings.equalsIgnoreCase(name, PurchaseOrderItem.PROPERTY_QUANTITY_NAME) ||
+            strings.equalsIgnoreCase(name, PurchaseOrderItem.PROPERTY_PRICE_NAME) ||
+            strings.equalsIgnoreCase(name, PurchaseOrderItem.PROPERTY_DISCOUNT_NAME)) {
+            this.lineTotal = this.quantity * this.price;
+        }
+        if (strings.equalsIgnoreCase(name, PurchaseOrderItem.PROPERTY_TAXRATE_NAME) ||
+            strings.equalsIgnoreCase(name, PurchaseOrderItem.PROPERTY_PRICE_NAME) ||
+            strings.equalsIgnoreCase(name, PurchaseOrderItem.PROPERTY_TAXTOTAL_NAME) ||
+            strings.equalsIgnoreCase(name, PurchaseOrderItem.PROPERTY_QUANTITY_NAME)) {
+            this.taxTotal = this.quantity * this.price * this.taxRate;
+        }
+        // 行总计为NaN时显示为0
+        if (isNaN(this.lineTotal)) {
+            this.lineTotal = 0;
+        }
     }
 }
 
