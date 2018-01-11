@@ -187,7 +187,7 @@ export class PurchaseDeliveryEditApp extends ibas.BOEditApplication<IPurchaseDel
         //     boCode: bo.Customer.BUSINESS_OBJECT_CODE,
         //     chooseType: ibas.emChooseType.single,
         //     criteria: [
-        //         new ibas.Condition(bo.Customer.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, "Y")
+        //         new ibas.Condition(bo.Customer.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES)
         //     ],
         //     onCompleted(selecteds: ibas.List<bo.Customer>): void {
         //         that.editData.supplierCode = selecteds.firstOrDefault().code;
@@ -202,7 +202,7 @@ export class PurchaseDeliveryEditApp extends ibas.BOEditApplication<IPurchaseDel
         //     caller: caller,
         //     boCode: bo.Material.BUSINESS_OBJECT_CODE,
         //     criteria: [
-        //         new ibas.Condition(material.IMaterial.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, "Y")
+        //         new ibas.Condition(material.IMaterial.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES)
         //     ],
         //     onCompleted(selecteds: ibas.List<material.IMaterial>): void {
         //         // 获取触发的对象
