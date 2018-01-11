@@ -2196,17 +2196,17 @@ public class PurchaseDeliveryItem extends BusinessObject<PurchaseDeliveryItem>
 			}
 
 			@Override
-			public String getBaseDocumentType() {
+			public String getDocumentType() {
 				return PurchaseDeliveryItem.this.getObjectCode();
 			}
 
 			@Override
-			public Integer getBaseDocumentEntry() {
+			public Integer getDocumentEntry() {
 				return PurchaseDeliveryItem.this.getDocEntry();
 			}
 
 			@Override
-			public Integer getBaseDocumentLineId() {
+			public Integer getDocumentLineId() {
 				return PurchaseDeliveryItem.this.getLineId();
 			}
 
