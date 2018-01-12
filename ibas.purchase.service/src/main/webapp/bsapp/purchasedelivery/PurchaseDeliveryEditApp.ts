@@ -6,8 +6,9 @@
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
  */
 import * as ibas from "ibas/index";
+import * as mm from "3rdparty/materials/index";
+import * as bp from "3rdparty/businesspartner/index";
 import * as bo from "../../borep/bo/index";
-import * as material from "3rdparty/materials/index";
 import { BORepositoryPurchase } from "../../borep/BORepositories";
 
 /** 编辑应用-采购交货 */
@@ -182,53 +183,75 @@ export class PurchaseDeliveryEditApp extends ibas.BOEditApplication<IPurchaseDel
     }
     /** 选择供应商信息 */
     protected choosePurchaseDeliverySupplier(): void {
-        // let that: this = this;
-        // ibas.servicesManager.runChooseService<bo.>({
-        //     boCode: bo.Customer.BUSINESS_OBJECT_CODE,
-        //     chooseType: ibas.emChooseType.single,
-        //     criteria: [
-        //         new ibas.Condition(bo.Customer.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES)
-        //     ],
-        //     onCompleted(selecteds: ibas.List<bo.Customer>): void {
-        //         that.editData.supplierCode = selecteds.firstOrDefault().code;
-        //         that.editData.supplierName = selecteds.firstOrDefault().name;
-        //     }
-        // });
+        let that: this = this;
+        ibas.servicesManager.runChooseService<bp.ISupplier>({
+            boCode: bp.BO_CODE_SUPPLIER,
+            criteria: bp.conditions.supplier.create(),
+            onCompleted(selecteds: ibas.List<bp.ISupplier>): void {
+                let selected: bp.ISupplier = selecteds.firstOrDefault();
+                that.editData.supplierCode = selected.code;
+                that.editData.supplierName = selected.name;
+            }
+        });
     }
     /** 选择物料主数据 */
     protected choosePurchaseDeliveryItemMaterial(caller: bo.PurchaseDeliveryItem): void {
-        // let that: this = this;
-        // ibas.servicesManager.runChooseService<material.IMaterial>({
-        //     caller: caller,
-        //     boCode: bo.Material.BUSINESS_OBJECT_CODE,
-        //     criteria: [
-        //         new ibas.Condition(material.IMaterial.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES)
-        //     ],
-        //     onCompleted(selecteds: ibas.List<material.IMaterial>): void {
-        //         // 获取触发的对象
-        //         let index: number = that.editData.purchaseDeliveryItems.indexOf(caller);
-        //         let item: bo.PurchaseDeliveryItem = that.editData.purchaseDeliveryItems[index];
-        //         // 选择返回数量多余触发数量时,自动创建新的项目
-        //         let created: boolean = false;
-        //         for (let selected of selecteds) {
-        //             if (ibas.objects.isNull(item)) {
-        //                 item = that.editData.purchaseDeliveryItems.create();
-        //                 created = true;
-        //             }
-        //             item.itemCode = selected.code;
-        //             item.itemDescription = selected.name;
-        //             item = null;
-        //         }
-        //         if (created) {
-        //             // 创建了新的行项目
-        //             that.view.showPurchaseDeliveryItems(that.editData.purchaseDeliveryItems.filterDeleted());
-        //         }
-        //     }
-        // });
+        let that: this = this;
+        ibas.servicesManager.runChooseService<mm.IMaterial>({
+            boCode: mm.BO_CODE_MATERIAL,
+            criteria: mm.conditions.material.create(),
+            onCompleted(selecteds: ibas.List<mm.IMaterial>): void {
+                let index: number = that.editData.purchaseDeliveryItems.indexOf(caller);
+                let item: bo.PurchaseDeliveryItem = that.editData.purchaseDeliveryItems[index];
+                // 选择返回数量多余触发数量时,自动创建新的项目
+                let created: boolean = false;
+                for (let selected of selecteds) {
+                    if (ibas.objects.isNull(item)) {
+                        item = that.editData.purchaseDeliveryItems.create();
+                        created = true;
+                    }
+                    item.itemCode = selected.code;
+                    item.itemDescription = selected.name;
+                    item.serialManagement = selected.serialManagement;
+                    item.batchManagement = selected.batchManagement;
+                    item.warehouse = selected.defaultWarehouse;
+                    item.quantity = 1;
+                    item.uom = selected.inventoryUOM;
+                    item = null;
+                }
+                if (created) {
+                    // 创建了新的行项目
+                    that.view.showPurchaseDeliveryItems(that.editData.purchaseDeliveryItems.filterDeleted());
+                }
+            }
+        });
     }
     /** 采购交货-行 选择仓库主数据 */
-    protected choosePurchaseDeliveryItemWarehouse(): void {
-        //
+    protected choosePurchaseDeliveryItemWarehouse(caller: bo.PurchaseDeliveryItem): void {
+        let that: this = this;
+        ibas.servicesManager.runChooseService<mm.IWarehouse>({
+            boCode: mm.BO_CODE_WAREHOUSE,
+            chooseType: ibas.emChooseType.SINGLE,
+            criteria: mm.conditions.warehouse.create(),
+            onCompleted(selecteds: ibas.List<mm.IWarehouse>): void {
+                let index: number = that.editData.purchaseDeliveryItems.indexOf(caller);
+                let item: bo.PurchaseDeliveryItem = that.editData.purchaseDeliveryItems[index];
+                // 选择返回数量多余触发数量时,自动创建新的项目
+                let created: boolean = false;
+                for (let selected of selecteds) {
+                    if (ibas.objects.isNull(item)) {
+                        item = that.editData.purchaseDeliveryItems.create();
+                        created = true;
+                    }
+                    item.warehouse = selected.code;
+                    item = null;
+                }
+                if (created) {
+                    // 创建了新的行项目
+                    that.view.showPurchaseDeliveryItems(that.editData.purchaseDeliveryItems.filterDeleted());
+                }
+            }
+        });
     }
     /** 添加采购交货-行事件 */
     addPurchaseDeliveryItem(): void {

@@ -7,6 +7,8 @@
  */
 
 import * as ibas from "ibas/index";
+import * as mm from "3rdparty/materials/index";
+import * as bp from "3rdparty/businesspartner/index";
 import * as bo from "../../borep/bo/index";
 import { BORepositoryPurchase } from "../../borep/BORepositories";
 
@@ -181,13 +183,73 @@ export class PurchaseOrderEditApp extends ibas.BOEditApplication<IPurchaseOrderE
         }
     }
     protected choosePurchaseOrderSupplier(): void {
-        //
+        let that: this = this;
+        ibas.servicesManager.runChooseService<bp.ISupplier>({
+            boCode: bp.BO_CODE_SUPPLIER,
+            criteria: bp.conditions.supplier.create(),
+            onCompleted(selecteds: ibas.List<bp.ISupplier>): void {
+                let selected: bp.ISupplier = selecteds.firstOrDefault();
+                that.editData.supplierCode = selected.code;
+                that.editData.supplierName = selected.name;
+            }
+        });
     }
-    protected choosePurchaseOrderItemWarehouse(): void {
-        //
+    protected choosePurchaseOrderItemWarehouse(caller: bo.PurchaseOrderItem): void {
+        let that: this = this;
+        ibas.servicesManager.runChooseService<mm.IWarehouse>({
+            boCode: mm.BO_CODE_WAREHOUSE,
+            chooseType: ibas.emChooseType.SINGLE,
+            criteria: mm.conditions.warehouse.create(),
+            onCompleted(selecteds: ibas.List<mm.IWarehouse>): void {
+                let index: number = that.editData.purchaseOrderItems.indexOf(caller);
+                let item: bo.PurchaseOrderItem = that.editData.purchaseOrderItems[index];
+                // 选择返回数量多余触发数量时,自动创建新的项目
+                let created: boolean = false;
+                for (let selected of selecteds) {
+                    if (ibas.objects.isNull(item)) {
+                        item = that.editData.purchaseOrderItems.create();
+                        created = true;
+                    }
+                    item.warehouse = selected.code;
+                    item = null;
+                }
+                if (created) {
+                    // 创建了新的行项目
+                    that.view.showPurchaseOrderItems(that.editData.purchaseOrderItems.filterDeleted());
+                }
+            }
+        });
     }
-    protected choosePurchaseOrderItemMaterial(): void {
-        //
+    protected choosePurchaseOrderItemMaterial(caller: bo.PurchaseOrderItem): void {
+        let that: this = this;
+        ibas.servicesManager.runChooseService<mm.IMaterial>({
+            boCode: mm.BO_CODE_MATERIAL,
+            criteria: mm.conditions.material.create(),
+            onCompleted(selecteds: ibas.List<mm.IMaterial>): void {
+                let index: number = that.editData.purchaseOrderItems.indexOf(caller);
+                let item: bo.PurchaseOrderItem = that.editData.purchaseOrderItems[index];
+                // 选择返回数量多余触发数量时,自动创建新的项目
+                let created: boolean = false;
+                for (let selected of selecteds) {
+                    if (ibas.objects.isNull(item)) {
+                        item = that.editData.purchaseOrderItems.create();
+                        created = true;
+                    }
+                    item.itemCode = selected.code;
+                    item.itemDescription = selected.name;
+                    item.serialManagement = selected.serialManagement;
+                    item.batchManagement = selected.batchManagement;
+                    item.warehouse = selected.defaultWarehouse;
+                    item.quantity = 1;
+                    item.uom = selected.inventoryUOM;
+                    item = null;
+                }
+                if (created) {
+                    // 创建了新的行项目
+                    that.view.showPurchaseOrderItems(that.editData.purchaseOrderItems.filterDeleted());
+                }
+            }
+        });
     }
     /** 添加采购订单-行事件 */
     addPurchaseOrderItem(): void {
