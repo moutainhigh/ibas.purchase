@@ -2230,15 +2230,6 @@ public class PurchaseReturnItem extends BusinessObject<PurchaseReturnItem>
 				return PurchaseReturnItem.this.parent.getDocumentDate();
 			}
 
-			@Override
-			public emYesNo getCanceled() {
-				return PurchaseReturnItem.this.getCanceled();
-			}
-
-			@Override
-			public emDocumentStatus getStatus() {
-				return PurchaseReturnItem.this.getLineStatus();
-			}
 		} };
 	}
 }

@@ -554,6 +554,7 @@ export class PurchaseOrder extends BODocument<PurchaseOrder> implements IPurchas
     protected init(): void {
         this.purchaseOrderItems = new PurchaseOrderItems(this);
         this.objectCode = config.applyVariables(PurchaseOrder.BUSINESS_OBJECT_CODE);
+        this.documentStatus = emDocumentStatus.RELEASED;
     }
 }
 

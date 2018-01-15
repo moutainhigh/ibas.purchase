@@ -556,6 +556,7 @@ export class PurchaseDelivery extends BODocument<PurchaseDelivery> implements IP
     protected init(): void {
         this.purchaseDeliveryItems = new PurchaseDeliveryItems(this);
         this.objectCode = config.applyVariables(PurchaseDelivery.BUSINESS_OBJECT_CODE);
+        this.documentStatus = emDocumentStatus.RELEASED;
     }
 }
 

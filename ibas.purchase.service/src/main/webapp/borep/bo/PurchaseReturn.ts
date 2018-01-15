@@ -556,6 +556,7 @@ export class PurchaseReturn extends BODocument<PurchaseReturn> implements IPurch
     protected init(): void {
         this.purchaseReturnItems = new PurchaseReturnItems(this);
         this.objectCode = config.applyVariables(PurchaseReturn.BUSINESS_OBJECT_CODE);
+        this.documentStatus = emDocumentStatus.RELEASED;
     }
 }
 

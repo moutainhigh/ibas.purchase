@@ -2229,16 +2229,6 @@ public class PurchaseDeliveryItem extends BusinessObject<PurchaseDeliveryItem>
 			public DateTime getDocumentDate() {
 				return PurchaseDeliveryItem.this.parent.getDocumentDate();
 			}
-
-			@Override
-			public emYesNo getCanceled() {
-				return PurchaseDeliveryItem.this.getCanceled();
-			}
-
-			@Override
-			public emDocumentStatus getStatus() {
-				return PurchaseDeliveryItem.this.getLineStatus();
-			}
 		} };
 	}
 }
