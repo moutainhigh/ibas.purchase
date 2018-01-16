@@ -24,7 +24,7 @@ import {
     objects,
 } from "ibas/index";
 import {
-    emItemType
+    emItemType, MaterialBatchItems, MaterialSerialItems
 } from "3rdparty/materials/index";
 import {
     IPurchaseOrder,
@@ -1233,9 +1233,32 @@ export class PurchaseOrderItem extends BODocumentLine<PurchaseOrderItem> impleme
         this.setProperty(PurchaseOrderItem.PROPERTY_DISTRIBUTIONRULE5_NAME, value);
     }
 
+    /** 映射的属性名称-物料批次集合 */
+    static PROPERTY_MATERIALBATCHES_NAME: string = "MaterialBatches";
+    /** 获取-物料批次集合 */
+    get materialBatches(): MaterialBatchItems {
+        return this.getProperty<MaterialBatchItems>(PurchaseOrderItem.PROPERTY_MATERIALBATCHES_NAME);
+    }
+    /** 设置-物料批次集合 */
+    set materialBatches(value: MaterialBatchItems) {
+        this.setProperty(PurchaseOrderItem.PROPERTY_MATERIALBATCHES_NAME, value);
+    }
+
+    /** 映射的属性名称-物料序列集合 */
+    static PROPERTY_MATERIALSERIALS_NAME: string = "MaterialSerials";
+    /** 获取-物料序列集合 */
+    get materialSerials(): MaterialSerialItems {
+        return this.getProperty<MaterialSerialItems>(PurchaseOrderItem.PROPERTY_MATERIALSERIALS_NAME);
+    }
+    /** 设置-物料序列集合 */
+    set materialSerials(value: MaterialSerialItems) {
+        this.setProperty(PurchaseOrderItem.PROPERTY_MATERIALSERIALS_NAME, value);
+    }
+
     /** 初始化数据 */
     protected init(): void {
-        //
+        this.materialBatches = new MaterialBatchItems(this);
+        this.materialSerials = new MaterialSerialItems(this);
     }
 
     protected onPropertyChanged(name: string): void {
