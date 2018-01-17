@@ -188,6 +188,7 @@ export class PurchaseDeliveryEditApp extends ibas.BOEditApplication<IPurchaseDel
         let that: this = this;
         ibas.servicesManager.runChooseService<bp.ISupplier>({
             boCode: bp.BO_CODE_SUPPLIER,
+            chooseType: ibas.emChooseType.SINGLE,
             criteria: bp.conditions.supplier.create(),
             onCompleted(selecteds: ibas.List<bp.ISupplier>): void {
                 let selected: bp.ISupplier = selecteds.firstOrDefault();
@@ -300,7 +301,7 @@ export class PurchaseDeliveryEditApp extends ibas.BOEditApplication<IPurchaseDel
             });
         }
         ibas.servicesManager.runApplicationService<mm.IMaterialBatchContract[]>({
-            proxy: new mm.MaterialBatchIssueServiceProxy(contracts)
+            proxy: new mm.MaterialBatchReceiptServiceProxy(contracts)
         });
     }
     /** 选择物料序列事件 */
@@ -318,7 +319,7 @@ export class PurchaseDeliveryEditApp extends ibas.BOEditApplication<IPurchaseDel
             });
         }
         ibas.servicesManager.runApplicationService<mm.IMaterialSerialContract[]>({
-            proxy: new mm.MaterialSerialIssueServiceProxy(contracts)
+            proxy: new mm.MaterialSerialReceiptServiceProxy(contracts)
         });
     }
 

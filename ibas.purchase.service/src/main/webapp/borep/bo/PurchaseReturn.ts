@@ -569,69 +569,6 @@ export class PurchaseReturnItems extends BusinessObjects<PurchaseReturnItem, Pur
         this.add(item);
         return item;
     }
-    /** 监听父项属性改变 */
-    protected onParentPropertyChanged(name: string): void {
-        super.onParentPropertyChanged(name);
-        /** 父项中单据状态改变，影响行中状态 */
-        if (strings.equalsIgnoreCase(name, PurchaseReturn.PROPERTY_DOCUMENTSTATUS_NAME)) {
-            for (let purchaseReturnItem of this.filterDeleted()) {
-                purchaseReturnItem.lineStatus = this.parent.documentStatus;
-            }
-        }
-    }
-    /** 监听子项属性改变 */
-    protected onChildPropertyChanged(item: PurchaseReturnItem, name: string): void {
-        super.onChildPropertyChanged(item, name);
-        if (strings.equalsIgnoreCase(name, PurchaseReturnItem.PROPERTY_LINETOTAL_NAME)) {
-            let total: number = 0;
-            let discount: number = 0;
-            for (let purchaseReturnItem of this.filterDeleted()) {
-                if (objects.isNull(purchaseReturnItem.lineTotal)) {
-                    purchaseReturnItem.lineTotal = 0;
-                }
-                total = Number(total) + Number(purchaseReturnItem.lineTotal);
-                discount = Number(discount) +
-                    Number(purchaseReturnItem.price * purchaseReturnItem.quantity - purchaseReturnItem.lineTotal);
-            }
-            this.parent.documentTotal = total;
-            this.parent.discountTotal = discount;
-            this.parent.discount = discount / total;
-        }
-        if (strings.equalsIgnoreCase(name, PurchaseReturnItem.PROPERTY_TAXTOTAL_NAME)) {
-            let taxTotal: number = 0;
-            for (let purchaseReturnItem of this.filterDeleted()) {
-                if (objects.isNull(purchaseReturnItem.taxTotal)) {
-                    purchaseReturnItem.lineTotal = 0;
-                }
-                taxTotal = Number(taxTotal) + Number(purchaseReturnItem.taxTotal);
-            }
-            this.parent.taxTotal = taxTotal;
-            this.parent.taxRate = taxTotal / (this.parent.documentTotal + this.parent.discountTotal);
-        }
-        // 折扣总计为NaN时显示为0
-        if (isNaN(this.parent.discountTotal)) {
-            this.parent.discountTotal = 0;
-        }
-        if (isNaN(this.parent.discount)) {
-            this.parent.discount = 0;
-        }
-    }
-    protected afterRemove(item: PurchaseReturnItem): void {
-        super.afterRemove(item);
-        if (this.parent.purchaseReturnItems.length === 0) {
-            this.parent.taxTotal = 0;
-            this.parent.documentTotal = 0;
-            this.parent.taxRate = 0;
-            this.parent.discountTotal = 0;
-            this.parent.discount = 0;
-        } else {
-            this.parent.documentTotal -= item.lineTotal;
-            this.parent.discountTotal -= (item.quantity * item.price - item.lineTotal);
-            this.parent.taxTotal -= item.taxTotal;
-            this.parent.taxRate = this.parent.taxTotal / (this.parent.documentTotal + this.parent.discountTotal);
-            this.parent.discount = this.parent.discountTotal / (this.parent.documentTotal + this.parent.discountTotal);
-        }
-    }
 }
 
 /** 采购退货-行 */
@@ -1263,23 +1200,5 @@ export class PurchaseReturnItem extends BODocumentLine<PurchaseReturnItem> imple
         this.materialSerials = new MaterialSerialItems(this);
     }
 
-    protected onPropertyChanged(name: string): void {
-        super.onPropertyChanged(name);
-        if (strings.equalsIgnoreCase(name, PurchaseReturnItem.PROPERTY_QUANTITY_NAME) ||
-            strings.equalsIgnoreCase(name, PurchaseReturnItem.PROPERTY_PRICE_NAME) ||
-            strings.equalsIgnoreCase(name, PurchaseReturnItem.PROPERTY_DISCOUNT_NAME)) {
-            this.lineTotal = this.quantity * this.price;
-        }
-        if (strings.equalsIgnoreCase(name, PurchaseReturnItem.PROPERTY_TAXRATE_NAME) ||
-            strings.equalsIgnoreCase(name, PurchaseReturnItem.PROPERTY_PRICE_NAME) ||
-            strings.equalsIgnoreCase(name, PurchaseReturnItem.PROPERTY_TAXTOTAL_NAME) ||
-            strings.equalsIgnoreCase(name, PurchaseReturnItem.PROPERTY_QUANTITY_NAME)) {
-            this.taxTotal = this.quantity * this.price * this.taxRate;
-        }
-        // 行总计为NaN时显示为0
-        if (isNaN(this.lineTotal)) {
-            this.lineTotal = 0;
-        }
-    }
 }
 

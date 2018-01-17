@@ -188,6 +188,7 @@ export class PurchaseReturnEditApp extends ibas.BOEditApplication<IPurchaseRetur
         let that: this = this;
         ibas.servicesManager.runChooseService<bp.ISupplier>({
             boCode: bp.BO_CODE_SUPPLIER,
+            chooseType: ibas.emChooseType.SINGLE,
             criteria: bp.conditions.supplier.create(),
             onCompleted(selecteds: ibas.List<bp.ISupplier>): void {
                 let selected: bp.ISupplier = selecteds.firstOrDefault();
