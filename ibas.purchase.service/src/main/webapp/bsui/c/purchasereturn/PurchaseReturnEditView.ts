@@ -29,6 +29,10 @@ export class PurchaseReturnEditView extends ibas.BOEditView implements IPurchase
     choosePurchaseReturnItemMaterialEvent: Function;
     /** 选择仓库 */
     choosePurchaseReturnItemWarehouseEvent: Function;
+    /** 选择采购退货-行 物料序列事件 */
+    choosePurchaseReturnItemMaterialSerialEvent: Function;
+    /** 选择采购退货-行 物料批次事件 */
+    choosePurchaseReturnItemMaterialBatchEvent: Function;
 
     /** 绘制视图 */
     darw(): any {
@@ -121,6 +125,29 @@ export class PurchaseReturnEditView extends ibas.BOEditView implements IPurchase
                                 openui5.utils.getSelecteds<bo.PurchaseReturnItem>(that.tablePurchaseReturnItem)
                             );
                         }
+                    }),
+                    new sap.m.ToolbarSeparator(""),
+                    new sap.m.MenuButton("", {
+                        text: ibas.strings.format("{0}/{1}",
+                            ibas.i18n.prop("purchase_material_batch"), ibas.i18n.prop("purchase_material_serial")),
+                        menu: [
+                            new sap.m.Menu("", {
+                                items: [
+                                    new sap.m.MenuItem("", {
+                                        text: ibas.i18n.prop("purchase_material_batch"),
+                                        press: function (): void {
+                                            that.fireViewEvents(that.choosePurchaseReturnItemMaterialBatchEvent);
+                                        }
+                                    }),
+                                    new sap.m.MenuItem("", {
+                                        text: ibas.i18n.prop("purchase_material_serial"),
+                                        press: function (): void {
+                                            that.fireViewEvents(that.choosePurchaseReturnItemMaterialSerialEvent);
+                                        }
+                                    }),
+                                ]
+                            })
+                        ]
                     })
                 ]
             }),

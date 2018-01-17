@@ -31,6 +31,10 @@ export class PurchaseOrderEditView extends ibas.BOEditView implements IPurchaseO
     choosePurchaseOrderItemMaterialEvent: Function;
     /** 选择采购订单行仓库事件 */
     choosePurchaseOrderItemWarehouseEvent: Function;
+    /** 选择采购订单-行 物料序列事件 */
+    choosePurchaseOrderItemMaterialSerialEvent: Function;
+    /** 选择采购订单-行 物料批次事件 */
+    choosePurchaseOrderItemMaterialBatchEvent: Function;
     /** 绘制视图 */
     darw(): any {
         let that: this = this;

@@ -40,6 +40,8 @@ export class PurchaseOrderEditApp extends ibas.BOEditApplication<IPurchaseOrderE
         this.view.choosePurchaseOrderItemMaterialEvent = this.choosePurchaseOrderItemMaterial;
         this.view.choosePurchaseOrderItemWarehouseEvent = this.choosePurchaseOrderItemWarehouse;
         this.view.choosePurchaseOrderSupplierEvent = this.choosePurchaseOrderSupplier;
+        this.view.choosePurchaseOrderItemMaterialBatchEvent = this.choosePurchaseOrderItemMaterialBatch;
+        this.view.choosePurchaseOrderItemMaterialSerialEvent = this.choosePurchaseOrderItemMaterialSerial;
     }
     /** 视图显示后 */
     protected viewShowed(): void {
@@ -281,6 +283,42 @@ export class PurchaseOrderEditApp extends ibas.BOEditApplication<IPurchaseOrderE
         // 仅显示没有标记删除的
         this.view.showPurchaseOrderItems(this.editData.purchaseOrderItems.filterDeleted());
     }
+    /** 选择物料批次事件 */
+    choosePurchaseOrderItemMaterialBatch(): void {
+        let contracts: ibas.ArrayList<mm.IMaterialBatchContract> = new ibas.ArrayList<mm.IMaterialBatchContract>();
+        for (let item of this.editData.purchaseOrderItems) {
+            contracts.add({
+                batchManagement: item.batchManagement,
+                itemCode: item.itemCode,
+                itemDescription: item.itemDescription,
+                warehouse: item.warehouse,
+                quantity: item.quantity,
+                uom: item.uom,
+                materialBatches: item.materialBatches,
+            });
+        }
+        ibas.servicesManager.runApplicationService<mm.IMaterialBatchContract[]>({
+            proxy: new mm.MaterialBatchIssueServiceProxy(contracts)
+        });
+    }
+    /** 选择物料序列事件 */
+    choosePurchaseOrderItemMaterialSerial(): void {
+        let contracts: ibas.ArrayList<mm.IMaterialSerialContract> = new ibas.ArrayList<mm.IMaterialSerialContract>();
+        for (let item of this.editData.purchaseOrderItems) {
+            contracts.add({
+                serialManagement: item.serialManagement,
+                itemCode: item.itemCode,
+                itemDescription: item.itemDescription,
+                warehouse: item.warehouse,
+                quantity: item.quantity,
+                uom: item.uom,
+                materialSerials: item.materialSerials
+            });
+        }
+        ibas.servicesManager.runApplicationService<mm.IMaterialSerialContract[]>({
+            proxy: new mm.MaterialSerialIssueServiceProxy(contracts)
+        });
+    }
 
 }
 /** 视图-采购订单 */
@@ -301,6 +339,10 @@ export interface IPurchaseOrderEditView extends ibas.IBOEditView {
     choosePurchaseOrderItemMaterialEvent: Function;
     /** 选择采购订单-行 仓库 */
     choosePurchaseOrderItemWarehouseEvent: Function;
+    /** 选择采购订单-行 物料序列事件 */
+    choosePurchaseOrderItemMaterialSerialEvent: Function;
+    /** 选择采购订单-行 物料批次事件 */
+    choosePurchaseOrderItemMaterialBatchEvent: Function;
     /** 显示数据 */
     showPurchaseOrderItems(datas: bo.PurchaseOrderItem[]): void;
 }

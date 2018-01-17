@@ -29,6 +29,10 @@ export class PurchaseDeliveryEditView extends ibas.BOEditView implements IPurcha
     choosePurchaseDeliveryItemWarehouseEvent: Function;
     /** 选择物料主数据 */
     choosePurchaseDeliveryItemMaterialEvent: Function;
+    /** 选择采购交货-行 物料序列事件 */
+    choosePurchaseDeliveryItemMaterialSerialEvent: Function;
+    /** 选择采购交货-行 物料批次事件 */
+    choosePurchaseDeliveryItemMaterialBatchEvent: Function;
     /** 绘制视图 */
     darw(): any {
         let that: this = this;
@@ -120,6 +124,29 @@ export class PurchaseDeliveryEditView extends ibas.BOEditView implements IPurcha
                                 openui5.utils.getSelecteds<bo.PurchaseDeliveryItem>(that.tablePurchaseDeliveryItem)
                             );
                         }
+                    }),
+                    new sap.m.ToolbarSeparator(""),
+                    new sap.m.MenuButton("", {
+                        text: ibas.strings.format("{0}/{1}",
+                            ibas.i18n.prop("purchase_material_batch"), ibas.i18n.prop("purchase_material_serial")),
+                        menu: [
+                            new sap.m.Menu("", {
+                                items: [
+                                    new sap.m.MenuItem("", {
+                                        text: ibas.i18n.prop("purchase_material_batch"),
+                                        press: function (): void {
+                                            that.fireViewEvents(that.choosePurchaseDeliveryItemMaterialBatchEvent);
+                                        }
+                                    }),
+                                    new sap.m.MenuItem("", {
+                                        text: ibas.i18n.prop("purchase_material_serial"),
+                                        press: function (): void {
+                                            that.fireViewEvents(that.choosePurchaseDeliveryItemMaterialSerialEvent);
+                                        }
+                                    }),
+                                ]
+                            })
+                        ]
                     })
                 ]
             }),

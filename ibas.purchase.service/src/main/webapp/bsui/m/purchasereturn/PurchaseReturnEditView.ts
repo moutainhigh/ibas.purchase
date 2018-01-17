@@ -31,6 +31,10 @@ export class PurchaseReturnEditView extends ibas.BOEditView implements IPurchase
     choosePurchaseReturnItemMaterialEvent: Function;
     /** 选择采购订单行仓库事件 */
     choosePurchaseReturnItemWarehouseEvent: Function;
+    /** 选择采购退货-行 物料序列事件 */
+    choosePurchaseReturnItemMaterialSerialEvent: Function;
+    /** 选择采购退货-行 物料批次事件 */
+    choosePurchaseReturnItemMaterialBatchEvent: Function;
     /** 绘制视图 */
     darw(): any {
         let that: this = this;

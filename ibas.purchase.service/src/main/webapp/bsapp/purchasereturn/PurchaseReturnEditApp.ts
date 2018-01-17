@@ -40,6 +40,8 @@ export class PurchaseReturnEditApp extends ibas.BOEditApplication<IPurchaseRetur
         this.view.choosePurchaseReturnItemMaterialEvent = this.choosePurchaseReturnItemMaterial;
         this.view.choosePurchaseReturnItemWarehouseEvent = this.choosePurchaseReturnItemWarehouse;
         this.view.choosePurchaseReturnSupplierEvent = this.choosePurchaseReturnSupplier;
+        this.view.choosePurchaseReturnItemMaterialBatchEvent = this.choosePurchaseReturnItemMaterialBatch;
+        this.view.choosePurchaseReturnItemMaterialSerialEvent = this.choosePurchaseReturnItemMaterialSerial;
     }
     /** 视图显示后 */
     protected viewShowed(): void {
@@ -281,6 +283,42 @@ export class PurchaseReturnEditApp extends ibas.BOEditApplication<IPurchaseRetur
         // 仅显示没有标记删除的
         this.view.showPurchaseReturnItems(this.editData.purchaseReturnItems.filterDeleted());
     }
+    /** 选择物料批次事件 */
+    choosePurchaseReturnItemMaterialBatch(): void {
+        let contracts: ibas.ArrayList<mm.IMaterialBatchContract> = new ibas.ArrayList<mm.IMaterialBatchContract>();
+        for (let item of this.editData.purchaseReturnItems) {
+            contracts.add({
+                batchManagement: item.batchManagement,
+                itemCode: item.itemCode,
+                itemDescription: item.itemDescription,
+                warehouse: item.warehouse,
+                quantity: item.quantity,
+                uom: item.uom,
+                materialBatches: item.materialBatches,
+            });
+        }
+        ibas.servicesManager.runApplicationService<mm.IMaterialBatchContract[]>({
+            proxy: new mm.MaterialBatchIssueServiceProxy(contracts)
+        });
+    }
+    /** 选择物料序列事件 */
+    choosePurchaseReturnItemMaterialSerial(): void {
+        let contracts: ibas.ArrayList<mm.IMaterialSerialContract> = new ibas.ArrayList<mm.IMaterialSerialContract>();
+        for (let item of this.editData.purchaseReturnItems) {
+            contracts.add({
+                serialManagement: item.serialManagement,
+                itemCode: item.itemCode,
+                itemDescription: item.itemDescription,
+                warehouse: item.warehouse,
+                quantity: item.quantity,
+                uom: item.uom,
+                materialSerials: item.materialSerials
+            });
+        }
+        ibas.servicesManager.runApplicationService<mm.IMaterialSerialContract[]>({
+            proxy: new mm.MaterialSerialIssueServiceProxy(contracts)
+        });
+    }
 
 }
 /** 视图-采购退货 */
@@ -301,6 +339,10 @@ export interface IPurchaseReturnEditView extends ibas.IBOEditView {
     choosePurchaseReturnItemMaterialEvent: Function;
     /** 选择采购退货-行 仓库 */
     choosePurchaseReturnItemWarehouseEvent: Function;
+    /** 选择采购退货-行 物料序列事件 */
+    choosePurchaseReturnItemMaterialSerialEvent: Function;
+    /** 选择采购退货-行 物料批次事件 */
+    choosePurchaseReturnItemMaterialBatchEvent: Function;
     /** 显示数据 */
     showPurchaseReturnItems(datas: bo.PurchaseReturnItem[]): void;
 }
