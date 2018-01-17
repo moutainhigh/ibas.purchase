@@ -164,10 +164,9 @@ export class PurchaseReturnEditView extends ibas.BOEditView implements IPurchase
                 }),
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_purchasereturnitem_itemdescription"),
-                    template: new sap.m.Input("", {
-                        width: "100%",
-                        editable: false,
-                    }).bindProperty("value", {
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
                         path: "itemDescription"
                     })
                 }),
