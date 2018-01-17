@@ -37,7 +37,7 @@ export class PurchaseDeliveryEditView extends ibas.BOEditView implements IPurcha
         this.viewTopForm = new sap.ui.layout.form.SimpleForm("", {
             editable: true,
             content: [
-                // new sap.ui.core.Title("", { text: ibas.i18n.prop("purchase_general_information") }),
+                // new sap.ui.core.Title("", { text: ibas.i18n.prop("purchase_title_general") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasedelivery_suppliercode") }),
                 new sap.m.Input("", {
                     showValueHelp: true,

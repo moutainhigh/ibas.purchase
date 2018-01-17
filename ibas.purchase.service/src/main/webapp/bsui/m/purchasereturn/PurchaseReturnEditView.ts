@@ -37,7 +37,7 @@ export class PurchaseReturnEditView extends ibas.BOEditView implements IPurchase
         this.viewTopForm = new sap.ui.layout.form.SimpleForm("", {
             editable: true,
             content: [
-                // new sap.ui.core.Title("", { text: ibas.i18n.prop("trainingtesting_general_information") }),
+                // new sap.ui.core.Title("", { text: ibas.i18n.prop("trainingtesting_title_general") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_suppliercode") }),
                 new sap.m.Input("", {
                     showValueHelp: true,

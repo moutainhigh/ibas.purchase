@@ -36,7 +36,7 @@ export class PurchaseReturnEditView extends ibas.BOEditView implements IPurchase
         let formTop: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
             editable: true,
             content: [
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("purchase_general_information") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("purchase_title_general") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_suppliercode") }),
                 new sap.m.Input("", {
                     showValueHelp: true,
@@ -67,7 +67,7 @@ export class PurchaseReturnEditView extends ibas.BOEditView implements IPurchase
                 new sap.m.Input("", {}).bindProperty("value", {
                     path: "reference2"
                 }),
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("purchase_status_information") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("purchase_title_status") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_docnum") }),
                 new sap.m.Input("", {
                 }).bindProperty("value", {
@@ -233,13 +233,13 @@ export class PurchaseReturnEditView extends ibas.BOEditView implements IPurchase
         let formBottom: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
             editable: true,
             content: [
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("purchase_remarks_information") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("purchase_title_remarks") }),
                 new sap.m.TextArea("", {
                     rows: 5,
                 }).bindProperty("value", {
                     path: "remarks",
                 }),
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("purchase_total_information") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("purchase_title_total") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_documenttotal") }),
                 new sap.m.Input("", {
                     editable: false,

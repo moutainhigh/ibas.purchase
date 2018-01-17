@@ -37,7 +37,7 @@ export class PurchaseOrderEditView extends ibas.BOEditView implements IPurchaseO
         this.viewTopForm = new sap.ui.layout.form.SimpleForm("", {
             editable: true,
             content: [
-                // new sap.ui.core.Title("", { text: ibas.i18n.prop("trainingtesting_general_information") }),
+                // new sap.ui.core.Title("", { text: ibas.i18n.prop("trainingtesting_title_general") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchaseorder_suppliercode") }),
                 new sap.m.Input("", {
                     showValueHelp: true,
