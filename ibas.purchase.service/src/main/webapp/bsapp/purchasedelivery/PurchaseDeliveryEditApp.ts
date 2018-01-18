@@ -202,7 +202,7 @@ export class PurchaseDeliveryEditApp extends ibas.BOEditApplication<IPurchaseDel
         let that: this = this;
         ibas.servicesManager.runChooseService<mm.IMaterial>({
             boCode: mm.BO_CODE_MATERIAL,
-            criteria: mm.conditions.material.create(),
+            criteria: bo.conditions.material.create(),
             onCompleted(selecteds: ibas.List<mm.IMaterial>): void {
                 let index: number = that.editData.purchaseDeliveryItems.indexOf(caller);
                 let item: bo.PurchaseDeliveryItem = that.editData.purchaseDeliveryItems[index];
