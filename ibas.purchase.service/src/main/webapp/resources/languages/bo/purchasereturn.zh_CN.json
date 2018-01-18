@@ -80,7 +80,7 @@
   "bo_purchasereturnitem_serialmanagement": "序号管理",
   "bo_purchasereturnitem_batchmanagement": "批号管理",
   "bo_purchasereturnitem_quantity": "数量",
-  "bo_purchasereturnitem_uom": "计量单位",
+  "bo_purchasereturnitem_uom": "单位",
   "bo_purchasereturnitem_warehouse": "仓库",
   "bo_purchasereturnitem_price": "价格",
   "bo_purchasereturnitem_currency": "货币",

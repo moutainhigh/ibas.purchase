@@ -222,9 +222,10 @@ export class PurchaseDeliveryEditView extends ibas.BOEditView implements IPurcha
                 }),
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_purchasedeliveryitem_uom"),
-                    template: new sap.m.Input("", {
+                    template: new sap.m.Text("", {
                         width: "100%",
-                    }).bindProperty("value", {
+                        wrapping: false
+                    }).bindProperty("text", {
                         path: "uom"
                     })
                 }),
