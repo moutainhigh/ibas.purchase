@@ -8,6 +8,8 @@
 
 import * as ibas from "ibas/index";
 import * as openui5 from "openui5/index";
+import * as mm from "3rdparty/materials/index";
+import * as bp from "3rdparty/businesspartner/index";
 import * as bo from "../../../borep/bo/index";
 import { IPurchaseDeliveryEditView } from "../../../bsapp/purchasedelivery/index";
 
@@ -23,12 +25,14 @@ export class PurchaseDeliveryEditView extends ibas.BOEditView implements IPurcha
     addPurchaseDeliveryItemEvent: Function;
     /** 删除采购交货-行事件 */
     removePurchaseDeliveryItemEvent: Function;
-    /** 选择供应商 */
+    /** 选择采购交货供应商信息 */
     choosePurchaseDeliverySupplierEvent: Function;
+    /** 选择采购交货价格清单信息 */
+    choosePurchaseDeliveryPriceListEvent: Function;
+    /** 选择采购交货-行物料主数据 */
+    choosePurchaseDeliveryItemMaterialEvent: Function;
     /** 选择采购交货-行 仓库 */
     choosePurchaseDeliveryItemWarehouseEvent: Function;
-    /** 选择物料主数据 */
-    choosePurchaseDeliveryItemMaterialEvent: Function;
     /** 选择采购交货-行 物料序列事件 */
     choosePurchaseDeliveryItemMaterialSerialEvent: Function;
     /** 选择采购交货-行 物料批次事件 */
@@ -61,6 +65,19 @@ export class PurchaseDeliveryEditView extends ibas.BOEditView implements IPurcha
                     editable: false,
                 }).bindProperty("value", {
                     path: "contactPerson"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasedelivery_pricelist") }),
+                new sap.m.ex.BOInput("", {
+                    boText: "name",
+                    boKey: "objectKey",
+                    boCode: ibas.config.applyVariables(mm.BO_CODE_MATERIALPRICELIST),
+                    repositoryName: mm.BO_REPOSITORY_MATERIALS,
+                    valueHelpRequest: function (): void {
+                        that.fireViewEvents(that.choosePurchaseDeliveryPriceListEvent);
+                    },
+                    bindingValue: {
+                        path: "priceList"
+                    }
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasedelivery_reference1") }),
                 new sap.m.Input("", {}).bindProperty("value", {
@@ -96,10 +113,10 @@ export class PurchaseDeliveryEditView extends ibas.BOEditView implements IPurcha
                     path: "documentDate",
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_receipt_dataowner") }),
-                new sap.m.Input("", {
-                    showValueHelp: true,
-                }).bindProperty("value", {
-                    path: "dataOwner",
+                new sap.m.ex.DataOwnerInput("", {
+                    bindingValue: {
+                        path: "dataOwner"
+                    }
                 }),
             ]
         });

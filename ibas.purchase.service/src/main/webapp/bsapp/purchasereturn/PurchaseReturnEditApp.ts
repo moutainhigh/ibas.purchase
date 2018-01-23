@@ -194,6 +194,8 @@ export class PurchaseReturnEditApp extends ibas.BOEditApplication<IPurchaseRetur
                 let selected: bp.ISupplier = selecteds.firstOrDefault();
                 that.editData.supplierCode = selected.code;
                 that.editData.supplierName = selected.name;
+                that.editData.priceList = selected.priceList;
+                that.editData.contactPerson = selected.contactPerson;
             }
         });
     }
@@ -334,9 +336,11 @@ export interface IPurchaseReturnEditView extends ibas.IBOEditView {
     addPurchaseReturnItemEvent: Function;
     /** 删除采购退货-行事件 */
     removePurchaseReturnItemEvent: Function;
-    /** 选择供应商信息 */
+    /** 选择采购退货供应商信息 */
     choosePurchaseReturnSupplierEvent: Function;
-    /** 选择物料主数据 */
+    /** 选择采购退货价格清单信息 */
+    choosePurchaseReturnPriceListEvent: Function;
+    /** 选择采购退货-行物料主数据 */
     choosePurchaseReturnItemMaterialEvent: Function;
     /** 选择采购退货-行 仓库 */
     choosePurchaseReturnItemWarehouseEvent: Function;

@@ -8,6 +8,8 @@
 
 import * as ibas from "ibas/index";
 import * as openui5 from "openui5/index";
+import * as mm from "3rdparty/materials/index";
+import * as bp from "3rdparty/businesspartner/index";
 import * as bo from "../../../borep/bo/index";
 import { IPurchaseReturnEditView } from "../../../bsapp/purchasereturn/index";
 export class PurchaseReturnEditView extends ibas.BOEditView implements IPurchaseReturnEditView {
@@ -21,15 +23,17 @@ export class PurchaseReturnEditView extends ibas.BOEditView implements IPurchase
     deleteDataEvent: Function;
     /** 新建数据事件，参数1：是否克隆 */
     createDataEvent: Function;
-    /** 添加采购订单-行事件 */
+    /** 添加采购退货-行事件 */
     addPurchaseReturnItemEvent: Function;
-    /** 删除采购订单-行事件 */
+    /** 删除采购退货-行事件 */
     removePurchaseReturnItemEvent: Function;
-    /** 选择采购订单客户事件 */
+    /** 选择采购退货供应商信息 */
     choosePurchaseReturnSupplierEvent: Function;
-    /** 选择采购订单行物料事件 */
+    /** 选择采购退货价格清单信息 */
+    choosePurchaseReturnPriceListEvent: Function;
+    /** 选择采购退货-行物料主数据 */
     choosePurchaseReturnItemMaterialEvent: Function;
-    /** 选择采购订单行仓库事件 */
+    /** 选择采购退货-行 仓库 */
     choosePurchaseReturnItemWarehouseEvent: Function;
     /** 选择采购退货-行 物料序列事件 */
     choosePurchaseReturnItemMaterialSerialEvent: Function;

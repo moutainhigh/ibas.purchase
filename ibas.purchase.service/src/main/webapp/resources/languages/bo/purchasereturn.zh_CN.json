@@ -41,6 +41,7 @@
   "bo_purchasereturn_documentrate": "单据交换率",
   "bo_purchasereturn_documenttotal": "单据总计",
   "bo_purchasereturn_paidtotal": "已付款总计",
+  "bo_purchasereturn_pricelist": "价格清单",
   "bo_purchasereturn_paymentcode": "付款条款代码",
   "bo_purchasereturn_rounding": "舍入",
   "bo_purchasereturn_diffamount": "舍入差额",

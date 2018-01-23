@@ -798,6 +798,21 @@ public interface IPurchaseDelivery extends IBODocument {
 	void setPaidTotal(double value);
 
 	/**
+	 * 获取-价格清单
+	 * 
+	 * @return 值
+	 */
+	Integer getPriceList();
+
+	/**
+	 * 设置-价格清单
+	 * 
+	 * @param value
+	 *            值
+	 */
+	void setPriceList(Integer value);
+
+	/**
 	 * 获取-付款条款代码
 	 * 
 	 * @return 值

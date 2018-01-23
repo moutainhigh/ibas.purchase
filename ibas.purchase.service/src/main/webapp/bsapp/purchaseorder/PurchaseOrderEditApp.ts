@@ -194,6 +194,8 @@ export class PurchaseOrderEditApp extends ibas.BOEditApplication<IPurchaseOrderE
                 let selected: bp.ISupplier = selecteds.firstOrDefault();
                 that.editData.supplierCode = selected.code;
                 that.editData.supplierName = selected.name;
+                that.editData.priceList = selected.priceList;
+                that.editData.contactPerson = selected.contactPerson;
             }
         });
     }
@@ -334,9 +336,11 @@ export interface IPurchaseOrderEditView extends ibas.IBOEditView {
     addPurchaseOrderItemEvent: Function;
     /** 删除采购订单-行事件 */
     removePurchaseOrderItemEvent: Function;
-    /** 选择供应商信息 */
+    /** 选择采购订单供应商信息 */
     choosePurchaseOrderSupplierEvent: Function;
-    /** 选择物料主数据 */
+    /** 选择采购订单价格清单信息 */
+    choosePurchaseOrderPriceListEvent: Function;
+    /** 选择采购订单-行物料主数据 */
     choosePurchaseOrderItemMaterialEvent: Function;
     /** 选择采购订单-行 仓库 */
     choosePurchaseOrderItemWarehouseEvent: Function;

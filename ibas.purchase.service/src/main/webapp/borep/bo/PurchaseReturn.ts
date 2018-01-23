@@ -495,6 +495,17 @@ export class PurchaseReturn extends BODocument<PurchaseReturn> implements IPurch
         this.setProperty(PurchaseReturn.PROPERTY_PAIDTOTAL_NAME, value);
     }
 
+    /** 映射的属性名称-价格清单 */
+    static PROPERTY_PRICELIST_NAME: string = "PriceList";
+    /** 获取-价格清单 */
+    get priceList(): number {
+        return this.getProperty<number>(PurchaseReturn.PROPERTY_PRICELIST_NAME);
+    }
+    /** 设置-价格清单 */
+    set priceList(value: number) {
+        this.setProperty(PurchaseReturn.PROPERTY_PRICELIST_NAME, value);
+    }
+
     /** 映射的属性名称-付款条款代码 */
     static PROPERTY_PAYMENTCODE_NAME: string = "PaymentCode";
     /** 获取-付款条款代码 */

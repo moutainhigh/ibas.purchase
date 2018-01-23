@@ -8,6 +8,8 @@
 
 import * as ibas from "ibas/index";
 import * as openui5 from "openui5/index";
+import * as mm from "3rdparty/materials/index";
+import * as bp from "3rdparty/businesspartner/index";
 import * as bo from "../../../borep/bo/index";
 import { IPurchaseReturnEditView } from "../../../bsapp/purchasereturn/index";
 
@@ -23,11 +25,13 @@ export class PurchaseReturnEditView extends ibas.BOEditView implements IPurchase
     addPurchaseReturnItemEvent: Function;
     /** 删除采购退货-行事件 */
     removePurchaseReturnItemEvent: Function;
-    /** 选择供应商 */
+    /** 选择采购退货供应商信息 */
     choosePurchaseReturnSupplierEvent: Function;
-    /** 选择物料 */
+    /** 选择采购退货价格清单信息 */
+    choosePurchaseReturnPriceListEvent: Function;
+    /** 选择采购退货-行物料主数据 */
     choosePurchaseReturnItemMaterialEvent: Function;
-    /** 选择仓库 */
+    /** 选择采购退货-行 仓库 */
     choosePurchaseReturnItemWarehouseEvent: Function;
     /** 选择采购退货-行 物料序列事件 */
     choosePurchaseReturnItemMaterialSerialEvent: Function;
@@ -63,6 +67,19 @@ export class PurchaseReturnEditView extends ibas.BOEditView implements IPurchase
                 }).bindProperty("value", {
                     path: "contactPerson"
                 }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_pricelist") }),
+                new sap.m.ex.BOInput("", {
+                    boText: "name",
+                    boKey: "objectKey",
+                    boCode: ibas.config.applyVariables(mm.BO_CODE_MATERIALPRICELIST),
+                    repositoryName: mm.BO_REPOSITORY_MATERIALS,
+                    valueHelpRequest: function (): void {
+                        that.fireViewEvents(that.choosePurchaseReturnPriceListEvent);
+                    },
+                    bindingValue: {
+                        path: "priceList"
+                    }
+                }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_reference1") }),
                 new sap.m.Input("", {}).bindProperty("value", {
                     path: "reference1"
@@ -97,10 +114,10 @@ export class PurchaseReturnEditView extends ibas.BOEditView implements IPurchase
                     path: "documentDate",
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_receipt_dataowner") }),
-                new sap.m.Input("", {
-                    showValueHelp: true,
-                }).bindProperty("value", {
-                    path: "dataOwner",
+                new sap.m.ex.DataOwnerInput("", {
+                    bindingValue: {
+                        path: "dataOwner"
+                    }
                 }),
             ]
         });

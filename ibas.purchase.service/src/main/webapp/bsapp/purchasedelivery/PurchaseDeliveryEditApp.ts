@@ -194,6 +194,8 @@ export class PurchaseDeliveryEditApp extends ibas.BOEditApplication<IPurchaseDel
                 let selected: bp.ISupplier = selecteds.firstOrDefault();
                 that.editData.supplierCode = selected.code;
                 that.editData.supplierName = selected.name;
+                that.editData.priceList = selected.priceList;
+                that.editData.contactPerson = selected.contactPerson;
             }
         });
     }
@@ -336,9 +338,11 @@ export interface IPurchaseDeliveryEditView extends ibas.IBOEditView {
     addPurchaseDeliveryItemEvent: Function;
     /** 删除采购交货-行事件 */
     removePurchaseDeliveryItemEvent: Function;
-    /** 选择供应商信息 */
+    /** 选择采购交货供应商信息 */
     choosePurchaseDeliverySupplierEvent: Function;
-    /** 选择物料主数据 */
+    /** 选择采购交货价格清单信息 */
+    choosePurchaseDeliveryPriceListEvent: Function;
+    /** 选择采购交货-行物料主数据 */
     choosePurchaseDeliveryItemMaterialEvent: Function;
     /** 选择采购交货-行 仓库 */
     choosePurchaseDeliveryItemWarehouseEvent: Function;

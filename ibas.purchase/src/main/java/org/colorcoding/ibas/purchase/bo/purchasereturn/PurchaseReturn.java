@@ -1583,6 +1583,38 @@ public class PurchaseReturn extends BusinessObject<PurchaseReturn>
 	}
 
 	/**
+	 * 属性名称-价格清单
+	 */
+	private static final String PROPERTY_PRICELIST_NAME = "PriceList";
+
+	/**
+	 * 价格清单 属性
+	 */
+	@DbField(name = "PriceList", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<Integer> PROPERTY_PRICELIST = registerProperty(PROPERTY_PRICELIST_NAME,
+			Integer.class, MY_CLASS);
+
+	/**
+	 * 获取-价格清单
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_PRICELIST_NAME)
+	public final Integer getPriceList() {
+		return this.getProperty(PROPERTY_PRICELIST);
+	}
+
+	/**
+	 * 设置-价格清单
+	 * 
+	 * @param value
+	 *            值
+	 */
+	public final void setPriceList(Integer value) {
+		this.setProperty(PROPERTY_PRICELIST, value);
+	}
+
+	/**
 	 * 属性名称-付款条款代码
 	 */
 	private static final String PROPERTY_PAYMENTCODE_NAME = "PaymentCode";

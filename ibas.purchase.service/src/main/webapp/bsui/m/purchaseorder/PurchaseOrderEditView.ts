@@ -8,6 +8,8 @@
 
 import * as ibas from "ibas/index";
 import * as openui5 from "openui5/index";
+import * as mm from "3rdparty/materials/index";
+import * as bp from "3rdparty/businesspartner/index";
 import * as bo from "../../../borep/bo/index";
 import { IPurchaseOrderEditView } from "../../../bsapp/purchaseorder/index";
 export class PurchaseOrderEditView extends ibas.BOEditView implements IPurchaseOrderEditView {
@@ -25,11 +27,13 @@ export class PurchaseOrderEditView extends ibas.BOEditView implements IPurchaseO
     addPurchaseOrderItemEvent: Function;
     /** 删除采购订单-行事件 */
     removePurchaseOrderItemEvent: Function;
-    /** 选择采购订单客户事件 */
+    /** 选择采购订单供应商信息 */
     choosePurchaseOrderSupplierEvent: Function;
-    /** 选择采购订单行物料事件 */
+    /** 选择采购订单价格清单信息 */
+    choosePurchaseOrderPriceListEvent: Function;
+    /** 选择采购订单-行物料主数据 */
     choosePurchaseOrderItemMaterialEvent: Function;
-    /** 选择采购订单行仓库事件 */
+    /** 选择采购订单-行 仓库 */
     choosePurchaseOrderItemWarehouseEvent: Function;
     /** 选择采购订单-行 物料序列事件 */
     choosePurchaseOrderItemMaterialSerialEvent: Function;
