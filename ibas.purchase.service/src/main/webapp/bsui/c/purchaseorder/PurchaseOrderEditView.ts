@@ -112,7 +112,7 @@ export class PurchaseOrderEditView extends ibas.BOEditView implements IPurchaseO
                 }).bindProperty("dateValue", {
                     path: "documentDate",
                 }),
-                new sap.m.Label("", { text: ibas.i18n.prop("bo_receipt_dataowner") }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_purchaseorder_dataowner") }),
                 new sap.m.ex.DataOwnerInput("", {
                     bindingValue: {
                         path: "dataOwner"

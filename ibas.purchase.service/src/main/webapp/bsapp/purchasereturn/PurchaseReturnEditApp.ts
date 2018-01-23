@@ -37,9 +37,10 @@ export class PurchaseReturnEditApp extends ibas.BOEditApplication<IPurchaseRetur
         this.view.createDataEvent = this.createData;
         this.view.addPurchaseReturnItemEvent = this.addPurchaseReturnItem;
         this.view.removePurchaseReturnItemEvent = this.removePurchaseReturnItem;
+        this.view.choosePurchaseReturnSupplierEvent = this.choosePurchaseReturnSupplier;
+        this.view.choosePurchaseReturnPriceListEvent = this.choosePurchaseReturnPriceList;
         this.view.choosePurchaseReturnItemMaterialEvent = this.choosePurchaseReturnItemMaterial;
         this.view.choosePurchaseReturnItemWarehouseEvent = this.choosePurchaseReturnItemWarehouse;
-        this.view.choosePurchaseReturnSupplierEvent = this.choosePurchaseReturnSupplier;
         this.view.choosePurchaseReturnItemMaterialBatchEvent = this.choosePurchaseReturnItemMaterialBatch;
         this.view.choosePurchaseReturnItemMaterialSerialEvent = this.choosePurchaseReturnItemMaterialSerial;
     }
@@ -199,6 +200,19 @@ export class PurchaseReturnEditApp extends ibas.BOEditApplication<IPurchaseRetur
             }
         });
     }
+    /** 选择价格清单事件 */
+    private choosePurchaseReturnPriceList(): void {
+        let that: this = this;
+        ibas.servicesManager.runChooseService<mm.IMaterialPriceList>({
+            boCode: mm.BO_CODE_MATERIALPRICELIST,
+            chooseType: ibas.emChooseType.SINGLE,
+            criteria: mm.conditions.materialpricelist.create(),
+            onCompleted(selecteds: ibas.List<mm.IMaterialPriceList>): void {
+                let selected: mm.IMaterialPriceList = selecteds.firstOrDefault();
+                that.editData.priceList = selected.objectKey;
+            }
+        });
+    }
     protected choosePurchaseReturnItemWarehouse(caller: bo.PurchaseReturnItem): void {
         let that: this = this;
         ibas.servicesManager.runChooseService<mm.IWarehouse>({
@@ -227,10 +241,38 @@ export class PurchaseReturnEditApp extends ibas.BOEditApplication<IPurchaseRetur
     }
     protected choosePurchaseReturnItemMaterial(caller: bo.PurchaseReturnItem): void {
         let that: this = this;
-        ibas.servicesManager.runChooseService<mm.IMaterial>({
-            boCode: mm.BO_CODE_MATERIAL,
-            criteria: bo.conditions.material.create(),
-            onCompleted(selecteds: ibas.List<mm.IMaterial>): void {
+        let condition: ibas.ICondition;
+        let conditions: ibas.List<ibas.ICondition> = mm.conditions.product.create();
+        // 添加价格清单条件
+        if (this.editData.priceList > 0) {
+            condition = new ibas.Condition();
+            condition.alias = mm.conditions.product.CONDITION_ALIAS_PRICELIST;
+            condition.value = this.editData.priceList.toString();
+            condition.operation = ibas.emConditionOperation.EQUAL;
+            condition.relationship = ibas.emConditionRelationship.AND;
+            conditions.add(condition);
+        }
+        // 添加仓库条件
+        if (!ibas.objects.isNull(caller) && !ibas.strings.isEmpty(caller.warehouse)) {
+            condition = new ibas.Condition();
+            condition.alias = mm.conditions.product.CONDITION_ALIAS_WAREHOUSE;
+            condition.value = caller.warehouse;
+            condition.operation = ibas.emConditionOperation.EQUAL;
+            condition.relationship = ibas.emConditionRelationship.AND;
+            conditions.add(condition);
+        }
+        // 采购物料
+        condition = new ibas.Condition();
+        condition.alias = mm.conditions.product.CONDITION_ALIAS_PURCHASE_ITEM;
+        condition.value = ibas.emYesNo.YES.toString();
+        condition.operation = ibas.emConditionOperation.EQUAL;
+        condition.relationship = ibas.emConditionRelationship.AND;
+        conditions.add(condition);
+        // 调用选择服务
+        ibas.servicesManager.runChooseService<mm.IProduct>({
+            boCode: mm.BO_CODE_PRODUCT,
+            criteria: conditions,
+            onCompleted(selecteds: ibas.List<mm.IProduct>): void {
                 let index: number = that.editData.purchaseReturnItems.indexOf(caller);
                 let item: bo.PurchaseReturnItem = that.editData.purchaseReturnItems[index];
                 // 选择返回数量多余触发数量时,自动创建新的项目
@@ -244,7 +286,7 @@ export class PurchaseReturnEditApp extends ibas.BOEditApplication<IPurchaseRetur
                     item.itemDescription = selected.name;
                     item.serialManagement = selected.serialManagement;
                     item.batchManagement = selected.batchManagement;
-                    item.warehouse = selected.defaultWarehouse;
+                    item.warehouse = selected.warehouse;
                     item.quantity = 1;
                     item.uom = selected.inventoryUOM;
                     item = null;

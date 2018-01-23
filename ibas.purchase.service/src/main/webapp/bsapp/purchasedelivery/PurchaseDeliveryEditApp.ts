@@ -37,6 +37,7 @@ export class PurchaseDeliveryEditApp extends ibas.BOEditApplication<IPurchaseDel
         this.view.addPurchaseDeliveryItemEvent = this.addPurchaseDeliveryItem;
         this.view.removePurchaseDeliveryItemEvent = this.removePurchaseDeliveryItem;
         this.view.choosePurchaseDeliverySupplierEvent = this.choosePurchaseDeliverySupplier;
+        this.view.choosePurchaseDeliveryPriceListEvent = this.choosePurchaseDeliveryPriceList;
         this.view.choosePurchaseDeliveryItemMaterialEvent = this.choosePurchaseDeliveryItemMaterial;
         this.view.choosePurchaseDeliveryItemWarehouseEvent = this.choosePurchaseDeliveryItemWarehouse;
         this.view.choosePurchaseDeliveryItemMaterialBatchEvent = this.choosePurchaseDeliveryItemMaterialBatch;
@@ -184,7 +185,7 @@ export class PurchaseDeliveryEditApp extends ibas.BOEditApplication<IPurchaseDel
         }
     }
     /** 选择供应商信息 */
-    protected choosePurchaseDeliverySupplier(): void {
+    private choosePurchaseDeliverySupplier(): void {
         let that: this = this;
         ibas.servicesManager.runChooseService<bp.ISupplier>({
             boCode: bp.BO_CODE_SUPPLIER,
@@ -199,13 +200,55 @@ export class PurchaseDeliveryEditApp extends ibas.BOEditApplication<IPurchaseDel
             }
         });
     }
-    /** 选择物料主数据 */
-    protected choosePurchaseDeliveryItemMaterial(caller: bo.PurchaseDeliveryItem): void {
+    /** 选择价格清单事件 */
+    private choosePurchaseDeliveryPriceList(): void {
         let that: this = this;
-        ibas.servicesManager.runChooseService<mm.IMaterial>({
-            boCode: mm.BO_CODE_MATERIAL,
-            criteria: bo.conditions.material.create(),
-            onCompleted(selecteds: ibas.List<mm.IMaterial>): void {
+        ibas.servicesManager.runChooseService<mm.IMaterialPriceList>({
+            boCode: mm.BO_CODE_MATERIALPRICELIST,
+            chooseType: ibas.emChooseType.SINGLE,
+            criteria: mm.conditions.materialpricelist.create(),
+            onCompleted(selecteds: ibas.List<mm.IMaterialPriceList>): void {
+                let selected: mm.IMaterialPriceList = selecteds.firstOrDefault();
+                that.editData.priceList = selected.objectKey;
+            }
+        });
+    }
+    /** 选择物料主数据 */
+    private choosePurchaseDeliveryItemMaterial(caller: bo.PurchaseDeliveryItem): void {
+        let that: this = this;
+        let condition: ibas.ICondition;
+        let conditions: ibas.List<ibas.ICondition> = mm.conditions.product.create();
+        // 添加价格清单条件
+        if (this.editData.priceList > 0) {
+            condition = new ibas.Condition();
+            condition.alias = mm.conditions.product.CONDITION_ALIAS_PRICELIST;
+            condition.value = this.editData.priceList.toString();
+            condition.operation = ibas.emConditionOperation.EQUAL;
+            condition.relationship = ibas.emConditionRelationship.AND;
+            conditions.add(condition);
+        }
+        // 添加仓库条件
+        if (!ibas.objects.isNull(caller) && !ibas.strings.isEmpty(caller.warehouse)) {
+            condition = new ibas.Condition();
+            condition.alias = mm.conditions.product.CONDITION_ALIAS_WAREHOUSE;
+            condition.value = caller.warehouse;
+            condition.operation = ibas.emConditionOperation.EQUAL;
+            condition.relationship = ibas.emConditionRelationship.AND;
+            conditions.add(condition);
+        }
+        // 采购物料
+        condition = new ibas.Condition();
+        condition.alias = mm.conditions.product.CONDITION_ALIAS_PURCHASE_ITEM;
+        condition.value = ibas.emYesNo.YES.toString();
+        condition.operation = ibas.emConditionOperation.EQUAL;
+        condition.relationship = ibas.emConditionRelationship.AND;
+        conditions.add(condition);
+        // 调用选择服务
+        ibas.servicesManager.runChooseService<mm.IProduct>({
+            boCode: mm.BO_CODE_PRODUCT,
+            criteria: conditions,
+            onCompleted(selecteds: ibas.List<mm.IProduct>): void {
+                // 获取触发的对象
                 let index: number = that.editData.purchaseDeliveryItems.indexOf(caller);
                 let item: bo.PurchaseDeliveryItem = that.editData.purchaseDeliveryItems[index];
                 // 选择返回数量多余触发数量时,自动创建新的项目
@@ -219,9 +262,11 @@ export class PurchaseDeliveryEditApp extends ibas.BOEditApplication<IPurchaseDel
                     item.itemDescription = selected.name;
                     item.serialManagement = selected.serialManagement;
                     item.batchManagement = selected.batchManagement;
-                    item.warehouse = selected.defaultWarehouse;
+                    item.warehouse = selected.warehouse;
                     item.quantity = 1;
                     item.uom = selected.inventoryUOM;
+                    item.price = selected.price;
+                    item.currency = selected.currency;
                     item = null;
                 }
                 if (created) {
@@ -232,7 +277,7 @@ export class PurchaseDeliveryEditApp extends ibas.BOEditApplication<IPurchaseDel
         });
     }
     /** 采购交货-行 选择仓库主数据 */
-    protected choosePurchaseDeliveryItemWarehouse(caller: bo.PurchaseDeliveryItem): void {
+    private choosePurchaseDeliveryItemWarehouse(caller: bo.PurchaseDeliveryItem): void {
         let that: this = this;
         ibas.servicesManager.runChooseService<mm.IWarehouse>({
             boCode: mm.BO_CODE_WAREHOUSE,
@@ -259,13 +304,13 @@ export class PurchaseDeliveryEditApp extends ibas.BOEditApplication<IPurchaseDel
         });
     }
     /** 添加采购交货-行事件 */
-    addPurchaseDeliveryItem(): void {
+    private addPurchaseDeliveryItem(): void {
         this.editData.purchaseDeliveryItems.create();
         // 仅显示没有标记删除的
         this.view.showPurchaseDeliveryItems(this.editData.purchaseDeliveryItems.filterDeleted());
     }
     /** 删除采购交货-行事件 */
-    removePurchaseDeliveryItem(items: bo.PurchaseDeliveryItem[]): void {
+    private removePurchaseDeliveryItem(items: bo.PurchaseDeliveryItem[]): void {
         // 非数组，转为数组
         if (!(items instanceof Array)) {
             items = [items];
@@ -289,7 +334,7 @@ export class PurchaseDeliveryEditApp extends ibas.BOEditApplication<IPurchaseDel
         this.view.showPurchaseDeliveryItems(this.editData.purchaseDeliveryItems.filterDeleted());
     }
     /** 选择物料批次事件 */
-    choosePurchaseDeliveryItemMaterialBatch(): void {
+    private choosePurchaseDeliveryItemMaterialBatch(): void {
         let contracts: ibas.ArrayList<mm.IMaterialBatchContract> = new ibas.ArrayList<mm.IMaterialBatchContract>();
         for (let item of this.editData.purchaseDeliveryItems) {
             contracts.add({
@@ -307,7 +352,7 @@ export class PurchaseDeliveryEditApp extends ibas.BOEditApplication<IPurchaseDel
         });
     }
     /** 选择物料序列事件 */
-    choosePurchaseDeliveryItemMaterialSerial(): void {
+    private choosePurchaseDeliveryItemMaterialSerial(): void {
         let contracts: ibas.ArrayList<mm.IMaterialSerialContract> = new ibas.ArrayList<mm.IMaterialSerialContract>();
         for (let item of this.editData.purchaseDeliveryItems) {
             contracts.add({
