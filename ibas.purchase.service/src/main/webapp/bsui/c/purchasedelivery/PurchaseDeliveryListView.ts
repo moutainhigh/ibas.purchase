@@ -59,12 +59,16 @@ export class PurchaseDeliveryListView extends ibas.BOListView implements IPurcha
                     })
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_purchasedelivery_contactperson"),
+                    label: ibas.i18n.prop("bo_purchasedelivery_documentdate"),
                     template: new sap.m.Text("", {
-                        wrapping: false
+                        wrapping: false,
                     }).bindProperty("text", {
-                        path: "contactPerson",
-                    })
+                        path: "documentDate",
+                        type: new sap.ui.model.type.Date({
+                            pattern: "yyyy-MM-dd",
+                            strictParsing: true,
+                        })
+                    }),
                 }),
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_purchasedelivery_documenttotal"),
@@ -125,7 +129,7 @@ export class PurchaseDeliveryListView extends ibas.BOListView implements IPurcha
                         text: ibas.i18n.prop("shell_data_new"),
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://create",
-                        press: function (): void {
+                        press: function(): void {
                             that.fireViewEvents(that.newDataEvent);
                         }
                     }),
@@ -133,7 +137,7 @@ export class PurchaseDeliveryListView extends ibas.BOListView implements IPurcha
                         text: ibas.i18n.prop("shell_data_view"),
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://display",
-                        press: function (): void {
+                        press: function(): void {
                             that.fireViewEvents(that.viewDataEvent,
                                 // 获取表格选中的对象
                                 openui5.utils.getSelecteds<bo.PurchaseDelivery>(that.table).firstOrDefault()
@@ -144,7 +148,7 @@ export class PurchaseDeliveryListView extends ibas.BOListView implements IPurcha
                         text: ibas.i18n.prop("shell_data_edit"),
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://edit",
-                        press: function (): void {
+                        press: function(): void {
                             that.fireViewEvents(that.editDataEvent,
                                 // 获取表格选中的对象
                                 openui5.utils.getSelecteds<bo.PurchaseDelivery>(that.table).firstOrDefault()
@@ -156,7 +160,7 @@ export class PurchaseDeliveryListView extends ibas.BOListView implements IPurcha
                         text: ibas.i18n.prop("shell_data_delete"),
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://delete",
-                        press: function (): void {
+                        press: function(): void {
                             that.fireViewEvents(that.deleteDataEvent,
                                 // 获取表格选中的对象
                                 openui5.utils.getSelecteds<bo.PurchaseDelivery>(that.table)
@@ -167,7 +171,7 @@ export class PurchaseDeliveryListView extends ibas.BOListView implements IPurcha
                     new sap.m.Button("", {
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://action",
-                        press: function (event: any): void {
+                        press: function(event: any): void {
                             that.fireViewEvents(that.callServicesEvent, {
                                 displayServices(services: ibas.IServiceAgent[]): void {
                                     if (ibas.objects.isNull(services) || services.length === 0) {
@@ -182,7 +186,7 @@ export class PurchaseDeliveryListView extends ibas.BOListView implements IPurcha
                                             text: ibas.i18n.prop(service.name),
                                             type: sap.m.ButtonType.Transparent,
                                             icon: service.icon,
-                                            press: function (): void {
+                                            press: function(): void {
                                                 service.run();
                                                 popover.close();
                                             }

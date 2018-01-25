@@ -35,7 +35,7 @@ export class PurchaseOrderListView extends ibas.BOListView implements IPurchaseO
             rows: "{/rows}",
             columns: [
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_purchasereturn_docentry"),
+                    label: ibas.i18n.prop("bo_purchaseorder_docentry"),
                     template: new sap.m.Text("", {
                         wrapping: false
                     }).bindProperty("text", {
@@ -43,7 +43,7 @@ export class PurchaseOrderListView extends ibas.BOListView implements IPurchaseO
                     })
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_purchasereturn_documentstatus"),
+                    label: ibas.i18n.prop("bo_purchaseorder_documentstatus"),
                     template: new sap.m.Text("", {
                         wrapping: false
                     }).bindProperty("text", {
@@ -51,7 +51,7 @@ export class PurchaseOrderListView extends ibas.BOListView implements IPurchaseO
                     })
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_purchasereturn_suppliername"),
+                    label: ibas.i18n.prop("bo_purchaseorder_suppliername"),
                     template: new sap.m.Text("", {
                         wrapping: false
                     }).bindProperty("text", {
@@ -59,15 +59,19 @@ export class PurchaseOrderListView extends ibas.BOListView implements IPurchaseO
                     })
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_purchasereturn_contactperson"),
+                    label: ibas.i18n.prop("bo_purchaseorder_documentdate"),
                     template: new sap.m.Text("", {
-                        wrapping: false
+                        wrapping: false,
                     }).bindProperty("text", {
-                        path: "contactPerson",
-                    })
+                        path: "documentDate",
+                        type: new sap.ui.model.type.Date({
+                            pattern: "yyyy-MM-dd",
+                            strictParsing: true,
+                        })
+                    }),
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_purchasereturn_documenttotal"),
+                    label: ibas.i18n.prop("bo_purchaseorder_documenttotal"),
                     template: new sap.m.Text("", {
                         wrapping: false
                     }).bindProperty("text", {
@@ -75,7 +79,7 @@ export class PurchaseOrderListView extends ibas.BOListView implements IPurchaseO
                     })
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_purchasereturn_paidtotal"),
+                    label: ibas.i18n.prop("bo_purchaseorder_paidtotal"),
                     template: new sap.m.Text("", {
                         wrapping: false
                     }).bindProperty("text", {
@@ -83,7 +87,7 @@ export class PurchaseOrderListView extends ibas.BOListView implements IPurchaseO
                     })
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_purchasereturn_discount"),
+                    label: ibas.i18n.prop("bo_purchaseorder_discount"),
                     template: new sap.m.Text("", {
                         wrapping: false
                     }).bindProperty("text", {
@@ -91,7 +95,7 @@ export class PurchaseOrderListView extends ibas.BOListView implements IPurchaseO
                     })
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_purchasereturn_discounttotal"),
+                    label: ibas.i18n.prop("bo_purchaseorder_discounttotal"),
                     template: new sap.m.Text("", {
                         wrapping: false
                     }).bindProperty("text", {
@@ -99,7 +103,7 @@ export class PurchaseOrderListView extends ibas.BOListView implements IPurchaseO
                     })
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_purchasereturn_reference1"),
+                    label: ibas.i18n.prop("bo_purchaseorder_reference1"),
                     template: new sap.m.Text("", {
                         wrapping: false
                     }).bindProperty("text", {
@@ -107,7 +111,7 @@ export class PurchaseOrderListView extends ibas.BOListView implements IPurchaseO
                     })
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_purchasereturn_reference2"),
+                    label: ibas.i18n.prop("bo_purchaseorder_reference2"),
                     template: new sap.m.Text("", {
                         wrapping: false
                     }).bindProperty("text", {
@@ -125,7 +129,7 @@ export class PurchaseOrderListView extends ibas.BOListView implements IPurchaseO
                         text: ibas.i18n.prop("shell_data_new"),
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://create",
-                        press: function (): void {
+                        press: function(): void {
                             that.fireViewEvents(that.newDataEvent);
                         }
                     }),
@@ -133,7 +137,7 @@ export class PurchaseOrderListView extends ibas.BOListView implements IPurchaseO
                         text: ibas.i18n.prop("shell_data_view"),
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://display",
-                        press: function (): void {
+                        press: function(): void {
                             that.fireViewEvents(that.viewDataEvent,
                                 // 获取表格选中的对象
                                 openui5.utils.getSelecteds<bo.PurchaseOrder>(that.table).firstOrDefault()
@@ -144,7 +148,7 @@ export class PurchaseOrderListView extends ibas.BOListView implements IPurchaseO
                         text: ibas.i18n.prop("shell_data_edit"),
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://edit",
-                        press: function (): void {
+                        press: function(): void {
                             that.fireViewEvents(that.editDataEvent,
                                 // 获取表格选中的对象
                                 openui5.utils.getSelecteds<bo.PurchaseOrder>(that.table).firstOrDefault()
@@ -156,7 +160,7 @@ export class PurchaseOrderListView extends ibas.BOListView implements IPurchaseO
                         text: ibas.i18n.prop("shell_data_delete"),
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://delete",
-                        press: function (): void {
+                        press: function(): void {
                             that.fireViewEvents(that.deleteDataEvent,
                                 // 获取表格选中的对象
                                 openui5.utils.getSelecteds<bo.PurchaseOrder>(that.table)
@@ -167,7 +171,7 @@ export class PurchaseOrderListView extends ibas.BOListView implements IPurchaseO
                     new sap.m.Button("", {
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://action",
-                        press: function (event: any): void {
+                        press: function(event: any): void {
                             that.fireViewEvents(that.callServicesEvent, {
                                 displayServices(services: ibas.IServiceAgent[]): void {
                                     if (ibas.objects.isNull(services) || services.length === 0) {
@@ -182,7 +186,7 @@ export class PurchaseOrderListView extends ibas.BOListView implements IPurchaseO
                                             text: ibas.i18n.prop(service.name),
                                             type: sap.m.ButtonType.Transparent,
                                             icon: service.icon,
-                                            press: function (): void {
+                                            press: function(): void {
                                                 service.run();
                                                 popover.close();
                                             }

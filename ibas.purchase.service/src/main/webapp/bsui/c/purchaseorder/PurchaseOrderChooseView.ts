@@ -27,7 +27,7 @@ export class PurchaseOrderChooseView extends ibas.BOChooseView implements IPurch
                 text: ibas.i18n.prop("shell_data_new"),
                 type: sap.m.ButtonType.Transparent,
                 // icon: "sap-icon://create",
-                press: function (): void {
+                press: function(): void {
                     that.fireViewEvents(that.newDataEvent);
                 }
             }),
@@ -35,7 +35,7 @@ export class PurchaseOrderChooseView extends ibas.BOChooseView implements IPurch
                 text: ibas.i18n.prop("shell_data_choose"),
                 type: sap.m.ButtonType.Transparent,
                 // icon: "sap-icon://accept",
-                press: function (): void {
+                press: function(): void {
                     that.fireViewEvents(that.chooseDataEvent,
                         // 获取表格选中的对象
                         openui5.utils.getSelecteds<bo.PurchaseOrder>(that.table)
@@ -46,7 +46,7 @@ export class PurchaseOrderChooseView extends ibas.BOChooseView implements IPurch
                 text: ibas.i18n.prop("shell_exit"),
                 type: sap.m.ButtonType.Transparent,
                 // icon: "sap-icon://inspect-down",
-                press: function (): void {
+                press: function(): void {
                     that.fireViewEvents(that.closeEvent);
                 }
             }),
@@ -62,83 +62,87 @@ export class PurchaseOrderChooseView extends ibas.BOChooseView implements IPurch
             visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 15),
             rows: "{/rows}",
             columns: [
-                new sap.ui.table.Column("",{
-                    label: ibas.i18n.prop("bo_purchasereturn_docentry"),
-                    template: new sap.m.Text("",{
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_purchaseorder_docentry"),
+                    template: new sap.m.Text("", {
                         wrapping: false
-                    }).bindProperty("text",{
+                    }).bindProperty("text", {
                         path: "docEntry",
                     })
                 }),
-                new sap.ui.table.Column("",{
-                    label: ibas.i18n.prop("bo_purchasereturn_documentstatus"),
-                    template: new sap.m.Text("",{
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_purchaseorder_documentstatus"),
+                    template: new sap.m.Text("", {
                         wrapping: false
-                    }).bindProperty("text",{
+                    }).bindProperty("text", {
                         path: "documentStatus",
                     })
                 }),
-                new sap.ui.table.Column("",{
-                    label: ibas.i18n.prop("bo_purchasereturn_suppliername"),
-                    template: new sap.m.Text("",{
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_purchaseorder_suppliername"),
+                    template: new sap.m.Text("", {
                         wrapping: false
-                    }).bindProperty("text",{
+                    }).bindProperty("text", {
                         path: "supplierName",
                     })
                 }),
-                new sap.ui.table.Column("",{
-                    label: ibas.i18n.prop("bo_purchasereturn_contactperson"),
-                    template: new sap.m.Text("",{
-                        wrapping: false
-                    }).bindProperty("text",{
-                        path: "contactPerson",
-                    })
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_purchaseorder_documentdate"),
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
+                        path: "documentDate",
+                        type: new sap.ui.model.type.Date({
+                            pattern: "yyyy-MM-dd",
+                            strictParsing: true,
+                        })
+                    }),
                 }),
-                new sap.ui.table.Column("",{
-                    label: ibas.i18n.prop("bo_purchasereturn_documenttotal"),
-                    template: new sap.m.Text("",{
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_purchaseorder_documenttotal"),
+                    template: new sap.m.Text("", {
                         wrapping: false
-                    }).bindProperty("text",{
+                    }).bindProperty("text", {
                         path: "documentTotal",
                     })
                 }),
-                new sap.ui.table.Column("",{
-                    label: ibas.i18n.prop("bo_purchasereturn_paidtotal"),
-                    template: new sap.m.Text("",{
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_purchaseorder_paidtotal"),
+                    template: new sap.m.Text("", {
                         wrapping: false
-                    }).bindProperty("text",{
+                    }).bindProperty("text", {
                         path: "paidTotal",
                     })
                 }),
-                new sap.ui.table.Column("",{
-                    label: ibas.i18n.prop("bo_purchasereturn_discount"),
-                    template: new sap.m.Text("",{
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_purchaseorder_discount"),
+                    template: new sap.m.Text("", {
                         wrapping: false
-                    }).bindProperty("text",{
+                    }).bindProperty("text", {
                         path: "discount",
                     })
                 }),
-                new sap.ui.table.Column("",{
-                    label: ibas.i18n.prop("bo_purchasereturn_discounttotal"),
-                    template: new sap.m.Text("",{
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_purchaseorder_discounttotal"),
+                    template: new sap.m.Text("", {
                         wrapping: false
-                    }).bindProperty("text",{
+                    }).bindProperty("text", {
                         path: "discountTotal",
                     })
                 }),
-                new sap.ui.table.Column("",{
-                    label: ibas.i18n.prop("bo_purchasereturn_reference1"),
-                    template: new sap.m.Text("",{
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_purchaseorder_reference1"),
+                    template: new sap.m.Text("", {
                         wrapping: false
-                    }).bindProperty("text",{
+                    }).bindProperty("text", {
                         path: "reference1",
                     })
                 }),
-                new sap.ui.table.Column("",{
-                    label: ibas.i18n.prop("bo_purchasereturn_reference2"),
-                    template: new sap.m.Text("",{
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_purchaseorder_reference2"),
+                    template: new sap.m.Text("", {
                         wrapping: false
-                    }).bindProperty("text",{
+                    }).bindProperty("text", {
                         path: "reference2",
                     })
                 }),
@@ -190,7 +194,7 @@ export class PurchaseOrderChooseView extends ibas.BOChooseView implements IPurch
         }
         if (!done) {
             // 没有显示数据
-            this.table.setModel(new sap.ui.model.json.JSONModel({rows: datas}));
+            this.table.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
         }
         this.table.setBusy(false);
     }

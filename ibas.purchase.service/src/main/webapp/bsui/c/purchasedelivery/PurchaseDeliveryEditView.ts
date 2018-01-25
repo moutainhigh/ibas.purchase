@@ -60,11 +60,15 @@ export class PurchaseDeliveryEditView extends ibas.BOEditView implements IPurcha
                     path: "supplierName"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasedelivery_contactperson") }),
-                new sap.m.Input("", {
-                    showValueHelp: true,
-                    editable: false,
-                }).bindProperty("value", {
-                    path: "contactPerson"
+                new sap.m.ex.BOChooseInput("", {
+                    boText: "name",
+                    boKey: "objectKey",
+                    boCode: ibas.config.applyVariables(bp.BO_CODE_CONTACTPERSON),
+                    repositoryName: bp.BO_REPOSITORY_BUSINESSPARTNER,
+                    criteria: bp.conditions.contactperson.create(bp.emBusinessPartnerType.SUPPLIER, "{supplierCode}"),
+                    bindingValue: {
+                        path: "contactPerson"
+                    }
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasedelivery_pricelist") }),
                 new sap.m.ex.BOInput("", {
@@ -88,11 +92,6 @@ export class PurchaseDeliveryEditView extends ibas.BOEditView implements IPurcha
                     path: "reference2"
                 }),
                 new sap.ui.core.Title("", { text: ibas.i18n.prop("purchase_title_status") }),
-                new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasedelivery_docnum") }),
-                new sap.m.Input("", {
-                }).bindProperty("value", {
-                    path: "docNum",
-                }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasedelivery_documentstatus") }),
                 new sap.m.Select("", {
                     items: openui5.utils.createComboBoxItems(ibas.emDocumentStatus),
@@ -109,6 +108,8 @@ export class PurchaseDeliveryEditView extends ibas.BOEditView implements IPurcha
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasedelivery_documentdate") }),
                 new sap.m.DatePicker("", {
+                    valueFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
+                    displayFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
                 }).bindProperty("dateValue", {
                     path: "documentDate",
                 }),

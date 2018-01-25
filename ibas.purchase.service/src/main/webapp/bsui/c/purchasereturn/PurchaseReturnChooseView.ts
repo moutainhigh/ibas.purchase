@@ -86,13 +86,17 @@ export class PurchaseReturnChooseView extends ibas.BOChooseView implements IPurc
                         path: "supplierName",
                     })
                 }),
-                new sap.ui.table.Column("",{
-                    label: ibas.i18n.prop("bo_purchasereturn_contactperson"),
-                    template: new sap.m.Text("",{
-                        wrapping: false
-                    }).bindProperty("text",{
-                        path: "contactPerson",
-                    })
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_purchasereturn_documentdate"),
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
+                        path: "documentDate",
+                        type: new sap.ui.model.type.Date({
+                            pattern: "yyyy-MM-dd",
+                            strictParsing: true,
+                        })
+                    }),
                 }),
                 new sap.ui.table.Column("",{
                     label: ibas.i18n.prop("bo_purchasereturn_documenttotal"),
