@@ -392,4 +392,6 @@ export interface IPurchaseOrderEditView extends ibas.IBOEditView {
     choosePurchaseOrderItemMaterialBatchEvent: Function;
     /** 显示数据 */
     showPurchaseOrderItems(datas: bo.PurchaseOrderItem[]): void;
+    /** 付款采购订单 */
+    paymentPurchaseOrderEvent: Function;
 }

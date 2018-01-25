@@ -397,4 +397,6 @@ export interface IPurchaseDeliveryEditView extends ibas.IBOEditView {
     choosePurchaseDeliveryItemMaterialBatchEvent: Function;
     /** 显示数据 */
     showPurchaseDeliveryItems(datas: bo.PurchaseDeliveryItem[]): void;
+    /** 付款采购交货 */
+    paymentPurchaseDeliveryEvent: Function;
 }

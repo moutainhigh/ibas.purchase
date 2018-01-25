@@ -22,5 +22,7 @@
   "purchase_title_remarks": "备注",
   "purchase_material_batch": "物料批次",
   "purchase_material_serial": "物料序列",
+  "purchase_payment": "付款",
+  "purchase_receipt": "收款",
   "purchase_closing_delimiter": "----结束----"
 }

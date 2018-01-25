@@ -392,4 +392,6 @@ export interface IPurchaseReturnEditView extends ibas.IBOEditView {
     choosePurchaseReturnItemMaterialBatchEvent: Function;
     /** 显示数据 */
     showPurchaseReturnItems(datas: bo.PurchaseReturnItem[]): void;
+    /** 收款采购退货 */
+    paymentPurchaseReturnEvent: Function;
 }
