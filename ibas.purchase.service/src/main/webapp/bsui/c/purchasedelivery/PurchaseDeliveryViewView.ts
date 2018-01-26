@@ -17,7 +17,7 @@ import { IPurchaseDeliveryViewView } from "../../../bsapp/purchasedelivery/index
 export class PurchaseDeliveryViewView extends ibas.BOViewView implements IPurchaseDeliveryViewView {
 
     /** 绘制视图 */
-    darw(): any {
+    draw(): any {
         let that: this = this;
         this.page = new sap.m.Page("", {
             showHeader: false,

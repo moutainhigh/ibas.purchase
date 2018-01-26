@@ -18,7 +18,7 @@ export class PurchaseOrderViewView extends ibas.BOViewView implements IPurchaseO
     private tablePurchaseOrderItem: sap.m.List;
     private childEditForm: sap.ui.layout.form.SimpleForm;
     /** 绘制视图 */
-    darw(): any {
+    draw(): any {
         let that: this = this;
         this.viewTopForm = new sap.ui.layout.form.SimpleForm("", {
             editable: true,

@@ -17,7 +17,7 @@ import { IPurchaseReturnViewView } from "../../../bsapp/purchasereturn/index";
 export class PurchaseReturnViewView extends ibas.BOViewView implements IPurchaseReturnViewView {
 
     /** 绘制视图 */
-    darw(): any {
+    draw(): any {
         let that: this = this;
         this.page = new sap.m.Page("", {
             showHeader: false,

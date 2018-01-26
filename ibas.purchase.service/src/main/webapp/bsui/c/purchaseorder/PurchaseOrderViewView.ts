@@ -17,7 +17,7 @@ import { IPurchaseOrderViewView } from "../../../bsapp/purchaseorder/index";
 export class PurchaseOrderViewView extends ibas.BOViewView implements IPurchaseOrderViewView {
 
     /** 绘制视图 */
-    darw(): any {
+    draw(): any {
         let that: this = this;
         this.page = new sap.m.Page("", {
             showHeader: false,

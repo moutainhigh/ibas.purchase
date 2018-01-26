@@ -9,7 +9,7 @@
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
 import { BORepositoryPurchase } from "../../borep/BORepositories";
-import { DataConverter4ph } from "../../borep/DataConverters";
+import { DataConverter4PH } from "../../borep/DataConverters";
 import { PurchaseOrderViewApp } from "./PurchaseOrderViewApp";
 import { PurchaseOrderEditApp } from "./PurchaseOrderEditApp";
 
@@ -179,7 +179,7 @@ export class PurchaseOrderListApp extends ibas.BOListApplication<IPurchaseOrderL
         return [
             new ibas.BOListServiceProxy({
                 data: this.view.getSelecteds(),
-                converter: new DataConverter4ph()
+                converter: new DataConverter4PH()
             })
         ];
     }
