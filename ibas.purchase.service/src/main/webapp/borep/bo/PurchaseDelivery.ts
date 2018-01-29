@@ -1117,6 +1117,28 @@ export class PurchaseDeliveryItem extends BODocumentLine<PurchaseDeliveryItem> i
         this.setProperty(PurchaseDeliveryItem.PROPERTY_TAXTOTAL_NAME, value);
     }
 
+    /** 映射的属性名称-毛价 */
+    static PROPERTY_GROSSPRICE_NAME: string = "GrossPrice";
+    /** 获取-毛价 */
+    get grossPrice(): number {
+        return this.getProperty<number>(PurchaseDeliveryItem.PROPERTY_GROSSPRICE_NAME);
+    }
+    /** 设置-毛价 */
+    set grossPrice(value: number) {
+        this.setProperty(PurchaseDeliveryItem.PROPERTY_GROSSPRICE_NAME, value);
+    }
+
+    /** 映射的属性名称-毛总额 */
+    static PROPERTY_GROSSTOTAL_NAME: string = "GrossTotal";
+    /** 获取-毛总额 */
+    get grossTotal(): number {
+        return this.getProperty<number>(PurchaseDeliveryItem.PROPERTY_GROSSTOTAL_NAME);
+    }
+    /** 设置-毛总额 */
+    set grossTotal(value: number) {
+        this.setProperty(PurchaseDeliveryItem.PROPERTY_GROSSTOTAL_NAME, value);
+    }
+
     /** 映射的属性名称-项目代码 */
     static PROPERTY_PROJECT_NAME: string = "Project";
     /** 获取-项目代码 */

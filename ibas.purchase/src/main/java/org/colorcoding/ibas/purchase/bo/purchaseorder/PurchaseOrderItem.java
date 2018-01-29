@@ -16,7 +16,10 @@ import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
+import org.colorcoding.ibas.bobas.rule.common.BusinessRuleDivision;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
+import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMultiplication;
+import org.colorcoding.ibas.bobas.rule.common.BusinessRuleSubtraction;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchItems;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchItem;
 import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchItems;
@@ -1896,6 +1899,130 @@ public class PurchaseOrderItem extends BusinessObject<PurchaseOrderItem> impleme
 	}
 
 	/**
+	 * 属性名称-毛价
+	 */
+	private static final String PROPERTY_GROSSPRICE_NAME = "GrossPrice";
+
+	/**
+	 * 毛价 属性
+	 */
+	@DbField(name = "GrossPrice", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<Decimal> PROPERTY_GROSSPRICE = registerProperty(PROPERTY_GROSSPRICE_NAME,
+			Decimal.class, MY_CLASS);
+
+	/**
+	 * 获取-毛价
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_GROSSPRICE_NAME)
+	public final Decimal getGrossPrice() {
+		return this.getProperty(PROPERTY_GROSSPRICE);
+	}
+
+	/**
+	 * 设置-毛价
+	 * 
+	 * @param value
+	 *            值
+	 */
+	public final void setGrossPrice(Decimal value) {
+		this.setProperty(PROPERTY_GROSSPRICE, value);
+	}
+
+	/**
+	 * 设置-毛价
+	 * 
+	 * @param value
+	 *            值
+	 */
+	public final void setGrossPrice(String value) {
+		this.setGrossPrice(new Decimal(value));
+	}
+
+	/**
+	 * 设置-毛价
+	 * 
+	 * @param value
+	 *            值
+	 */
+	public final void setGrossPrice(int value) {
+		this.setGrossPrice(new Decimal(value));
+	}
+
+	/**
+	 * 设置-毛价
+	 * 
+	 * @param value
+	 *            值
+	 */
+	public final void setGrossPrice(double value) {
+		this.setGrossPrice(new Decimal(value));
+	}
+
+	/**
+	 * 属性名称-毛总额
+	 */
+	private static final String PROPERTY_GROSSTOTAL_NAME = "GrossTotal";
+
+	/**
+	 * 毛总额 属性
+	 */
+	@DbField(name = "GrossTotal", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<Decimal> PROPERTY_GROSSTOTAL = registerProperty(PROPERTY_GROSSTOTAL_NAME,
+			Decimal.class, MY_CLASS);
+
+	/**
+	 * 获取-毛总额
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_GROSSTOTAL_NAME)
+	public final Decimal getGrossTotal() {
+		return this.getProperty(PROPERTY_GROSSTOTAL);
+	}
+
+	/**
+	 * 设置-毛总额
+	 * 
+	 * @param value
+	 *            值
+	 */
+	public final void setGrossTotal(Decimal value) {
+		this.setProperty(PROPERTY_GROSSTOTAL, value);
+	}
+
+	/**
+	 * 设置-毛总额
+	 * 
+	 * @param value
+	 *            值
+	 */
+	public final void setGrossTotal(String value) {
+		this.setGrossTotal(new Decimal(value));
+	}
+
+	/**
+	 * 设置-毛总额
+	 * 
+	 * @param value
+	 *            值
+	 */
+	public final void setGrossTotal(int value) {
+		this.setGrossTotal(new Decimal(value));
+	}
+
+	/**
+	 * 设置-毛总额
+	 * 
+	 * @param value
+	 *            值
+	 */
+	public final void setGrossTotal(double value) {
+		this.setGrossTotal(new Decimal(value));
+	}
+
+	/**
 	 * 属性名称-项目代码
 	 */
 	private static final String PROPERTY_PROJECT_NAME = "Project";
@@ -2162,6 +2289,8 @@ public class PurchaseOrderItem extends BusinessObject<PurchaseOrderItem> impleme
 		this.setMaterialBatches(new MaterialBatchItems(this));
 		this.setMaterialSerials(new MaterialSerialItems(this));
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
+		this.setDiscount(Decimal.ONE);
+		this.setTaxRate(Decimal.ONE);
 
 	}
 
@@ -2172,6 +2301,21 @@ public class PurchaseOrderItem extends BusinessObject<PurchaseOrderItem> impleme
 				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_PRICE), // 不能低于0
 				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_LINETOTAL), // 不能低于0
 				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_DISCOUNT), // 不能低于0
+				// 计算折扣前价格 = 价格 / 折扣
+				new BusinessRuleDivision(PROPERTY_UNITPRICE, PROPERTY_PRICE, PROPERTY_DISCOUNT),
+				// 计算价格 = 折扣前价格 * 折扣
+				new BusinessRuleMultiplication(PROPERTY_PRICE, PROPERTY_UNITPRICE, PROPERTY_DISCOUNT),
+				// 计算总计 = 数量 * 价格
+				new BusinessRuleMultiplication(PROPERTY_LINETOTAL, PROPERTY_QUANTITY, PROPERTY_PRICE),
+				// 计算价格 = 总计 / 数量
+				new BusinessRuleDivision(PROPERTY_PRICE, PROPERTY_LINETOTAL, PROPERTY_QUANTITY),
+				// 计算毛价 = 价格 * 税率
+				new BusinessRuleMultiplication(PROPERTY_GROSSPRICE, PROPERTY_PRICE, PROPERTY_TAXRATE),
+				// 计算毛总额 = 数量 * 毛价
+				new BusinessRuleMultiplication(PROPERTY_GROSSTOTAL, PROPERTY_QUANTITY, PROPERTY_GROSSPRICE),
+				// 计算税总额 = 毛总额 - 总计
+				new BusinessRuleSubtraction(PROPERTY_TAXTOTAL, PROPERTY_GROSSTOTAL, PROPERTY_LINETOTAL),
+
 		};
 	}
 

@@ -96,6 +96,8 @@
   "bo_purchaseorderitem_tax": "税定义",
   "bo_purchaseorderitem_taxrate": "税率",
   "bo_purchaseorderitem_taxtotal": "税总额",
+  "bo_purchaseorderitem_grossprice": "毛价",
+  "bo_purchaseorderitem_grosstotal": "毛总额",
   "bo_purchaseorderitem_project": "项目代码",
   "bo_purchaseorderitem_distributionrule1": "分配规则1",
   "bo_purchaseorderitem_distributionrule2": "分配规则2",

@@ -978,6 +978,84 @@ public interface IPurchaseDeliveryItem
 	void setTaxTotal(double value);
 
 	/**
+	 * 获取-毛价
+	 * 
+	 * @return 值
+	 */
+	Decimal getGrossPrice();
+
+	/**
+	 * 设置-毛价
+	 * 
+	 * @param value
+	 *            值
+	 */
+	void setGrossPrice(Decimal value);
+
+	/**
+	 * 设置-毛价
+	 * 
+	 * @param value
+	 *            值
+	 */
+	void setGrossPrice(String value);
+
+	/**
+	 * 设置-毛价
+	 * 
+	 * @param value
+	 *            值
+	 */
+	void setGrossPrice(int value);
+
+	/**
+	 * 设置-毛价
+	 * 
+	 * @param value
+	 *            值
+	 */
+	void setGrossPrice(double value);
+
+	/**
+	 * 获取-毛总额
+	 * 
+	 * @return 值
+	 */
+	Decimal getGrossTotal();
+
+	/**
+	 * 设置-毛总额
+	 * 
+	 * @param value
+	 *            值
+	 */
+	void setGrossTotal(Decimal value);
+
+	/**
+	 * 设置-毛总额
+	 * 
+	 * @param value
+	 *            值
+	 */
+	void setGrossTotal(String value);
+
+	/**
+	 * 设置-毛总额
+	 * 
+	 * @param value
+	 *            值
+	 */
+	void setGrossTotal(int value);
+
+	/**
+	 * 设置-毛总额
+	 * 
+	 * @param value
+	 *            值
+	 */
+	void setGrossTotal(double value);
+
+	/**
 	 * 获取-项目代码
 	 * 
 	 * @return 值

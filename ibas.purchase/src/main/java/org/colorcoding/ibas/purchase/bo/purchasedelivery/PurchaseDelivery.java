@@ -22,6 +22,7 @@ import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.ownership.IDataOwnership;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
+import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequiredElements;
 import org.colorcoding.ibas.purchase.MyConfiguration;
 
 /**
@@ -1824,6 +1825,8 @@ public class PurchaseDelivery extends BusinessObject<PurchaseDelivery>
 	protected IBusinessRule[] registerRules() {
 		return new IBusinessRule[] { // 注册的业务规则
 				new BusinessRuleRequired(PROPERTY_SUPPLIERCODE), // 要求有值
+				new BusinessRuleRequiredElements(PROPERTY_PURCHASEDELIVERYITEMS), // 要求有元素
+
 		};
 	}
 }

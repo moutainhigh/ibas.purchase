@@ -329,6 +329,12 @@ export interface IPurchaseOrderItem extends IBODocumentLine, IMaterialBatchItemP
     /** 税总额 */
     taxTotal: number;
 
+    /** 毛价 */
+    grossPrice: number;
+
+    /** 毛总额 */
+    grossTotal: number;
+
     /** 项目代码 */
     project: string;
 
