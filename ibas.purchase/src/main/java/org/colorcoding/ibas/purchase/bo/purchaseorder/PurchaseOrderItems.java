@@ -70,6 +70,8 @@ public class PurchaseOrderItems extends BusinessObjects<IPurchaseOrderItem, IPur
 		if (item instanceof PurchaseOrderItem) {
 			((PurchaseOrderItem) item).parent = this.getParent();
 		}
+		// 记录父项的值
+		item.setRate(this.getParent().getDocumentRate());
 	}
 
 	@Override

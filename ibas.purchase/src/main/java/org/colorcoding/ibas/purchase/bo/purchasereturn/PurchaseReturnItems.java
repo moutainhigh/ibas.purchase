@@ -70,6 +70,8 @@ public class PurchaseReturnItems extends BusinessObjects<IPurchaseReturnItem, IP
 		if (item instanceof PurchaseReturnItem) {
 			((PurchaseReturnItem) item).parent = this.getParent();
 		}
+		// 记录父项的值
+		item.setRate(this.getParent().getDocumentRate());
 	}
 
 	@Override

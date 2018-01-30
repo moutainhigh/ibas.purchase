@@ -131,12 +131,6 @@ export interface IPurchaseDelivery extends IBODocument {
     /** 联系人 */
     contactPerson: number;
 
-    /** 税率 */
-    taxRate: number;
-
-    /** 税总额 */
-    taxTotal: number;
-
     /** 折扣 */
     discount: number;
 
@@ -146,7 +140,7 @@ export interface IPurchaseDelivery extends IBODocument {
     /** 单据货币 */
     documentCurrency: string;
 
-    /** 单据交换率 */
+    /** 单据汇率 */
     documentRate: number;
 
     /** 单据总计 */

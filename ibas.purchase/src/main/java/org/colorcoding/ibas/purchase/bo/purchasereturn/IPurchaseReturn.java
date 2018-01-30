@@ -510,84 +510,6 @@ public interface IPurchaseReturn extends IBODocument {
 	void setContactPerson(Integer value);
 
 	/**
-	 * 获取-税率
-	 * 
-	 * @return 值
-	 */
-	Decimal getTaxRate();
-
-	/**
-	 * 设置-税率
-	 * 
-	 * @param value
-	 *            值
-	 */
-	void setTaxRate(Decimal value);
-
-	/**
-	 * 设置-税率
-	 * 
-	 * @param value
-	 *            值
-	 */
-	void setTaxRate(String value);
-
-	/**
-	 * 设置-税率
-	 * 
-	 * @param value
-	 *            值
-	 */
-	void setTaxRate(int value);
-
-	/**
-	 * 设置-税率
-	 * 
-	 * @param value
-	 *            值
-	 */
-	void setTaxRate(double value);
-
-	/**
-	 * 获取-税总额
-	 * 
-	 * @return 值
-	 */
-	Decimal getTaxTotal();
-
-	/**
-	 * 设置-税总额
-	 * 
-	 * @param value
-	 *            值
-	 */
-	void setTaxTotal(Decimal value);
-
-	/**
-	 * 设置-税总额
-	 * 
-	 * @param value
-	 *            值
-	 */
-	void setTaxTotal(String value);
-
-	/**
-	 * 设置-税总额
-	 * 
-	 * @param value
-	 *            值
-	 */
-	void setTaxTotal(int value);
-
-	/**
-	 * 设置-税总额
-	 * 
-	 * @param value
-	 *            值
-	 */
-	void setTaxTotal(double value);
-
-	/**
 	 * 获取-折扣
 	 * 
 	 * @return 值
@@ -681,14 +603,14 @@ public interface IPurchaseReturn extends IBODocument {
 	void setDocumentCurrency(String value);
 
 	/**
-	 * 获取-单据交换率
+	 * 获取-单据汇率
 	 * 
 	 * @return 值
 	 */
 	Decimal getDocumentRate();
 
 	/**
-	 * 设置-单据交换率
+	 * 设置-单据汇率
 	 * 
 	 * @param value
 	 *            值
@@ -696,7 +618,7 @@ public interface IPurchaseReturn extends IBODocument {
 	void setDocumentRate(Decimal value);
 
 	/**
-	 * 设置-单据交换率
+	 * 设置-单据汇率
 	 * 
 	 * @param value
 	 *            值
@@ -704,7 +626,7 @@ public interface IPurchaseReturn extends IBODocument {
 	void setDocumentRate(String value);
 
 	/**
-	 * 设置-单据交换率
+	 * 设置-单据汇率
 	 * 
 	 * @param value
 	 *            值
@@ -712,7 +634,7 @@ public interface IPurchaseReturn extends IBODocument {
 	void setDocumentRate(int value);
 
 	/**
-	 * 设置-单据交换率
+	 * 设置-单据汇率
 	 * 
 	 * @param value
 	 *            值
