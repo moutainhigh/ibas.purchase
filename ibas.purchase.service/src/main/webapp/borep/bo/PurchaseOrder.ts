@@ -24,7 +24,8 @@ import {
     objects,
 } from "ibas/index";
 import {
-    emItemType, MaterialBatchItems, MaterialSerialItems
+    MaterialBatchItems,
+    MaterialSerialItems,
 } from "3rdparty/materials/index";
 import {
     IPurchaseOrder,
@@ -32,6 +33,10 @@ import {
     IPurchaseOrderItem,
     BO_CODE_PURCHASEORDER,
 } from "../../api/index";
+import {
+    ShippingAddress,
+    ShippingAddresss,
+} from "./ShippingAddress";
 
 /** 采购订单 */
 export class PurchaseOrder extends BODocument<PurchaseOrder> implements IPurchaseOrder {
@@ -416,13 +421,13 @@ export class PurchaseOrder extends BODocument<PurchaseOrder> implements IPurchas
         this.setProperty(PurchaseOrder.PROPERTY_DISCOUNT_NAME, value);
     }
 
-    /** 映射的属性名称-折扣总计 */
+    /** 映射的属性名称-折扣后总计 */
     static PROPERTY_DISCOUNTTOTAL_NAME: string = "DiscountTotal";
-    /** 获取-折扣总计 */
+    /** 获取-折扣后总计 */
     get discountTotal(): number {
         return this.getProperty<number>(PurchaseOrder.PROPERTY_DISCOUNTTOTAL_NAME);
     }
-    /** 设置-折扣总计 */
+    /** 设置-折扣后总计 */
     set discountTotal(value: number) {
         this.setProperty(PurchaseOrder.PROPERTY_DISCOUNTTOTAL_NAME, value);
     }
@@ -538,10 +543,22 @@ export class PurchaseOrder extends BODocument<PurchaseOrder> implements IPurchas
         this.setProperty(PurchaseOrder.PROPERTY_PURCHASEORDERITEMS_NAME, value);
     }
 
+    /** 映射的属性名称-送货地址集合 */
+    static PROPERTY_SHIPPINGADDRESSS_NAME: string = "ShippingAddresss";
+    /** 获取-送货地址集合 */
+    get shippingAddresss(): ShippingAddresss {
+        return this.getProperty<ShippingAddresss>(PurchaseOrder.PROPERTY_SHIPPINGADDRESSS_NAME);
+    }
+    /** 设置-送货地址集合 */
+    set shippingAddresss(value: ShippingAddresss) {
+        this.setProperty(PurchaseOrder.PROPERTY_SHIPPINGADDRESSS_NAME, value);
+    }
+
 
     /** 初始化数据 */
     protected init(): void {
         this.purchaseOrderItems = new PurchaseOrderItems(this);
+        this.shippingAddresss = new ShippingAddresss(this);
         this.objectCode = config.applyVariables(PurchaseOrder.BUSINESS_OBJECT_CODE);
         this.documentStatus = emDocumentStatus.RELEASED;
     }
@@ -882,17 +899,6 @@ export class PurchaseOrderItem extends BODocumentLine<PurchaseOrderItem> impleme
     /** 设置-物料/服务描述 */
     set itemDescription(value: string) {
         this.setProperty(PurchaseOrderItem.PROPERTY_ITEMDESCRIPTION_NAME, value);
-    }
-
-    /** 映射的属性名称-物料类型 */
-    static PROPERTY_ITEMTYPE_NAME: string = "ItemType";
-    /** 获取-物料类型 */
-    get itemType(): emItemType {
-        return this.getProperty<emItemType>(PurchaseOrderItem.PROPERTY_ITEMTYPE_NAME);
-    }
-    /** 设置-物料类型 */
-    set itemType(value: emItemType) {
-        this.setProperty(PurchaseOrderItem.PROPERTY_ITEMTYPE_NAME, value);
     }
 
     /** 映射的属性名称-序号管理 */

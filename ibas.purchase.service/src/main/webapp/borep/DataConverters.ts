@@ -9,6 +9,7 @@
 import * as ibas from "ibas/index";
 import * as bo from "./bo/index";
 import {
+    emShippingStatus
 } from "../api/index";
 
 /** 数据转换者 */
@@ -40,6 +41,41 @@ class BOConverter4PH extends ibas.BOConverter {
      * @returns 转换的值
      */
     protected convertData(boName: string, property: string, value: any): any {
+        if (boName === bo.PurchaseOrder.name) {
+            if (property === bo.PurchaseOrder.PROPERTY_ROUNDING_NAME) {
+                return ibas.enums.toString(ibas.emYesNo, value);
+            }
+        } else if (boName === bo.PurchaseOrderItem.name) {
+            if (property === bo.PurchaseOrderItem.PROPERTY_BATCHMANAGEMENT_NAME) {
+                return ibas.enums.toString(ibas.emYesNo, value);
+            } else if (property === bo.PurchaseOrderItem.PROPERTY_SERIALMANAGEMENT_NAME) {
+                return ibas.enums.toString(ibas.emYesNo, value);
+            }
+        } else if (boName === bo.PurchaseDelivery.name) {
+            if (property === bo.PurchaseDelivery.PROPERTY_ROUNDING_NAME) {
+                return ibas.enums.toString(ibas.emYesNo, value);
+            }
+        } else if (boName === bo.PurchaseDeliveryItem.name) {
+            if (property === bo.PurchaseDeliveryItem.PROPERTY_BATCHMANAGEMENT_NAME) {
+                return ibas.enums.toString(ibas.emYesNo, value);
+            } else if (property === bo.PurchaseDeliveryItem.PROPERTY_SERIALMANAGEMENT_NAME) {
+                return ibas.enums.toString(ibas.emYesNo, value);
+            }
+        } else if (boName === bo.PurchaseReturn.name) {
+            if (property === bo.PurchaseReturn.PROPERTY_ROUNDING_NAME) {
+                return ibas.enums.toString(ibas.emYesNo, value);
+            }
+        } else if (boName === bo.PurchaseReturnItem.name) {
+            if (property === bo.PurchaseReturnItem.PROPERTY_BATCHMANAGEMENT_NAME) {
+                return ibas.enums.toString(ibas.emYesNo, value);
+            } else if (property === bo.PurchaseReturnItem.PROPERTY_SERIALMANAGEMENT_NAME) {
+                return ibas.enums.toString(ibas.emYesNo, value);
+            }
+        } else if (boName === bo.ShippingAddress.name) {
+            if (property === bo.ShippingAddress.PROPERTY_SHIPPINGSTATUS_NAME) {
+                return ibas.enums.toString(emShippingStatus, value);
+            }
+        }
         return super.convertData(boName, property, value);
     }
 
@@ -51,6 +87,41 @@ class BOConverter4PH extends ibas.BOConverter {
      * @returns 解析的值
      */
     protected parsingData(boName: string, property: string, value: any): any {
+        if (boName === bo.PurchaseOrder.name) {
+            if (property === bo.PurchaseOrder.PROPERTY_ROUNDING_NAME) {
+                return ibas.enums.valueOf(ibas.emYesNo, value);
+            }
+        } else if (boName === bo.PurchaseOrderItem.name) {
+            if (property === bo.PurchaseOrderItem.PROPERTY_BATCHMANAGEMENT_NAME) {
+                return ibas.enums.valueOf(ibas.emYesNo, value);
+            } else if (property === bo.PurchaseOrderItem.PROPERTY_SERIALMANAGEMENT_NAME) {
+                return ibas.enums.valueOf(ibas.emYesNo, value);
+            }
+        } else if (boName === bo.PurchaseDelivery.name) {
+            if (property === bo.PurchaseDelivery.PROPERTY_ROUNDING_NAME) {
+                return ibas.enums.valueOf(ibas.emYesNo, value);
+            }
+        } else if (boName === bo.PurchaseDeliveryItem.name) {
+            if (property === bo.PurchaseDeliveryItem.PROPERTY_BATCHMANAGEMENT_NAME) {
+                return ibas.enums.valueOf(ibas.emYesNo, value);
+            } else if (property === bo.PurchaseDeliveryItem.PROPERTY_SERIALMANAGEMENT_NAME) {
+                return ibas.enums.valueOf(ibas.emYesNo, value);
+            }
+        } else if (boName === bo.PurchaseReturn.name) {
+            if (property === bo.PurchaseReturn.PROPERTY_ROUNDING_NAME) {
+                return ibas.enums.valueOf(ibas.emYesNo, value);
+            }
+        } else if (boName === bo.PurchaseReturnItem.name) {
+            if (property === bo.PurchaseReturnItem.PROPERTY_BATCHMANAGEMENT_NAME) {
+                return ibas.enums.valueOf(ibas.emYesNo, value);
+            } else if (property === bo.PurchaseReturnItem.PROPERTY_SERIALMANAGEMENT_NAME) {
+                return ibas.enums.valueOf(ibas.emYesNo, value);
+            }
+        } else if (boName === bo.ShippingAddress.name) {
+            if (property === bo.ShippingAddress.PROPERTY_SHIPPINGSTATUS_NAME) {
+                return ibas.enums.valueOf(emShippingStatus, value);
+            }
+        }
         return super.parsingData(boName, property, value);
     }
 }

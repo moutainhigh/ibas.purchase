@@ -11,6 +11,7 @@ export * from "../../api/Datas";
 export * from "./PurchaseDelivery";
 export * from "./PurchaseOrder";
 export * from "./PurchaseReturn";
+export * from "./ShippingAddress";
 
 // 注册业务对象到工厂
 import * as ibas from "ibas/index";
@@ -20,3 +21,5 @@ import { PurchaseOrder } from "./PurchaseOrder";
 ibas.boFactory.register(PurchaseOrder.BUSINESS_OBJECT_CODE, PurchaseOrder);
 import { PurchaseReturn } from "./PurchaseReturn";
 ibas.boFactory.register(PurchaseReturn.BUSINESS_OBJECT_CODE, PurchaseReturn);
+import { ShippingAddress } from "./ShippingAddress";
+ibas.boFactory.register(ShippingAddress.BUSINESS_OBJECT_CODE, ShippingAddress);

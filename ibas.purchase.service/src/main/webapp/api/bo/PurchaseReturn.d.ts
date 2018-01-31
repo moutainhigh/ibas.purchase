@@ -21,11 +21,15 @@ import {
     IBOSimpleLine
 } from "ibas/index";
 import {
-    emItemType, IMaterialBatchItemParent, IMaterialSerialItemParent
+    IMaterialBatchItemParent,
+    IMaterialSerialItemParent,
 } from "3rdparty/materials/index";
 import {
 
 } from "../Datas";
+import {
+    IShippingAddresss
+} from "./ShippingAddress.d";
 
 /** 采购退货 */
 export interface IPurchaseReturn extends IBODocument {
@@ -132,7 +136,7 @@ export interface IPurchaseReturn extends IBODocument {
     /** 折扣 */
     discount: number;
 
-    /** 折扣总计 */
+    /** 折扣后总计 */
     discountTotal: number;
 
     /** 单据货币 */
@@ -165,6 +169,9 @@ export interface IPurchaseReturn extends IBODocument {
 
     /** 采购退货-行集合 */
     purchaseReturnItems: IPurchaseReturnItems;
+
+    /** 送货地址集合 */
+    shippingAddresss: IShippingAddresss;
 
 
 }
@@ -265,9 +272,6 @@ export interface IPurchaseReturnItem extends IBODocumentLine, IMaterialBatchItem
 
     /** 物料/服务描述 */
     itemDescription: string;
-
-    /** 物料类型 */
-    itemType: emItemType;
 
     /** 序号管理 */
     serialManagement: emYesNo;

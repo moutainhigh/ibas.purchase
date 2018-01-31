@@ -8,7 +8,6 @@ import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchIssueParent;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialIssueParent;
-import org.colorcoding.ibas.materials.data.emItemType;
 
 /**
  * 采购退货-行 接口
@@ -450,21 +449,6 @@ public interface IPurchaseReturnItem extends IBODocumentLine, IMaterialBatchIssu
 	 *            值
 	 */
 	void setItemDescription(String value);
-
-	/**
-	 * 获取-物料类型
-	 * 
-	 * @return 值
-	 */
-	emItemType getItemType();
-
-	/**
-	 * 设置-物料类型
-	 * 
-	 * @param value
-	 *            值
-	 */
-	void setItemType(emItemType value);
 
 	/**
 	 * 获取-序号管理

@@ -7,6 +7,7 @@ import org.colorcoding.ibas.bobas.data.emApprovalStatus;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
+import org.colorcoding.ibas.purchase.bo.shippingaddress.IShippingAddresss;
 
 /**
  * 采购交货 接口
@@ -549,14 +550,14 @@ public interface IPurchaseDelivery extends IBODocument {
 	void setDiscount(double value);
 
 	/**
-	 * 获取-折扣总计
+	 * 获取-折扣后总计
 	 * 
 	 * @return 值
 	 */
 	Decimal getDiscountTotal();
 
 	/**
-	 * 设置-折扣总计
+	 * 设置-折扣后总计
 	 * 
 	 * @param value
 	 *            值
@@ -564,7 +565,7 @@ public interface IPurchaseDelivery extends IBODocument {
 	void setDiscountTotal(Decimal value);
 
 	/**
-	 * 设置-折扣总计
+	 * 设置-折扣后总计
 	 * 
 	 * @param value
 	 *            值
@@ -572,7 +573,7 @@ public interface IPurchaseDelivery extends IBODocument {
 	void setDiscountTotal(String value);
 
 	/**
-	 * 设置-折扣总计
+	 * 设置-折扣后总计
 	 * 
 	 * @param value
 	 *            值
@@ -580,7 +581,7 @@ public interface IPurchaseDelivery extends IBODocument {
 	void setDiscountTotal(int value);
 
 	/**
-	 * 设置-折扣总计
+	 * 设置-折扣后总计
 	 * 
 	 * @param value
 	 *            值
@@ -832,5 +833,38 @@ public interface IPurchaseDelivery extends IBODocument {
 	 *            值
 	 */
 	void setPurchaseDeliveryItems(IPurchaseDeliveryItems value);
+
+	/**
+	 * 获取-送货地址集合
+	 * 
+	 * @return 值
+	 */
+	IShippingAddresss getShippingAddresss();
+
+	/**
+	 * 设置-送货地址集合
+	 * 
+	 * @param value
+	 *            值
+	 */
+	void setShippingAddresss(IShippingAddresss value);
+
+	/**
+	 * 获取-项目的行总计
+	 * 
+	 */
+	Decimal getItemsLineTotal();
+
+	/**
+	 * 获取-项目的税总计
+	 * 
+	 */
+	Decimal getItemsTaxTotal();
+
+	/**
+	 * 获取-运送项目的总计
+	 * 
+	 */
+	Decimal getShippingsExpenseTotal();
 
 }

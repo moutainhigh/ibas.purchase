@@ -26,7 +26,6 @@ import {
 import {
     MaterialSerialItems,
     MaterialBatchItems,
-    emItemType
 } from "3rdparty/materials/index";
 import {
     IPurchaseReturn,
@@ -34,6 +33,10 @@ import {
     IPurchaseReturnItem,
     BO_CODE_PURCHASERETURN,
 } from "../../api/index";
+import {
+    ShippingAddress,
+    ShippingAddresss,
+} from "./ShippingAddress";
 
 /** 采购退货 */
 export class PurchaseReturn extends BODocument<PurchaseReturn> implements IPurchaseReturn {
@@ -418,13 +421,13 @@ export class PurchaseReturn extends BODocument<PurchaseReturn> implements IPurch
         this.setProperty(PurchaseReturn.PROPERTY_DISCOUNT_NAME, value);
     }
 
-    /** 映射的属性名称-折扣总计 */
+    /** 映射的属性名称-折扣后总计 */
     static PROPERTY_DISCOUNTTOTAL_NAME: string = "DiscountTotal";
-    /** 获取-折扣总计 */
+    /** 获取-折扣后总计 */
     get discountTotal(): number {
         return this.getProperty<number>(PurchaseReturn.PROPERTY_DISCOUNTTOTAL_NAME);
     }
-    /** 设置-折扣总计 */
+    /** 设置-折扣后总计 */
     set discountTotal(value: number) {
         this.setProperty(PurchaseReturn.PROPERTY_DISCOUNTTOTAL_NAME, value);
     }
@@ -540,10 +543,22 @@ export class PurchaseReturn extends BODocument<PurchaseReturn> implements IPurch
         this.setProperty(PurchaseReturn.PROPERTY_PURCHASERETURNITEMS_NAME, value);
     }
 
+    /** 映射的属性名称-送货地址集合 */
+    static PROPERTY_SHIPPINGADDRESSS_NAME: string = "ShippingAddresss";
+    /** 获取-送货地址集合 */
+    get shippingAddresss(): ShippingAddresss {
+        return this.getProperty<ShippingAddresss>(PurchaseReturn.PROPERTY_SHIPPINGADDRESSS_NAME);
+    }
+    /** 设置-送货地址集合 */
+    set shippingAddresss(value: ShippingAddresss) {
+        this.setProperty(PurchaseReturn.PROPERTY_SHIPPINGADDRESSS_NAME, value);
+    }
+
 
     /** 初始化数据 */
     protected init(): void {
         this.purchaseReturnItems = new PurchaseReturnItems(this);
+        this.shippingAddresss = new ShippingAddresss(this);
         this.objectCode = config.applyVariables(PurchaseReturn.BUSINESS_OBJECT_CODE);
         this.documentStatus = emDocumentStatus.RELEASED;
     }
@@ -884,17 +899,6 @@ export class PurchaseReturnItem extends BODocumentLine<PurchaseReturnItem> imple
     /** 设置-物料/服务描述 */
     set itemDescription(value: string) {
         this.setProperty(PurchaseReturnItem.PROPERTY_ITEMDESCRIPTION_NAME, value);
-    }
-
-    /** 映射的属性名称-物料类型 */
-    static PROPERTY_ITEMTYPE_NAME: string = "ItemType";
-    /** 获取-物料类型 */
-    get itemType(): emItemType {
-        return this.getProperty<emItemType>(PurchaseReturnItem.PROPERTY_ITEMTYPE_NAME);
-    }
-    /** 设置-物料类型 */
-    set itemType(value: emItemType) {
-        this.setProperty(PurchaseReturnItem.PROPERTY_ITEMTYPE_NAME, value);
     }
 
     /** 映射的属性名称-序号管理 */
