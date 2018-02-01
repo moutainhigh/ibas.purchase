@@ -2,6 +2,7 @@ package org.colorcoding.ibas.purchase.test.bo;
 
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
+import org.colorcoding.ibas.bobas.organization.OrganizationFactory;
 import org.colorcoding.ibas.purchase.bo.purchaseorder.IPurchaseOrderItem;
 import org.colorcoding.ibas.purchase.bo.purchaseorder.PurchaseOrder;
 import org.colorcoding.ibas.purchase.repository.BORepositoryPurchase;
@@ -18,7 +19,7 @@ public class testPurchaseOrder extends TestCase {
 	 * 获取连接口令
 	 */
 	String getToken() {
-		return "";
+		return OrganizationFactory.SYSTEM_USER.getToken();
 	}
 
 	/**
