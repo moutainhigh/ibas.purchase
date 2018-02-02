@@ -87,9 +87,9 @@
     <Property Name="Rate" Description="汇率" DataType="Decimal" DataSubType="Rate" EditSize="8" Mapped="Rate"/>
     <Property Name="LineTotal" Description="行总计" DataType="Decimal" DataSubType="Sum" EditSize="8" Mapped="LineTotal"/>
     <Property Name="DeliveryDate" Description="行交货日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="ShipDate"/>
-    <Property Name="OpenQuantity" Description="剩余未清数量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="OpenQty"/>
+    <Property Name="ClosedQuantity" Description="已清数量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="ClosedQty"/>
     <Property Name="Discount" Description="行折扣" DataType="Decimal" DataSubType="Percentage" EditSize="8" Mapped="DiscPrcnt"/>
-    <Property Name="OpenAmount" Description="未清金额" DataType="Decimal" DataSubType="Sum" EditSize="8" Mapped="OpenSum"/>
+    <Property Name="ClosedAmount" Description="已清金额" DataType="Decimal" DataSubType="Sum" EditSize="8" Mapped="ClosedAmt"/>
     <Property Name="AccountCode" Description="科目代码" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="AcctCode"/>
     <Property Name="UnitPrice" Description="折扣前价格" DataType="Decimal" DataSubType="Price" EditSize="8" Mapped="UnitPrice"/>
     <Property Name="Tax" Description="税定义" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Tax"/>
