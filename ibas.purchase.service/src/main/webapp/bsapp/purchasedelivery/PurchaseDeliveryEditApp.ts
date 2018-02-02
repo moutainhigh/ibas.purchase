@@ -11,7 +11,7 @@ import * as bp from "3rdparty/businesspartner/index";
 import * as bo from "../../borep/bo/index";
 import { BORepositoryPurchase } from "../../borep/BORepositories";
 
-/** 编辑应用-采购交货 */
+/** 编辑应用-采购收货 */
 export class PurchaseDeliveryEditApp extends ibas.BOEditApplication<IPurchaseDeliveryEditView, bo.PurchaseDelivery> {
 
     /** 应用标识 */
@@ -276,7 +276,7 @@ export class PurchaseDeliveryEditApp extends ibas.BOEditApplication<IPurchaseDel
             }
         });
     }
-    /** 采购交货-行 选择仓库主数据 */
+    /** 采购收货-行 选择仓库主数据 */
     private choosePurchaseDeliveryItemWarehouse(caller: bo.PurchaseDeliveryItem): void {
         let that: this = this;
         ibas.servicesManager.runChooseService<mm.IWarehouse>({
@@ -303,13 +303,13 @@ export class PurchaseDeliveryEditApp extends ibas.BOEditApplication<IPurchaseDel
             }
         });
     }
-    /** 添加采购交货-行事件 */
+    /** 添加采购收货-行事件 */
     private addPurchaseDeliveryItem(): void {
         this.editData.purchaseDeliveryItems.create();
         // 仅显示没有标记删除的
         this.view.showPurchaseDeliveryItems(this.editData.purchaseDeliveryItems.filterDeleted());
     }
-    /** 删除采购交货-行事件 */
+    /** 删除采购收货-行事件 */
     private removePurchaseDeliveryItem(items: bo.PurchaseDeliveryItem[]): void {
         // 非数组，转为数组
         if (!(items instanceof Array)) {
@@ -371,7 +371,7 @@ export class PurchaseDeliveryEditApp extends ibas.BOEditApplication<IPurchaseDel
     }
 
 }
-/** 视图-采购交货 */
+/** 视图-采购收货 */
 export interface IPurchaseDeliveryEditView extends ibas.IBOEditView {
     /** 显示数据 */
     showPurchaseDelivery(data: bo.PurchaseDelivery): void;
@@ -379,24 +379,24 @@ export interface IPurchaseDeliveryEditView extends ibas.IBOEditView {
     deleteDataEvent: Function;
     /** 新建数据事件，参数1：是否克隆 */
     createDataEvent: Function;
-    /** 添加采购交货-行事件 */
+    /** 添加采购收货-行事件 */
     addPurchaseDeliveryItemEvent: Function;
-    /** 删除采购交货-行事件 */
+    /** 删除采购收货-行事件 */
     removePurchaseDeliveryItemEvent: Function;
-    /** 选择采购交货供应商信息 */
+    /** 选择采购收货供应商信息 */
     choosePurchaseDeliverySupplierEvent: Function;
-    /** 选择采购交货价格清单信息 */
+    /** 选择采购收货价格清单信息 */
     choosePurchaseDeliveryPriceListEvent: Function;
-    /** 选择采购交货-行物料主数据 */
+    /** 选择采购收货-行物料主数据 */
     choosePurchaseDeliveryItemMaterialEvent: Function;
-    /** 选择采购交货-行 仓库 */
+    /** 选择采购收货-行 仓库 */
     choosePurchaseDeliveryItemWarehouseEvent: Function;
-    /** 选择采购交货-行 物料序列事件 */
+    /** 选择采购收货-行 物料序列事件 */
     choosePurchaseDeliveryItemMaterialSerialEvent: Function;
-    /** 选择采购交货-行 物料批次事件 */
+    /** 选择采购收货-行 物料批次事件 */
     choosePurchaseDeliveryItemMaterialBatchEvent: Function;
     /** 显示数据 */
     showPurchaseDeliveryItems(datas: bo.PurchaseDeliveryItem[]): void;
-    /** 付款采购交货 */
+    /** 付款采购收货 */
     paymentPurchaseDeliveryEvent: Function;
 }

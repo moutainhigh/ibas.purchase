@@ -1,5 +1,5 @@
 {
-  "bo_purchasedelivery": "采购交货",
+  "bo_purchasedelivery": "采购收货",
   "bo_purchasedelivery_docentry": "凭证编号",
   "bo_purchasedelivery_docnum": "期间编号",
   "bo_purchasedelivery_period": "期间",
@@ -44,8 +44,8 @@
   "bo_purchasedelivery_rounding": "舍入",
   "bo_purchasedelivery_diffamount": "舍入差额",
   "bo_purchasedelivery_project": "项目代码",
-  "bo_purchasedelivery_purchasedeliveryitems": "采购交货-行集合",
-  "bo_purchasedeliveryitem": "采购交货-行",
+  "bo_purchasedelivery_purchasedeliveryitems": "采购收货-行集合",
+  "bo_purchasedeliveryitem": "采购收货-行",
   "bo_purchasedeliveryitem_docentry": "编码",
   "bo_purchasedeliveryitem_lineid": "行号",
   "bo_purchasedeliveryitem_visorder": "显示顺序",

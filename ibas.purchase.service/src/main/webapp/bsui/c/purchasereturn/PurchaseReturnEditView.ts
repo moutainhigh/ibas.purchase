@@ -261,10 +261,10 @@ export class PurchaseReturnEditView extends ibas.BOEditView implements IPurchase
                 }),
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_purchasereturnitem_linetotal"),
-                    template: new sap.m.Input("", {
+                    template: new sap.m.Text("", {
                         width: "100%",
-                        type: sap.m.InputType.Number
-                    }).bindProperty("value", {
+                        wrapping: false
+                    }).bindProperty("text", {
                         path: "lineTotal"
                     })
                 }),

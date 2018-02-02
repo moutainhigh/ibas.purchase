@@ -10,7 +10,7 @@ import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchReceiptPare
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialReceiptParent;
 
 /**
- * 采购交货-行 接口
+ * 采购收货-行 接口
  * 
  */
 public interface IPurchaseDeliveryItem

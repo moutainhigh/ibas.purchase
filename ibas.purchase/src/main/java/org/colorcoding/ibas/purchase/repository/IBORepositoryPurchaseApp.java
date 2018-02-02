@@ -13,14 +13,14 @@ public interface IBORepositoryPurchaseApp extends IBORepositoryApplication {
 
     //--------------------------------------------------------------------------------------------//
     /**
-     * 查询-采购交货
+     * 查询-采购收货
      * @param criteria 查询
      * @return 操作结果
      */
     IOperationResult<IPurchaseDelivery> fetchPurchaseDelivery(ICriteria criteria);
 
     /**
-     * 保存-采购交货
+     * 保存-采购收货
      * @param bo 对象实例
      * @return 操作结果
      */

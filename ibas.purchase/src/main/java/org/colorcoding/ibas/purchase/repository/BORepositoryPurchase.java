@@ -19,7 +19,7 @@ public class BORepositoryPurchase extends BORepositoryServiceApplication
 
 	// --------------------------------------------------------------------------------------------//
 	/**
-	 * 查询-采购交货
+	 * 查询-采购收货
 	 * 
 	 * @param criteria
 	 *            查询
@@ -32,7 +32,7 @@ public class BORepositoryPurchase extends BORepositoryServiceApplication
 	}
 
 	/**
-	 * 查询-采购交货（提前设置用户口令）
+	 * 查询-采购收货（提前设置用户口令）
 	 * 
 	 * @param criteria
 	 *            查询
@@ -43,7 +43,7 @@ public class BORepositoryPurchase extends BORepositoryServiceApplication
 	}
 
 	/**
-	 * 保存-采购交货
+	 * 保存-采购收货
 	 * 
 	 * @param bo
 	 *            对象实例
@@ -56,7 +56,7 @@ public class BORepositoryPurchase extends BORepositoryServiceApplication
 	}
 
 	/**
-	 * 保存-采购交货（提前设置用户口令）
+	 * 保存-采购收货（提前设置用户口令）
 	 * 
 	 * @param bo
 	 *            对象实例

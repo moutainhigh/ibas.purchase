@@ -10,7 +10,7 @@ import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.purchase.MyConfiguration;
 
 /**
- * 采购交货-行 集合
+ * 采购收货-行 集合
  */
 @XmlType(name = PurchaseDeliveryItems.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlSeeAlso({ PurchaseDeliveryItem.class })
@@ -52,9 +52,9 @@ public class PurchaseDeliveryItems extends BusinessObjects<IPurchaseDeliveryItem
 	}
 
 	/**
-	 * 创建采购交货-行
+	 * 创建采购收货-行
 	 * 
-	 * @return 采购交货-行
+	 * @return 采购收货-行
 	 */
 	public IPurchaseDeliveryItem create() {
 		IPurchaseDeliveryItem item = new PurchaseDeliveryItem();

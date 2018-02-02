@@ -10,7 +10,7 @@ import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.purchase.bo.shippingaddress.IShippingAddresss;
 
 /**
- * 采购交货 接口
+ * 采购收货 接口
  * 
  */
 public interface IPurchaseDelivery extends IBODocument {
@@ -820,14 +820,14 @@ public interface IPurchaseDelivery extends IBODocument {
 	void setProject(String value);
 
 	/**
-	 * 获取-采购交货-行集合
+	 * 获取-采购收货-行集合
 	 * 
 	 * @return 值
 	 */
 	IPurchaseDeliveryItems getPurchaseDeliveryItems();
 
 	/**
-	 * 设置-采购交货-行集合
+	 * 设置-采购收货-行集合
 	 * 
 	 * @param value
 	 *            值

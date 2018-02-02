@@ -13,7 +13,7 @@ import { DataConverter4PH } from "../../borep/DataConverters";
 import { PurchaseDeliveryViewApp } from "./PurchaseDeliveryViewApp";
 import { PurchaseDeliveryEditApp } from "./PurchaseDeliveryEditApp";
 
-/** 列表应用-采购交货 */
+/** 列表应用-采购收货 */
 export class PurchaseDeliveryListApp extends ibas.BOListApplication<IPurchaseDeliveryListView, bo.PurchaseDelivery> {
 
     /** 应用标识 */
@@ -184,7 +184,7 @@ export class PurchaseDeliveryListApp extends ibas.BOListApplication<IPurchaseDel
         ];
     }
 }
-/** 视图-采购交货 */
+/** 视图-采购收货 */
 export interface IPurchaseDeliveryListView extends ibas.IBOListView {
     /** 编辑数据事件，参数：编辑对象 */
     editDataEvent: Function;

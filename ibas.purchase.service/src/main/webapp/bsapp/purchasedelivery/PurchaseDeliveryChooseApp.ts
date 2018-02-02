@@ -11,7 +11,7 @@ import * as bo from "../../borep/bo/index";
 import { BORepositoryPurchase } from "../../borep/BORepositories";
 import { PurchaseDeliveryEditApp } from "./PurchaseDeliveryEditApp";
 
-/** 选择应用-采购交货 */
+/** 选择应用-采购收货 */
 export class PurchaseDeliveryChooseApp extends ibas.BOChooseService<IPurchaseDeliveryChooseView, bo.PurchaseDelivery> {
 
     /** 应用标识 */
@@ -82,12 +82,12 @@ export class PurchaseDeliveryChooseApp extends ibas.BOChooseService<IPurchaseDel
         app.run();
     }
 }
-/** 视图-采购交货 */
+/** 视图-采购收货 */
 export interface IPurchaseDeliveryChooseView extends ibas.IBOChooseView {
     /** 显示数据 */
     showData(datas: bo.PurchaseDelivery[]): void;
 }
-/** 采购交货选择服务映射 */
+/** 采购收货选择服务映射 */
 export class PurchaseDeliveryChooseServiceMapping extends ibas.BOChooseServiceMapping {
     /** 构造函数 */
     constructor() {

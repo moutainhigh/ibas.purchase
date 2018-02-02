@@ -23,23 +23,23 @@ export class PurchaseDeliveryEditView extends ibas.BOEditView implements IPurcha
     deleteDataEvent: Function;
     /** 新建数据事件，参数1：是否克隆 */
     createDataEvent: Function;
-    /** 添加采购交货-行事件 */
+    /** 添加采购收货-行事件 */
     addPurchaseDeliveryItemEvent: Function;
-    /** 删除采购交货-行事件 */
+    /** 删除采购收货-行事件 */
     removePurchaseDeliveryItemEvent: Function;
-    /** 选择采购交货供应商信息 */
+    /** 选择采购收货供应商信息 */
     choosePurchaseDeliverySupplierEvent: Function;
-    /** 选择采购交货价格清单信息 */
+    /** 选择采购收货价格清单信息 */
     choosePurchaseDeliveryPriceListEvent: Function;
-    /** 选择采购交货-行物料主数据 */
+    /** 选择采购收货-行物料主数据 */
     choosePurchaseDeliveryItemMaterialEvent: Function;
-    /** 选择采购交货-行 仓库 */
+    /** 选择采购收货-行 仓库 */
     choosePurchaseDeliveryItemWarehouseEvent: Function;
-    /** 选择采购交货-行 物料序列事件 */
+    /** 选择采购收货-行 物料序列事件 */
     choosePurchaseDeliveryItemMaterialSerialEvent: Function;
-    /** 选择采购交货-行 物料批次事件 */
+    /** 选择采购收货-行 物料批次事件 */
     choosePurchaseDeliveryItemMaterialBatchEvent: Function;
-    /** 付款采购交货 */
+    /** 付款采购收货 */
     paymentPurchaseDeliveryEvent: Function;
     /** 绘制视图 */
     draw(): any {

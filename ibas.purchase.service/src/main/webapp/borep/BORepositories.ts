@@ -44,14 +44,14 @@ export class BORepositoryPurchase extends ibas.BORepositoryApplication implement
         fileRepository.download("download", caller);
     }
     /**
-     * 查询 采购交货
+     * 查询 采购收货
      * @param fetcher 查询者
      */
     fetchPurchaseDelivery(fetcher: ibas.FetchCaller<bo.PurchaseDelivery>): void {
         super.fetch(bo.PurchaseDelivery.name, fetcher);
     }
     /**
-     * 保存 采购交货
+     * 保存 采购收货
      * @param saver 保存者
      */
     savePurchaseDelivery(saver: ibas.SaveCaller<bo.PurchaseDelivery>): void {

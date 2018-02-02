@@ -38,7 +38,7 @@ import {
     ShippingAddresss,
 } from "./ShippingAddress";
 
-/** 采购交货 */
+/** 采购收货 */
 export class PurchaseDelivery extends BODocument<PurchaseDelivery> implements IPurchaseDelivery {
 
     /** 业务对象编码 */
@@ -532,13 +532,13 @@ export class PurchaseDelivery extends BODocument<PurchaseDelivery> implements IP
     }
 
 
-    /** 映射的属性名称-采购交货-行集合 */
+    /** 映射的属性名称-采购收货-行集合 */
     static PROPERTY_PURCHASEDELIVERYITEMS_NAME: string = "PurchaseDeliveryItems";
-    /** 获取-采购交货-行集合 */
+    /** 获取-采购收货-行集合 */
     get purchaseDeliveryItems(): PurchaseDeliveryItems {
         return this.getProperty<PurchaseDeliveryItems>(PurchaseDelivery.PROPERTY_PURCHASEDELIVERYITEMS_NAME);
     }
-    /** 设置-采购交货-行集合 */
+    /** 设置-采购收货-行集合 */
     set purchaseDeliveryItems(value: PurchaseDeliveryItems) {
         this.setProperty(PurchaseDelivery.PROPERTY_PURCHASEDELIVERYITEMS_NAME, value);
     }
@@ -564,7 +564,7 @@ export class PurchaseDelivery extends BODocument<PurchaseDelivery> implements IP
     }
 }
 
-/** 采购交货-行 集合 */
+/** 采购收货-行 集合 */
 export class PurchaseDeliveryItems extends BusinessObjects<PurchaseDeliveryItem, PurchaseDelivery> implements IPurchaseDeliveryItems {
 
     /** 创建并添加子项 */
@@ -575,7 +575,7 @@ export class PurchaseDeliveryItems extends BusinessObjects<PurchaseDeliveryItem,
     }
 }
 
-/** 采购交货-行 */
+/** 采购收货-行 */
 export class PurchaseDeliveryItem extends BODocumentLine<PurchaseDeliveryItem> implements IPurchaseDeliveryItem {
 
     /** 构造函数 */

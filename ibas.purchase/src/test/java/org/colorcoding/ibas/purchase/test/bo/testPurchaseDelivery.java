@@ -10,7 +10,7 @@ import org.colorcoding.ibas.purchase.repository.IBORepositoryPurchaseApp;
 import junit.framework.TestCase;
 
 /**
- * 采购交货 测试
+ * 采购收货 测试
  * 
  */
 public class testPurchaseDelivery extends TestCase {
@@ -30,7 +30,7 @@ public class testPurchaseDelivery extends TestCase {
 		PurchaseDelivery bo = new PurchaseDelivery();
 		// 测试属性赋值
 
-		// 测试采购交货-行
+		// 测试采购收货-行
 		IPurchaseDeliveryItem purchasedeliveryitem = bo.getPurchaseDeliveryItems().create();
 		System.out.println(String.format("new item: %s", purchasedeliveryitem.toString()));
 		// 测试属性赋值

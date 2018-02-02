@@ -20,7 +20,7 @@ public class DataService extends BORepositoryPurchase {
 
     //--------------------------------------------------------------------------------------------//
     /**
-     * 查询-采购交货
+     * 查询-采购收货
      * @param criteria 查询
      * @param token 口令
      * @return 操作结果
@@ -31,7 +31,7 @@ public class DataService extends BORepositoryPurchase {
     }
 
     /**
-     * 保存-采购交货
+     * 保存-采购收货
      * @param bo 对象实例
      * @param token 口令
      * @return 操作结果

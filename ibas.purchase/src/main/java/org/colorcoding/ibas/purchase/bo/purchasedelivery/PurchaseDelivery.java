@@ -33,7 +33,7 @@ import org.colorcoding.ibas.purchase.bo.shippingaddress.ShippingAddress;
 import org.colorcoding.ibas.purchase.bo.shippingaddress.ShippingAddresss;
 
 /**
- * 获取-采购交货
+ * 获取-采购收货
  * 
  */
 @XmlAccessorType(XmlAccessType.NONE)
@@ -1657,19 +1657,19 @@ public class PurchaseDelivery extends BusinessObject<PurchaseDelivery>
 	}
 
 	/**
-	 * 属性名称-采购交货-行
+	 * 属性名称-采购收货-行
 	 */
 	private static final String PROPERTY_PURCHASEDELIVERYITEMS_NAME = "PurchaseDeliveryItems";
 
 	/**
-	 * 采购交货-行的集合属性
+	 * 采购收货-行的集合属性
 	 * 
 	 */
 	public static final IPropertyInfo<IPurchaseDeliveryItems> PROPERTY_PURCHASEDELIVERYITEMS = registerProperty(
 			PROPERTY_PURCHASEDELIVERYITEMS_NAME, IPurchaseDeliveryItems.class, MY_CLASS);
 
 	/**
-	 * 获取-采购交货-行集合
+	 * 获取-采购收货-行集合
 	 * 
 	 * @return 值
 	 */
@@ -1680,7 +1680,7 @@ public class PurchaseDelivery extends BusinessObject<PurchaseDelivery>
 	}
 
 	/**
-	 * 设置-采购交货-行集合
+	 * 设置-采购收货-行集合
 	 * 
 	 * @param value
 	 *            值
@@ -1746,8 +1746,8 @@ public class PurchaseDelivery extends BusinessObject<PurchaseDelivery>
 	/**
 	 * 项目的行总计 属性
 	 */
-	public static final IPropertyInfo<Decimal> PROPERTY_ITEMSLINETOTAL = registerProperty(
-			PROPERTY_ITEMSLINETOTAL_NAME, Decimal.class, MY_CLASS);
+	public static final IPropertyInfo<Decimal> PROPERTY_ITEMSLINETOTAL = registerProperty(PROPERTY_ITEMSLINETOTAL_NAME,
+			Decimal.class, MY_CLASS);
 
 	/**
 	 * 获取-项目的行总计
@@ -1833,7 +1833,6 @@ public class PurchaseDelivery extends BusinessObject<PurchaseDelivery>
 		return new IBusinessRule[] { // 注册的业务规则
 				new BusinessRuleRequired(PROPERTY_SUPPLIERCODE), // 要求有值
 				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_DISCOUNT), // 不能低于0
-				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_DOCUMENTTOTAL), // 不能低于0
 				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_DOCUMENTRATE), // 不能低于0
 				new BusinessRuleRequiredElements(PROPERTY_PURCHASEDELIVERYITEMS), // 要求有元素
 				new BusinessRuleSumElements(PROPERTY_ITEMSLINETOTAL, PROPERTY_PURCHASEDELIVERYITEMS,
@@ -1847,6 +1846,8 @@ public class PurchaseDelivery extends BusinessObject<PurchaseDelivery>
 				// 单据总计 = 折扣后总计 + 运输费用 + 税总额
 				new BusinessRuleSummation(PROPERTY_DOCUMENTTOTAL, PROPERTY_DISCOUNTTOTAL, PROPERTY_ITEMSTAXTOTAL,
 						PROPERTY_SHIPPINGSEXPENSETOTAL),
+				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_DISCOUNTTOTAL), // 不能低于0
+				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_DOCUMENTTOTAL), // 不能低于0
 
 		};
 	}

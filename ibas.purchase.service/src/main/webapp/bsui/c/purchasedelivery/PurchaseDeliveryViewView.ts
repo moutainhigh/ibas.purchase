@@ -12,7 +12,7 @@ import * as bo from "../../../borep/bo/index";
 import { IPurchaseDeliveryViewView } from "../../../bsapp/purchasedelivery/index";
 
 /**
- * 查看视图-采购交货
+ * 查看视图-采购收货
  */
 export class PurchaseDeliveryViewView extends ibas.BOViewView implements IPurchaseDeliveryViewView {
 
