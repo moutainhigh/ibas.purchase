@@ -31,6 +31,7 @@ import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItem;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItems;
 import org.colorcoding.ibas.materials.logic.IMaterialReceiptContract;
 import org.colorcoding.ibas.purchase.MyConfiguration;
+import org.colorcoding.ibas.purchase.logic.IPurchaseOrderReceiptContract;
 
 /**
  * 获取-采购收货-行
@@ -2375,6 +2376,34 @@ public class PurchaseDeliveryItem extends BusinessObject<PurchaseDeliveryItem>
 			public emYesNo getSerialManagement() {
 				return PurchaseDeliveryItem.this.getSerialManagement();
 			}
-		} };
+		}, new IPurchaseOrderReceiptContract() {
+
+			@Override
+			public String getIdentifiers() {
+				return PurchaseDeliveryItem.this.getIdentifiers();
+			}
+
+			@Override
+			public Decimal getQuantity() {
+				return PurchaseDeliveryItem.this.getQuantity();
+			}
+
+			@Override
+			public String getDocumentType() {
+				return PurchaseDeliveryItem.this.getObjectCode();
+			}
+
+			@Override
+			public Integer getDocumentLineId() {
+				return PurchaseDeliveryItem.this.getDocEntry();
+			}
+
+			@Override
+			public Integer getDocumentEntry() {
+				return PurchaseDeliveryItem.this.getLineId();
+			}
+		}
+
+		};
 	}
 }

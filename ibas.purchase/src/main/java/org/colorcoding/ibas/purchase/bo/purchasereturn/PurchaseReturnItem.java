@@ -31,6 +31,7 @@ import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItem;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItems;
 import org.colorcoding.ibas.materials.logic.IMaterialIssueContract;
 import org.colorcoding.ibas.purchase.MyConfiguration;
+import org.colorcoding.ibas.purchase.logic.IPurchaseOrderReturnContract;
 
 /**
  * 获取-采购退货-行
@@ -2376,6 +2377,34 @@ public class PurchaseReturnItem extends BusinessObject<PurchaseReturnItem>
 				return PurchaseReturnItem.this.getSerialManagement();
 			}
 
-		} };
+		}, new IPurchaseOrderReturnContract() {
+
+			@Override
+			public String getIdentifiers() {
+				return PurchaseReturnItem.this.getIdentifiers();
+			}
+
+			@Override
+			public Decimal getQuantity() {
+				return PurchaseReturnItem.this.getQuantity();
+			}
+
+			@Override
+			public String getDocumentType() {
+				return PurchaseReturnItem.this.getObjectCode();
+			}
+
+			@Override
+			public Integer getDocumentEntry() {
+				return PurchaseReturnItem.this.getDocEntry();
+			}
+
+			@Override
+			public Integer getDocumentLineId() {
+				return PurchaseReturnItem.this.getLineId();
+			}
+		}
+
+		};
 	}
 }
