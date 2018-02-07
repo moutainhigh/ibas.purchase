@@ -37,6 +37,10 @@ export class PurchaseReturnEditView extends ibas.BOEditView implements IPurchase
     choosePurchaseReturnItemMaterialSerialEvent: Function;
     /** 选择采购退货-行 物料批次事件 */
     choosePurchaseReturnItemMaterialBatchEvent: Function;
+    /** 选择采购退货项目-采购订单事件 */
+    choosePurchaseReturnPurchaseOrderEvent: Function;
+    /** 选择采购退货项目-采购交货事件 */
+    choosePurchaseReturnPurchaseDeliveryEvent: Function;
     /** 收款采购退货 */
     paymentPurchaseReturnEvent: Function;
 
@@ -127,13 +131,32 @@ export class PurchaseReturnEditView extends ibas.BOEditView implements IPurchase
         this.tablePurchaseReturnItem = new sap.ui.table.Table("", {
             toolbar: new sap.m.Toolbar("", {
                 content: [
-                    new sap.m.Button("", {
-                        text: ibas.i18n.prop("shell_data_add"),
+                    new sap.m.MenuButton("", {
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://add",
-                        press: function (): void {
-                            that.fireViewEvents(that.addPurchaseReturnItemEvent);
-                        }
+                        text: ibas.i18n.prop("shell_data_add"),
+                        menu: new sap.m.Menu("", {
+                            items: [
+                                new sap.m.MenuItem("", {
+                                    text: ibas.i18n.prop("shell_data_add_line"),
+                                    press: function (): void {
+                                        that.fireViewEvents(that.addPurchaseReturnItemEvent);
+                                    }
+                                }),
+                                new sap.m.MenuItem("", {
+                                    text: ibas.i18n.prop("bo_purchaseorder"),
+                                    press: function (): void {
+                                        that.fireViewEvents(that.choosePurchaseReturnPurchaseOrderEvent);
+                                    }
+                                }),
+                                new sap.m.MenuItem("", {
+                                    text: ibas.i18n.prop("bo_purchasedelivery"),
+                                    press: function (): void {
+                                        that.fireViewEvents(that.choosePurchaseReturnPurchaseDeliveryEvent);
+                                    }
+                                }),
+                            ]
+                        })
                     }),
                     new sap.m.Button("", {
                         text: ibas.i18n.prop("shell_data_remove"),
@@ -150,24 +173,22 @@ export class PurchaseReturnEditView extends ibas.BOEditView implements IPurchase
                     new sap.m.MenuButton("", {
                         text: ibas.strings.format("{0}/{1}",
                             ibas.i18n.prop("purchase_material_batch"), ibas.i18n.prop("purchase_material_serial")),
-                        menu: [
-                            new sap.m.Menu("", {
-                                items: [
-                                    new sap.m.MenuItem("", {
-                                        text: ibas.i18n.prop("purchase_material_batch"),
-                                        press: function (): void {
-                                            that.fireViewEvents(that.choosePurchaseReturnItemMaterialBatchEvent);
-                                        }
-                                    }),
-                                    new sap.m.MenuItem("", {
-                                        text: ibas.i18n.prop("purchase_material_serial"),
-                                        press: function (): void {
-                                            that.fireViewEvents(that.choosePurchaseReturnItemMaterialSerialEvent);
-                                        }
-                                    }),
-                                ]
-                            })
-                        ]
+                        menu: new sap.m.Menu("", {
+                            items: [
+                                new sap.m.MenuItem("", {
+                                    text: ibas.i18n.prop("purchase_material_batch"),
+                                    press: function (): void {
+                                        that.fireViewEvents(that.choosePurchaseReturnItemMaterialBatchEvent);
+                                    }
+                                }),
+                                new sap.m.MenuItem("", {
+                                    text: ibas.i18n.prop("purchase_material_serial"),
+                                    press: function (): void {
+                                        that.fireViewEvents(that.choosePurchaseReturnItemMaterialSerialEvent);
+                                    }
+                                }),
+                            ]
+                        })
                     })
                 ]
             }),
@@ -287,24 +308,6 @@ export class PurchaseReturnEditView extends ibas.BOEditView implements IPurchase
                     path: "remarks",
                 }),
                 new sap.ui.core.Title("", { text: ibas.i18n.prop("purchase_title_total") }),
-                new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_documenttotal") }),
-                new sap.m.Input("", {
-                    editable: false,
-                }).bindProperty("value", {
-                    path: "documentTotal"
-                }),
-                new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_taxrate") }),
-                new sap.m.Input("", {
-                    editable: false,
-                }).bindProperty("value", {
-                    path: "taxRate"
-                }),
-                new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_taxtotal") }),
-                new sap.m.Input("", {
-                    editable: false,
-                }).bindProperty("value", {
-                    path: "taxTotal"
-                }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_discount") }),
                 new sap.m.Input("", {
                     editable: false,
@@ -316,6 +319,17 @@ export class PurchaseReturnEditView extends ibas.BOEditView implements IPurchase
                     editable: false,
                 }).bindProperty("value", {
                     path: "discountTotal"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_documenttotal") }),
+                new sap.m.Input("", {
+                    editable: false,
+                }).bindProperty("value", {
+                    path: "documentTotal"
+                }),
+                new sap.m.Input("", {
+                    editable: false,
+                }).bindProperty("value", {
+                    path: "documentCurrency"
                 }),
             ]
         });

@@ -149,24 +149,22 @@ export class PurchaseOrderEditView extends ibas.BOEditView implements IPurchaseO
                     new sap.m.MenuButton("", {
                         text: ibas.strings.format("{0}/{1}",
                             ibas.i18n.prop("purchase_material_batch"), ibas.i18n.prop("purchase_material_serial")),
-                        menu: [
-                            new sap.m.Menu("", {
-                                items: [
-                                    new sap.m.MenuItem("", {
-                                        text: ibas.i18n.prop("purchase_material_batch"),
-                                        press: function (): void {
-                                            that.fireViewEvents(that.choosePurchaseOrderItemMaterialBatchEvent);
-                                        }
-                                    }),
-                                    new sap.m.MenuItem("", {
-                                        text: ibas.i18n.prop("purchase_material_serial"),
-                                        press: function (): void {
-                                            that.fireViewEvents(that.choosePurchaseOrderItemMaterialSerialEvent);
-                                        }
-                                    }),
-                                ]
-                            })
-                        ]
+                        menu: new sap.m.Menu("", {
+                            items: [
+                                new sap.m.MenuItem("", {
+                                    text: ibas.i18n.prop("purchase_material_batch"),
+                                    press: function (): void {
+                                        that.fireViewEvents(that.choosePurchaseOrderItemMaterialBatchEvent);
+                                    }
+                                }),
+                                new sap.m.MenuItem("", {
+                                    text: ibas.i18n.prop("purchase_material_serial"),
+                                    press: function (): void {
+                                        that.fireViewEvents(that.choosePurchaseOrderItemMaterialSerialEvent);
+                                    }
+                                }),
+                            ]
+                        })
                     })
                 ]
             }),
@@ -286,24 +284,6 @@ export class PurchaseOrderEditView extends ibas.BOEditView implements IPurchaseO
                     path: "remarks",
                 }),
                 new sap.ui.core.Title("", { text: ibas.i18n.prop("purchase_title_total") }),
-                new sap.m.Label("", { text: ibas.i18n.prop("bo_purchaseorder_documenttotal") }),
-                new sap.m.Input("", {
-                    editable: false,
-                }).bindProperty("value", {
-                    path: "documentTotal"
-                }),
-                new sap.m.Label("", { text: ibas.i18n.prop("bo_purchaseorder_taxrate") }),
-                new sap.m.Input("", {
-                    editable: false,
-                }).bindProperty("value", {
-                    path: "taxRate"
-                }),
-                new sap.m.Label("", { text: ibas.i18n.prop("bo_purchaseorder_taxtotal") }),
-                new sap.m.Input("", {
-                    editable: false,
-                }).bindProperty("value", {
-                    path: "taxTotal"
-                }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchaseorder_discount") }),
                 new sap.m.Input("", {
                     editable: false,
@@ -315,6 +295,17 @@ export class PurchaseOrderEditView extends ibas.BOEditView implements IPurchaseO
                     editable: false,
                 }).bindProperty("value", {
                     path: "discountTotal"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_purchaseorder_documenttotal") }),
+                new sap.m.Input("", {
+                    editable: false,
+                }).bindProperty("value", {
+                    path: "documentTotal"
+                }),
+                new sap.m.Input("", {
+                    editable: false,
+                }).bindProperty("value", {
+                    path: "documentCurrency"
                 }),
             ]
         });

@@ -9,28 +9,7 @@ import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
  * @author Niuren.Zhu
  *
  */
-public interface IPurchaseOrderReceiptContract extends IBusinessLogicContract {
-
-	/**
-	 * 单据类型
-	 * 
-	 * @return
-	 */
-	String getDocumentType();
-
-	/**
-	 * 单据编号
-	 * 
-	 * @return
-	 */
-	Integer getDocumentEntry();
-
-	/**
-	 * 单据行号
-	 * 
-	 * @return
-	 */
-	Integer getDocumentLineId();
+public interface IPurchaseOrderReceiptContract extends IBusinessLogicContract, IPurchaseBaseDocumentItem {
 
 	/**
 	 * 数量

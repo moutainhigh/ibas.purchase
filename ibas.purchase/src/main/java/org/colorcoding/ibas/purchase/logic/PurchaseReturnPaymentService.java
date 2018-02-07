@@ -2,10 +2,7 @@ package org.colorcoding.ibas.purchase.logic;
 
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.mapping.LogicContract;
-import org.colorcoding.ibas.bobas.message.Logger;
-import org.colorcoding.ibas.bobas.message.MessageLevel;
 import org.colorcoding.ibas.purchase.bo.purchasereturn.IPurchaseReturn;
-import org.colorcoding.ibas.purchase.bo.purchasereturn.PurchaseReturn;
 
 /**
  * 采购退货-付款服务
@@ -17,21 +14,8 @@ import org.colorcoding.ibas.purchase.bo.purchasereturn.PurchaseReturn;
 public class PurchaseReturnPaymentService extends PurchaseReturnService<IPurchaseReturnPaymentContract> {
 
 	@Override
-	protected boolean checkDataStatus(Object data) {
-		if (data instanceof IPurchaseReturnPaymentContract) {
-			IPurchaseReturnPaymentContract contract = (IPurchaseReturnPaymentContract) data;
-			if (!PurchaseReturn.BUSINESS_OBJECT_CODE.equals(contract.getDocumentType())) {
-				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(),
-						"DocumentType", contract.getDocumentType());
-				return false;
-			}
-		}
-		return super.checkDataStatus(data);
-	}
-
-	@Override
 	protected IPurchaseReturn fetchBeAffected(IPurchaseReturnPaymentContract contract) {
-		return this.fetchBeAffected(contract.getDocumentType(), contract.getDocumentEntry());
+		return this.fetchBeAffected(contract.getBaseDocumentType(), contract.getBaseDocumentEntry());
 	}
 
 	@Override

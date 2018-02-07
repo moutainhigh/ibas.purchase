@@ -39,8 +39,8 @@ export class PurchaseDeliveryEditView extends ibas.BOEditView implements IPurcha
     choosePurchaseDeliveryItemMaterialSerialEvent: Function;
     /** 选择采购收货-行 物料批次事件 */
     choosePurchaseDeliveryItemMaterialBatchEvent: Function;
-    /** 付款采购收货 */
-    paymentPurchaseDeliveryEvent: Function;
+    /** 选择采购收货项目-采购订单事件 */
+    choosePurchaseDeliveryPurchaseOrderEvent: Function;
     /** 绘制视图 */
     draw(): any {
         let that: this = this;

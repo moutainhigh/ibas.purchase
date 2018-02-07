@@ -29,6 +29,9 @@ import {
 import {
     IShippingAddresss
 } from "./ShippingAddress.d";
+import {
+    IPurchaseOrder, IPurchaseOrderItem,
+} from "./PurchaseOrder.d";
 
 /** 采购收货 */
 export interface IPurchaseDelivery extends IBODocument {
@@ -172,6 +175,8 @@ export interface IPurchaseDelivery extends IBODocument {
     /** 送货地址集合 */
     shippingAddresss: IShippingAddresss;
 
+    /** 基于采购订单 */
+    baseDocument(document: IPurchaseOrder): void;
 
 }
 

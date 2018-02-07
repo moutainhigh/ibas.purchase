@@ -2270,6 +2270,8 @@ public class PurchaseReturnItem extends BusinessObject<PurchaseReturnItem>
 	@Override
 	protected IBusinessRule[] registerRules() {
 		return new IBusinessRule[] { // 注册的业务规则
+				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_CLOSEDQUANTITY), // 不能低于0
+				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_CLOSEDAMOUNT), // 不能低于0
 				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_QUANTITY), // 不能低于0
 				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_PRICE), // 不能低于0
 				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_UNITPRICE), // 不能低于0
@@ -2311,99 +2313,133 @@ public class PurchaseReturnItem extends BusinessObject<PurchaseReturnItem>
 
 	@Override
 	public IBusinessLogicContract[] getContracts() {
-		return new IBusinessLogicContract[] { new IMaterialIssueContract() {
-			@Override
-			public String getIdentifiers() {
-				return PurchaseReturnItem.this.getIdentifiers();
-			}
+		return new IBusinessLogicContract[] {
 
-			@Override
-			public String getItemCode() {
-				return PurchaseReturnItem.this.getItemCode();
-			}
+				new IMaterialIssueContract() {
+					@Override
+					public String getIdentifiers() {
+						return PurchaseReturnItem.this.getIdentifiers();
+					}
 
-			@Override
-			public String getItemName() {
-				return PurchaseReturnItem.this.getItemDescription();
-			}
+					@Override
+					public String getItemCode() {
+						return PurchaseReturnItem.this.getItemCode();
+					}
 
-			@Override
-			public String getWarehouse() {
-				return PurchaseReturnItem.this.getWarehouse();
-			}
+					@Override
+					public String getItemName() {
+						return PurchaseReturnItem.this.getItemDescription();
+					}
 
-			@Override
-			public String getDocumentType() {
-				return PurchaseReturnItem.this.getObjectCode();
-			}
+					@Override
+					public String getWarehouse() {
+						return PurchaseReturnItem.this.getWarehouse();
+					}
 
-			@Override
-			public Integer getDocumentEntry() {
-				return PurchaseReturnItem.this.getDocEntry();
-			}
+					@Override
+					public String getDocumentType() {
+						return PurchaseReturnItem.this.getObjectCode();
+					}
 
-			@Override
-			public Integer getDocumentLineId() {
-				return PurchaseReturnItem.this.getLineId();
-			}
+					@Override
+					public Integer getDocumentEntry() {
+						return PurchaseReturnItem.this.getDocEntry();
+					}
 
-			@Override
-			public Decimal getQuantity() {
-				return PurchaseReturnItem.this.getQuantity();
-			}
+					@Override
+					public Integer getDocumentLineId() {
+						return PurchaseReturnItem.this.getLineId();
+					}
 
-			@Override
-			public DateTime getPostingDate() {
-				return PurchaseReturnItem.this.parent.getPostingDate();
-			}
+					@Override
+					public Decimal getQuantity() {
+						return PurchaseReturnItem.this.getQuantity();
+					}
 
-			@Override
-			public DateTime getDeliveryDate() {
-				return PurchaseReturnItem.this.parent.getDeliveryDate();
-			}
+					@Override
+					public DateTime getPostingDate() {
+						return PurchaseReturnItem.this.parent.getPostingDate();
+					}
 
-			@Override
-			public DateTime getDocumentDate() {
-				return PurchaseReturnItem.this.parent.getDocumentDate();
-			}
+					@Override
+					public DateTime getDeliveryDate() {
+						return PurchaseReturnItem.this.parent.getDeliveryDate();
+					}
 
-			@Override
-			public emYesNo getBatchManagement() {
-				return PurchaseReturnItem.this.getBatchManagement();
-			}
+					@Override
+					public DateTime getDocumentDate() {
+						return PurchaseReturnItem.this.parent.getDocumentDate();
+					}
 
-			@Override
-			public emYesNo getSerialManagement() {
-				return PurchaseReturnItem.this.getSerialManagement();
-			}
+					@Override
+					public emYesNo getBatchManagement() {
+						return PurchaseReturnItem.this.getBatchManagement();
+					}
 
-		}, new IPurchaseOrderReturnContract() {
+					@Override
+					public emYesNo getSerialManagement() {
+						return PurchaseReturnItem.this.getSerialManagement();
+					}
 
-			@Override
-			public String getIdentifiers() {
-				return PurchaseReturnItem.this.getIdentifiers();
-			}
+				},
+				// 基础单据为采购订单
+				new IPurchaseOrderReturnContract() {
 
-			@Override
-			public Decimal getQuantity() {
-				return PurchaseReturnItem.this.getQuantity();
-			}
+					@Override
+					public String getIdentifiers() {
+						return PurchaseReturnItem.this.getIdentifiers();
+					}
 
-			@Override
-			public String getDocumentType() {
-				return PurchaseReturnItem.this.getObjectCode();
-			}
+					@Override
+					public Decimal getQuantity() {
+						return PurchaseReturnItem.this.getQuantity();
+					}
 
-			@Override
-			public Integer getDocumentEntry() {
-				return PurchaseReturnItem.this.getDocEntry();
-			}
+					@Override
+					public String getBaseDocumentType() {
+						return PurchaseReturnItem.this.getBaseDocumentType();
+					}
 
-			@Override
-			public Integer getDocumentLineId() {
-				return PurchaseReturnItem.this.getLineId();
-			}
-		}
+					@Override
+					public Integer getBaseDocumentEntry() {
+						return PurchaseReturnItem.this.getBaseDocumentEntry();
+					}
+
+					@Override
+					public Integer getBaseDocumentLineId() {
+						return PurchaseReturnItem.this.getBaseDocumentLineId();
+					}
+
+				},
+				// 原始单据为采购订单
+				new IPurchaseOrderReturnContract() {
+
+					@Override
+					public String getIdentifiers() {
+						return PurchaseReturnItem.this.getIdentifiers();
+					}
+
+					@Override
+					public Decimal getQuantity() {
+						return PurchaseReturnItem.this.getQuantity();
+					}
+
+					@Override
+					public String getBaseDocumentType() {
+						return PurchaseReturnItem.this.getOriginalDocumentType();
+					}
+
+					@Override
+					public Integer getBaseDocumentEntry() {
+						return PurchaseReturnItem.this.getOriginalDocumentEntry();
+					}
+
+					@Override
+					public Integer getBaseDocumentLineId() {
+						return PurchaseReturnItem.this.getOriginalDocumentLineId();
+					}
+
+				}
 
 		};
 	}

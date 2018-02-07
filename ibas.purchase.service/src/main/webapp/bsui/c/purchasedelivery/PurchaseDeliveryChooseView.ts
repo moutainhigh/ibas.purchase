@@ -27,7 +27,7 @@ export class PurchaseDeliveryChooseView extends ibas.BOChooseView implements IPu
                 text: ibas.i18n.prop("shell_data_new"),
                 type: sap.m.ButtonType.Transparent,
                 // icon: "sap-icon://create",
-                press: function(): void {
+                press: function (): void {
                     that.fireViewEvents(that.newDataEvent);
                 }
             }),
@@ -35,7 +35,7 @@ export class PurchaseDeliveryChooseView extends ibas.BOChooseView implements IPu
                 text: ibas.i18n.prop("shell_data_choose"),
                 type: sap.m.ButtonType.Transparent,
                 // icon: "sap-icon://accept",
-                press: function(): void {
+                press: function (): void {
                     that.fireViewEvents(that.chooseDataEvent,
                         // 获取表格选中的对象
                         openui5.utils.getSelecteds<bo.PurchaseDelivery>(that.table)
@@ -46,7 +46,7 @@ export class PurchaseDeliveryChooseView extends ibas.BOChooseView implements IPu
                 text: ibas.i18n.prop("shell_exit"),
                 type: sap.m.ButtonType.Transparent,
                 // icon: "sap-icon://inspect-down",
-                press: function(): void {
+                press: function (): void {
                     that.fireViewEvents(that.closeEvent);
                 }
             }),
@@ -71,11 +71,25 @@ export class PurchaseDeliveryChooseView extends ibas.BOChooseView implements IPu
                     })
                 }),
                 new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_purchasedelivery_approvalstatus"),
+                    template: new sap.m.Text("", {
+                        wrapping: false
+                    }).bindProperty("text", {
+                        path: "approvalStatus",
+                        formatter(data: any): any {
+                            return ibas.enums.describe(ibas.emApprovalStatus, data);
+                        }
+                    })
+                }),
+                new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_purchasedelivery_documentstatus"),
                     template: new sap.m.Text("", {
                         wrapping: false
                     }).bindProperty("text", {
                         path: "documentStatus",
+                        formatter(data: any): any {
+                            return ibas.enums.describe(ibas.emDocumentStatus, data);
+                        }
                     })
                 }),
                 new sap.ui.table.Column("", {
@@ -101,7 +115,7 @@ export class PurchaseDeliveryChooseView extends ibas.BOChooseView implements IPu
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_purchasedelivery_documenttotal"),
                     template: new sap.m.Text("", {
-                        wrapping: false
+                        wrapping: false,
                     }).bindProperty("text", {
                         path: "documentTotal",
                     })
@@ -115,19 +129,11 @@ export class PurchaseDeliveryChooseView extends ibas.BOChooseView implements IPu
                     })
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_purchasedelivery_discount"),
+                    label: ibas.i18n.prop("bo_purchasedelivery_documentcurrency"),
                     template: new sap.m.Text("", {
-                        wrapping: false
+                        wrapping: false,
                     }).bindProperty("text", {
-                        path: "discount",
-                    })
-                }),
-                new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_purchasedelivery_discounttotal"),
-                    template: new sap.m.Text("", {
-                        wrapping: false
-                    }).bindProperty("text", {
-                        path: "discountTotal",
+                        path: "documentCurrency",
                     })
                 }),
                 new sap.ui.table.Column("", {

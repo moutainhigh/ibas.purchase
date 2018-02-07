@@ -42,6 +42,7 @@ export class PurchaseDeliveryEditApp extends ibas.BOEditApplication<IPurchaseDel
         this.view.choosePurchaseDeliveryItemWarehouseEvent = this.choosePurchaseDeliveryItemWarehouse;
         this.view.choosePurchaseDeliveryItemMaterialBatchEvent = this.choosePurchaseDeliveryItemMaterialBatch;
         this.view.choosePurchaseDeliveryItemMaterialSerialEvent = this.choosePurchaseDeliveryItemMaterialSerial;
+        this.view.choosePurchaseDeliveryPurchaseOrderEvent = this.choosePurchaseDeliveryPurchaseOrder;
     }
     /** 视图显示后 */
     protected viewShowed(): void {
@@ -369,6 +370,51 @@ export class PurchaseDeliveryEditApp extends ibas.BOEditApplication<IPurchaseDel
             proxy: new mm.MaterialSerialReceiptServiceProxy(contracts)
         });
     }
+    /** 选择采购收货项目-采购订单事件 */
+    private choosePurchaseDeliveryPurchaseOrder(): void {
+        if (ibas.objects.isNull(this.editData) || ibas.strings.isEmpty(this.editData.supplierCode)) {
+            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
+                ibas.i18n.prop("bo_purchasedelivery_suppliercode")
+            ));
+            return;
+        }
+        let criteria: ibas.ICriteria = new ibas.Criteria();
+        let condition: ibas.ICondition = criteria.conditions.create();
+        // 未取消的
+        condition.alias = ibas.BO_PROPERTY_NAME_CANCELED;
+        condition.operation = ibas.emConditionOperation.EQUAL;
+        condition.value = ibas.emYesNo.NO.toString();
+        // 未删除的
+        condition = criteria.conditions.create();
+        condition.alias = ibas.BO_PROPERTY_NAME_DELETED;
+        condition.operation = ibas.emConditionOperation.EQUAL;
+        condition.value = ibas.emYesNo.NO.toString();
+        // 未结算的
+        condition = criteria.conditions.create();
+        condition.alias = ibas.BO_PROPERTY_NAME_DOCUMENTSTATUS;
+        condition.operation = ibas.emConditionOperation.NOT_EQUAL;
+        condition.value = ibas.emDocumentStatus.CLOSED.toString();
+        // 当前供应商的
+        condition.alias = bo.PurchaseOrder.PROPERTY_SUPPLIERCODE_NAME;
+        condition.operation = ibas.emConditionOperation.EQUAL;
+        condition.value = this.editData.supplierCode;
+        // 调用选择服务
+        let that: this = this;
+        ibas.servicesManager.runChooseService<bo.PurchaseOrder>({
+            boCode: bo.PurchaseOrder.BUSINESS_OBJECT_CODE,
+            chooseType: ibas.emChooseType.MULTIPLE,
+            criteria: criteria,
+            onCompleted(selecteds: ibas.List<bo.PurchaseOrder>): void {
+                for (let selected of selecteds) {
+                    if (!ibas.strings.equals(that.editData.supplierCode, selected.supplierCode)) {
+                        continue;
+                    }
+                    that.editData.baseDocument(selected);
+                }
+                that.view.showPurchaseDeliveryItems(that.editData.purchaseDeliveryItems.filterDeleted());
+            }
+        });
+    }
 
 }
 /** 视图-采购收货 */
@@ -397,6 +443,6 @@ export interface IPurchaseDeliveryEditView extends ibas.IBOEditView {
     choosePurchaseDeliveryItemMaterialBatchEvent: Function;
     /** 显示数据 */
     showPurchaseDeliveryItems(datas: bo.PurchaseDeliveryItem[]): void;
-    /** 付款采购收货 */
-    paymentPurchaseDeliveryEvent: Function;
+    /** 选择采购收货项目-采购订单事件 */
+    choosePurchaseDeliveryPurchaseOrderEvent: Function;
 }

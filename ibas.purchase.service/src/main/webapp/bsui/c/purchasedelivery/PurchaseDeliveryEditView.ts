@@ -37,6 +37,8 @@ export class PurchaseDeliveryEditView extends ibas.BOEditView implements IPurcha
     choosePurchaseDeliveryItemMaterialSerialEvent: Function;
     /** 选择采购收货-行 物料批次事件 */
     choosePurchaseDeliveryItemMaterialBatchEvent: Function;
+    /** 选择采购收货项目-采购订单事件 */
+    choosePurchaseDeliveryPurchaseOrderEvent: Function;
     /** 付款采购收货 */
     paymentPurchaseDeliveryEvent: Function;
     /** 绘制视图 */
@@ -126,13 +128,26 @@ export class PurchaseDeliveryEditView extends ibas.BOEditView implements IPurcha
         this.tablePurchaseDeliveryItem = new sap.ui.table.Table("", {
             toolbar: new sap.m.Toolbar("", {
                 content: [
-                    new sap.m.Button("", {
-                        text: ibas.i18n.prop("shell_data_add"),
+                    new sap.m.MenuButton("", {
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://add",
-                        press: function (): void {
-                            that.fireViewEvents(that.addPurchaseDeliveryItemEvent);
-                        }
+                        text: ibas.i18n.prop("shell_data_add"),
+                        menu: new sap.m.Menu("", {
+                            items: [
+                                new sap.m.MenuItem("", {
+                                    text: ibas.i18n.prop("shell_data_add_line"),
+                                    press: function (): void {
+                                        that.fireViewEvents(that.addPurchaseDeliveryItemEvent);
+                                    }
+                                }),
+                                new sap.m.MenuItem("", {
+                                    text: ibas.i18n.prop("bo_purchaseorder"),
+                                    press: function (): void {
+                                        that.fireViewEvents(that.choosePurchaseDeliveryPurchaseOrderEvent);
+                                    }
+                                }),
+                            ]
+                        })
                     }),
                     new sap.m.Button("", {
                         text: ibas.i18n.prop("shell_data_remove"),
@@ -149,24 +164,22 @@ export class PurchaseDeliveryEditView extends ibas.BOEditView implements IPurcha
                     new sap.m.MenuButton("", {
                         text: ibas.strings.format("{0}/{1}",
                             ibas.i18n.prop("purchase_material_batch"), ibas.i18n.prop("purchase_material_serial")),
-                        menu: [
-                            new sap.m.Menu("", {
-                                items: [
-                                    new sap.m.MenuItem("", {
-                                        text: ibas.i18n.prop("purchase_material_batch"),
-                                        press: function (): void {
-                                            that.fireViewEvents(that.choosePurchaseDeliveryItemMaterialBatchEvent);
-                                        }
-                                    }),
-                                    new sap.m.MenuItem("", {
-                                        text: ibas.i18n.prop("purchase_material_serial"),
-                                        press: function (): void {
-                                            that.fireViewEvents(that.choosePurchaseDeliveryItemMaterialSerialEvent);
-                                        }
-                                    }),
-                                ]
-                            })
-                        ]
+                        menu: new sap.m.Menu("", {
+                            items: [
+                                new sap.m.MenuItem("", {
+                                    text: ibas.i18n.prop("purchase_material_batch"),
+                                    press: function (): void {
+                                        that.fireViewEvents(that.choosePurchaseDeliveryItemMaterialBatchEvent);
+                                    }
+                                }),
+                                new sap.m.MenuItem("", {
+                                    text: ibas.i18n.prop("purchase_material_serial"),
+                                    press: function (): void {
+                                        that.fireViewEvents(that.choosePurchaseDeliveryItemMaterialSerialEvent);
+                                    }
+                                }),
+                            ]
+                        })
                     })
                 ]
             }),
@@ -286,24 +299,6 @@ export class PurchaseDeliveryEditView extends ibas.BOEditView implements IPurcha
                     path: "remarks",
                 }),
                 new sap.ui.core.Title("", { text: ibas.i18n.prop("purchase_title_total") }),
-                new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasedelivery_documenttotal") }),
-                new sap.m.Input("", {
-                    editable: false,
-                }).bindProperty("value", {
-                    path: "documentTotal"
-                }),
-                new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasedelivery_taxrate") }),
-                new sap.m.Input("", {
-                    editable: false,
-                }).bindProperty("value", {
-                    path: "taxRate"
-                }),
-                new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasedelivery_taxtotal") }),
-                new sap.m.Input("", {
-                    editable: false,
-                }).bindProperty("value", {
-                    path: "taxTotal"
-                }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasedelivery_discount") }),
                 new sap.m.Input("", {
                     editable: false,
@@ -315,6 +310,17 @@ export class PurchaseDeliveryEditView extends ibas.BOEditView implements IPurcha
                     editable: false,
                 }).bindProperty("value", {
                     path: "discountTotal"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasedelivery_documenttotal") }),
+                new sap.m.Input("", {
+                    editable: false,
+                }).bindProperty("value", {
+                    path: "documentTotal"
+                }),
+                new sap.m.Input("", {
+                    editable: false,
+                }).bindProperty("value", {
+                    path: "documentCurrency"
                 }),
             ]
         });

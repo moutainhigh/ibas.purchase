@@ -2269,6 +2269,8 @@ public class PurchaseDeliveryItem extends BusinessObject<PurchaseDeliveryItem>
 	@Override
 	protected IBusinessRule[] registerRules() {
 		return new IBusinessRule[] { // 注册的业务规则
+				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_CLOSEDQUANTITY), // 不能低于0
+				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_CLOSEDAMOUNT), // 不能低于0
 				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_QUANTITY), // 不能低于0
 				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_PRICE), // 不能低于0
 				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_UNITPRICE), // 不能低于0
@@ -2310,99 +2312,104 @@ public class PurchaseDeliveryItem extends BusinessObject<PurchaseDeliveryItem>
 
 	@Override
 	public IBusinessLogicContract[] getContracts() {
-		return new IBusinessLogicContract[] { new IMaterialReceiptContract() {
+		return new IBusinessLogicContract[] {
 
-			@Override
-			public String getIdentifiers() {
-				return PurchaseDeliveryItem.this.getIdentifiers();
-			}
+				new IMaterialReceiptContract() {
 
-			@Override
-			public String getItemCode() {
-				return PurchaseDeliveryItem.this.getItemCode();
-			}
+					@Override
+					public String getIdentifiers() {
+						return PurchaseDeliveryItem.this.getIdentifiers();
+					}
 
-			@Override
-			public String getItemName() {
-				return PurchaseDeliveryItem.this.getItemDescription();
-			}
+					@Override
+					public String getItemCode() {
+						return PurchaseDeliveryItem.this.getItemCode();
+					}
 
-			@Override
-			public String getWarehouse() {
-				return PurchaseDeliveryItem.this.getWarehouse();
-			}
+					@Override
+					public String getItemName() {
+						return PurchaseDeliveryItem.this.getItemDescription();
+					}
 
-			@Override
-			public String getDocumentType() {
-				return PurchaseDeliveryItem.this.getObjectCode();
-			}
+					@Override
+					public String getWarehouse() {
+						return PurchaseDeliveryItem.this.getWarehouse();
+					}
 
-			@Override
-			public Integer getDocumentEntry() {
-				return PurchaseDeliveryItem.this.getDocEntry();
-			}
+					@Override
+					public String getDocumentType() {
+						return PurchaseDeliveryItem.this.getObjectCode();
+					}
 
-			@Override
-			public Integer getDocumentLineId() {
-				return PurchaseDeliveryItem.this.getLineId();
-			}
+					@Override
+					public Integer getDocumentEntry() {
+						return PurchaseDeliveryItem.this.getDocEntry();
+					}
 
-			@Override
-			public Decimal getQuantity() {
-				return PurchaseDeliveryItem.this.getQuantity();
-			}
+					@Override
+					public Integer getDocumentLineId() {
+						return PurchaseDeliveryItem.this.getLineId();
+					}
 
-			@Override
-			public DateTime getPostingDate() {
-				return PurchaseDeliveryItem.this.parent.getPostingDate();
-			}
+					@Override
+					public Decimal getQuantity() {
+						return PurchaseDeliveryItem.this.getQuantity();
+					}
 
-			@Override
-			public DateTime getDeliveryDate() {
-				return PurchaseDeliveryItem.this.parent.getDeliveryDate();
-			}
+					@Override
+					public DateTime getPostingDate() {
+						return PurchaseDeliveryItem.this.parent.getPostingDate();
+					}
 
-			@Override
-			public DateTime getDocumentDate() {
-				return PurchaseDeliveryItem.this.parent.getDocumentDate();
-			}
+					@Override
+					public DateTime getDeliveryDate() {
+						return PurchaseDeliveryItem.this.parent.getDeliveryDate();
+					}
 
-			@Override
-			public emYesNo getBatchManagement() {
-				return PurchaseDeliveryItem.this.getBatchManagement();
-			}
+					@Override
+					public DateTime getDocumentDate() {
+						return PurchaseDeliveryItem.this.parent.getDocumentDate();
+					}
 
-			@Override
-			public emYesNo getSerialManagement() {
-				return PurchaseDeliveryItem.this.getSerialManagement();
-			}
-		}, new IPurchaseOrderReceiptContract() {
+					@Override
+					public emYesNo getBatchManagement() {
+						return PurchaseDeliveryItem.this.getBatchManagement();
+					}
 
-			@Override
-			public String getIdentifiers() {
-				return PurchaseDeliveryItem.this.getIdentifiers();
-			}
+					@Override
+					public emYesNo getSerialManagement() {
+						return PurchaseDeliveryItem.this.getSerialManagement();
+					}
+				},
 
-			@Override
-			public Decimal getQuantity() {
-				return PurchaseDeliveryItem.this.getQuantity();
-			}
+				new IPurchaseOrderReceiptContract() {
 
-			@Override
-			public String getDocumentType() {
-				return PurchaseDeliveryItem.this.getObjectCode();
-			}
+					@Override
+					public String getIdentifiers() {
+						return PurchaseDeliveryItem.this.getIdentifiers();
+					}
 
-			@Override
-			public Integer getDocumentLineId() {
-				return PurchaseDeliveryItem.this.getDocEntry();
-			}
+					@Override
+					public Decimal getQuantity() {
+						return PurchaseDeliveryItem.this.getQuantity();
+					}
 
-			@Override
-			public Integer getDocumentEntry() {
-				return PurchaseDeliveryItem.this.getLineId();
-			}
-		}
+					@Override
+					public String getBaseDocumentType() {
+						return PurchaseDeliveryItem.this.getBaseDocumentType();
+					}
+
+					@Override
+					public Integer getBaseDocumentEntry() {
+						return PurchaseDeliveryItem.this.getBaseDocumentEntry();
+					}
+
+					@Override
+					public Integer getBaseDocumentLineId() {
+						return PurchaseDeliveryItem.this.getBaseDocumentLineId();
+					}
+
+				}
 
 		};
 	}

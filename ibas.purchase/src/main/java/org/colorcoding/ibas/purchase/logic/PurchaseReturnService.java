@@ -10,6 +10,9 @@ import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogic;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
+import org.colorcoding.ibas.bobas.message.Logger;
+import org.colorcoding.ibas.bobas.message.MessageLevel;
+import org.colorcoding.ibas.purchase.MyConfiguration;
 import org.colorcoding.ibas.purchase.bo.purchasereturn.IPurchaseReturn;
 import org.colorcoding.ibas.purchase.bo.purchasereturn.PurchaseReturn;
 import org.colorcoding.ibas.purchase.repository.BORepositoryPurchase;
@@ -22,6 +25,20 @@ import org.colorcoding.ibas.purchase.repository.BORepositoryPurchase;
  */
 public abstract class PurchaseReturnService<L extends IBusinessLogicContract>
 		extends BusinessLogic<L, IPurchaseReturn> {
+
+	@Override
+	protected boolean checkDataStatus(Object data) {
+		if (data instanceof IPurchaseBaseDocument) {
+			IPurchaseBaseDocument contract = (IPurchaseBaseDocument) data;
+			if (!MyConfiguration.applyVariables(PurchaseReturn.BUSINESS_OBJECT_CODE)
+					.equals(contract.getBaseDocumentType())) {
+				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(),
+						"BaseDocumentType", contract.getBaseDocumentType());
+				return false;
+			}
+		}
+		return super.checkDataStatus(data);
+	}
 
 	protected IPurchaseReturn fetchBeAffected(String docType, Integer docEntry) {
 		// 必须要差完整对象，不然业务逻辑会出错

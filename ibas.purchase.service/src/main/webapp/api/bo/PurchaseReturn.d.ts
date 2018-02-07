@@ -30,6 +30,12 @@ import {
 import {
     IShippingAddresss
 } from "./ShippingAddress.d";
+import {
+    IPurchaseOrder, IPurchaseOrderItem,
+} from "./PurchaseOrder.d";
+import {
+    IPurchaseDelivery, IPurchaseDeliveryItem,
+} from "./PurchaseDelivery.d";
 
 /** 采购退货 */
 export interface IPurchaseReturn extends IBODocument {
@@ -173,7 +179,11 @@ export interface IPurchaseReturn extends IBODocument {
     /** 送货地址集合 */
     shippingAddresss: IShippingAddresss;
 
+    /** 基于采购订单 */
+    baseDocument(document: IPurchaseOrder): void;
 
+    /** 基于采购收货 */
+    baseDocument(document: IPurchaseDelivery): void;
 }
 
 /** 采购退货-行 集合 */
