@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright color-coding studio. All Rights Reserved.
+ * Copyright Color-Coding Studio. All Rights Reserved.
  *
  * Use of this source code is governed by an Apache License, Version 2.0
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
@@ -39,7 +39,7 @@ export class PurchaseOrderListView extends ibas.BOListView implements IPurchaseO
                         icon: "sap-icon://display",
                         press(oEvent: any): void {
                             let parentControl: any = oEvent.getSource().getParent().getParent();
-                            let selecteds: ibas.List<bo.PurchaseOrder> = new ibas.ArrayList<bo.PurchaseOrder>();
+                            let selecteds: ibas.IList<bo.PurchaseOrder> = new ibas.ArrayList<bo.PurchaseOrder>();
                             selecteds.push(parentControl.getSwipedItem().getBindingContext().getObject());
                             that.fireViewEvents(that.viewDataEvent,
                                 selecteds
@@ -66,7 +66,7 @@ export class PurchaseOrderListView extends ibas.BOListView implements IPurchaseO
                         icon: "sap-icon://delete",
                         press(oEvent: any): void {
                             let parentControl: any = oEvent.getSource().getParent().getParent();
-                            let selecteds: ibas.List<bo.PurchaseOrder> = new ibas.ArrayList<bo.PurchaseOrder>();
+                            let selecteds: ibas.IList<bo.PurchaseOrder> = new ibas.ArrayList<bo.PurchaseOrder>();
                             selecteds.push(parentControl.getSwipedItem().getBindingContext().getObject());
                             that.fireViewEvents(that.deleteDataEvent,
                                 selecteds
@@ -83,7 +83,7 @@ export class PurchaseOrderListView extends ibas.BOListView implements IPurchaseO
                 );
             },
         });
-        let list_item_object: sap.m.ObjectListItem = new sap.m.ObjectListItem("", {
+        let ibas.IList_item_object: sap.m.ObjectListItem = new sap.m.ObjectListItem("", {
             title: "{supplierName}",
             number: {
                 parts: [{ path: "DocumentTotal" }],
@@ -121,7 +121,7 @@ export class PurchaseOrderListView extends ibas.BOListView implements IPurchaseO
         });
         this.table.bindItems({
             path: "/rows",
-            template: list_item_object,
+            template: ibas.IList_item_object,
         });
         this.page = new sap.m.Page("", {
             showHeader: false,
@@ -175,7 +175,7 @@ export class PurchaseOrderListView extends ibas.BOListView implements IPurchaseO
         this.id = this.page.getId();
         // 添加列表自动查询事件
         openui5.utils.triggerNextResults({
-            listener: this.table,
+            ibas.IListener: this.table,
             next(data: any): void {
                 if (ibas.objects.isNull(that.lastCriteria)) {
                     return;

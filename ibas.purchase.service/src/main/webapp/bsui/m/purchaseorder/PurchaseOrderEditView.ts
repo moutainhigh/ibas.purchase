@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright color-coding studio. All Rights Reserved.
+ * Copyright Color-Coding Studio. All Rights Reserved.
  *
  * Use of this source code is governed by an Apache License, Version 2.0
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
@@ -220,7 +220,7 @@ export class PurchaseOrderEditView extends ibas.BOEditView implements IPurchaseO
                 ]
             }),
         });
-        let list_child_customer: sap.m.ObjectListItem = new sap.m.ObjectListItem("", {
+        let ibas.IList_child_customer: sap.m.ObjectListItem = new sap.m.ObjectListItem("", {
             title: "{itemCode}",
             type: "Active",
             attributes: [
@@ -230,14 +230,14 @@ export class PurchaseOrderEditView extends ibas.BOEditView implements IPurchaseO
                 })
             ]
         });
-        list_child_customer.bindProperty("number", {
+        ibas.IList_child_customer.bindProperty("number", {
             parts: [{ path: "lineTotal" }],
             type: sap.ui.model.type.Currency,
             formatOptions: { showMeasure: false }
         });
         that.tablePurchaseOrderItem.bindItems({
             path: "/rows",
-            template: list_child_customer,
+            template: ibas.IList_child_customer,
         });
         this.layoutMain = new sap.ui.layout.VerticalLayout("", {
             height: "100%",
