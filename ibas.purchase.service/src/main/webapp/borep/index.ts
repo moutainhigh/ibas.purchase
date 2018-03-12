@@ -19,11 +19,11 @@
 namespace purchase {
     export namespace bo {
         // 注册业务对象仓库到工厂
-        ibas.boFactory.register(BO_REPOSITORY_PURCHASE, BORepositoryPurchase);
+        boFactory.register(BO_REPOSITORY_PURCHASE, BORepositoryPurchase);
         // 注册业务对象到工厂
-        ibas.boFactory.register(PurchaseDelivery.BUSINESS_OBJECT_CODE, PurchaseDelivery);
-        ibas.boFactory.register(PurchaseOrder.BUSINESS_OBJECT_CODE, PurchaseOrder);
-        ibas.boFactory.register(PurchaseReturn.BUSINESS_OBJECT_CODE, PurchaseReturn);
-        ibas.boFactory.register(ShippingAddress.BUSINESS_OBJECT_CODE, ShippingAddress);
+        boFactory.register(PurchaseDelivery.BUSINESS_OBJECT_CODE, PurchaseDelivery);
+        boFactory.register(PurchaseOrder.BUSINESS_OBJECT_CODE, PurchaseOrder);
+        boFactory.register(PurchaseReturn.BUSINESS_OBJECT_CODE, PurchaseReturn);
+        boFactory.register(ShippingAddress.BUSINESS_OBJECT_CODE, ShippingAddress);
     }
 }
