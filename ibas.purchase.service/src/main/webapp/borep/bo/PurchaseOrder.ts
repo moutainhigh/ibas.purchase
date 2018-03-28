@@ -531,6 +531,7 @@ namespace purchase {
                 this.shippingAddresss = new ShippingAddresss(this);
                 this.objectCode = ibas.config.applyVariables(PurchaseOrder.BUSINESS_OBJECT_CODE);
                 this.documentStatus = ibas.emDocumentStatus.RELEASED;
+                this.documentCurrency = ibas.config.get(ibas.CONFIG_ITEM_DEFAULT_CURRENCY);
             }
         }
 
@@ -1183,6 +1184,7 @@ namespace purchase {
             protected init(): void {
                 this.materialBatches = new materials.bo.MaterialBatchItems(this);
                 this.materialSerials = new materials.bo.MaterialSerialItems(this);
+                this.currency = ibas.config.get(ibas.CONFIG_ITEM_DEFAULT_CURRENCY);
             }
 
         }
