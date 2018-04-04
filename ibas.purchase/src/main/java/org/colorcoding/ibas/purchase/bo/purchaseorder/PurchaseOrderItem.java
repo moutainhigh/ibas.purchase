@@ -14,6 +14,8 @@ import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
+import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
+import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
@@ -27,6 +29,8 @@ import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchItems;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialItems;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItem;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItems;
+import org.colorcoding.ibas.materials.logic.IMaterialOrderedContract;
+import org.colorcoding.ibas.materials.logic.IMaterialWarehouseOrderedContract;
 import org.colorcoding.ibas.purchase.MyConfiguration;
 
 /**
@@ -35,7 +39,8 @@ import org.colorcoding.ibas.purchase.MyConfiguration;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = PurchaseOrderItem.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
-public class PurchaseOrderItem extends BusinessObject<PurchaseOrderItem> implements IPurchaseOrderItem, IBOTagDeleted {
+public class PurchaseOrderItem extends BusinessObject<PurchaseOrderItem>
+		implements IPurchaseOrderItem, IBOTagDeleted, IBusinessLogicsHost {
 
 	/**
 	 * 序列化版本标记
@@ -2297,4 +2302,55 @@ public class PurchaseOrderItem extends BusinessObject<PurchaseOrderItem> impleme
 	 * 父项
 	 */
 	IPurchaseOrder parent;
+
+	@Override
+	public IBusinessLogicContract[] getContracts() {
+		if (this.getLineStatus() == emDocumentStatus.RELEASED) {
+			return new IBusinessLogicContract[] {
+
+					new IMaterialOrderedContract() {
+
+						@Override
+						public String getIdentifiers() {
+							return PurchaseOrderItem.this.getIdentifiers();
+						}
+
+						@Override
+						public String getItemCode() {
+							return PurchaseOrderItem.this.getItemCode();
+						}
+
+						@Override
+						public Decimal getQuantity() {
+							return PurchaseOrderItem.this.getQuantity();
+						}
+
+					}, new IMaterialWarehouseOrderedContract() {
+
+						@Override
+						public String getIdentifiers() {
+							return PurchaseOrderItem.this.getIdentifiers();
+						}
+
+						@Override
+						public String getItemCode() {
+							return PurchaseOrderItem.this.getItemCode();
+						}
+
+						@Override
+						public String getWarehouse() {
+							return PurchaseOrderItem.this.getWarehouse();
+						}
+
+						@Override
+						public Decimal getQuantity() {
+							return PurchaseOrderItem.this.getQuantity();
+						}
+
+					}
+
+			};
+		}
+		return new IBusinessLogicContract[] {};
+	}
 }
