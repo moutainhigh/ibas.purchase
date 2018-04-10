@@ -167,15 +167,6 @@ namespace purchase {
                     }
                 });
             }
-            /** 获取服务的契约 */
-            protected getServiceProxies(): ibas.IServiceProxy<ibas.IServiceContract>[] {
-                return [
-                    new ibas.BOListServiceProxy({
-                        data: this.view.getSelecteds(),
-                        converter: new bo.DataConverter()
-                    })
-                ];
-            }
         }
         /** 视图-采购退货 */
         export interface IPurchaseReturnListView extends ibas.IBOListView {
@@ -185,8 +176,6 @@ namespace purchase {
             deleteDataEvent: Function;
             /** 显示数据 */
             showData(datas: bo.PurchaseReturn[]): void;
-            /** 获取选择的数据 */
-            getSelecteds(): bo.PurchaseReturn[];
         }
     }
 }
