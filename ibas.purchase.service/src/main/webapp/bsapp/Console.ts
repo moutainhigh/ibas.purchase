@@ -77,5 +77,11 @@ namespace purchase {
                 super.run();
             }
         }
+        /** 模块控制台，手机端 */
+        export class ConsolePhone extends Console {
+            /** 初始化 */
+            protected registers(): void {
+            }
+        }
     }
 }
