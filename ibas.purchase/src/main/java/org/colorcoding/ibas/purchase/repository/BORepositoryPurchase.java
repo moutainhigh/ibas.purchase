@@ -8,6 +8,8 @@ import org.colorcoding.ibas.purchase.bo.purchasedelivery.IPurchaseDelivery;
 import org.colorcoding.ibas.purchase.bo.purchasedelivery.PurchaseDelivery;
 import org.colorcoding.ibas.purchase.bo.purchaseorder.IPurchaseOrder;
 import org.colorcoding.ibas.purchase.bo.purchaseorder.PurchaseOrder;
+import org.colorcoding.ibas.purchase.bo.purchasequote.IPurchaseQuote;
+import org.colorcoding.ibas.purchase.bo.purchasequote.PurchaseQuote;
 import org.colorcoding.ibas.purchase.bo.purchasereturn.IPurchaseReturn;
 import org.colorcoding.ibas.purchase.bo.purchasereturn.PurchaseReturn;
 
@@ -163,6 +165,55 @@ public class BORepositoryPurchase extends BORepositoryServiceApplication
 	 */
 	public IOperationResult<IPurchaseReturn> savePurchaseReturn(IPurchaseReturn bo) {
 		return new OperationResult<IPurchaseReturn>(this.savePurchaseReturn((PurchaseReturn) bo, this.getUserToken()));
+	}
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-采购报价
+	 * 
+	 * @param criteria
+	 *            查询
+	 * @param token
+	 *            口令
+	 * @return 操作结果
+	 */
+	public OperationResult<PurchaseQuote> fetchPurchaseQuote(ICriteria criteria, String token) {
+		return super.fetch(criteria, token, PurchaseQuote.class);
+	}
+
+	/**
+	 * 查询-采购报价（提前设置用户口令）
+	 * 
+	 * @param criteria
+	 *            查询
+	 * @return 操作结果
+	 */
+	public IOperationResult<IPurchaseQuote> fetchPurchaseQuote(ICriteria criteria) {
+		return new OperationResult<IPurchaseQuote>(this.fetchPurchaseQuote(criteria, this.getUserToken()));
+	}
+
+	/**
+	 * 保存-采购报价
+	 * 
+	 * @param bo
+	 *            对象实例
+	 * @param token
+	 *            口令
+	 * @return 操作结果
+	 */
+	public OperationResult<PurchaseQuote> savePurchaseQuote(PurchaseQuote bo, String token) {
+		return super.save(bo, token);
+	}
+
+	/**
+	 * 保存-采购报价（提前设置用户口令）
+	 * 
+	 * @param bo
+	 *            对象实例
+	 * @return 操作结果
+	 */
+	public IOperationResult<IPurchaseQuote> savePurchaseQuote(IPurchaseQuote bo) {
+		return new OperationResult<IPurchaseQuote>(this.savePurchaseQuote((PurchaseQuote) bo, this.getUserToken()));
 	}
 
 	// --------------------------------------------------------------------------------------------//

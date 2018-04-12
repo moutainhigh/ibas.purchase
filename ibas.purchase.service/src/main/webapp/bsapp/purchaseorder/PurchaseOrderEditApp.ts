@@ -37,6 +37,7 @@ namespace purchase {
                 this.view.choosePurchaseOrderItemWarehouseEvent = this.choosePurchaseOrderItemWarehouse;
                 this.view.choosePurchaseOrderItemMaterialBatchEvent = this.choosePurchaseOrderItemMaterialBatch;
                 this.view.choosePurchaseOrderItemMaterialSerialEvent = this.choosePurchaseOrderItemMaterialSerial;
+                this.view.choosePurchaseOrderPurchaseQuoteEvent = this.choosePurchaseOrderPurchaseQuote;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
@@ -359,6 +360,51 @@ namespace purchase {
                     proxy: new materials.app.MaterialSerialReceiptServiceProxy(contracts)
                 });
             }
+            /** 选择采购订单-采购报价事件 */
+            private choosePurchaseOrderPurchaseQuote(): void {
+                if (ibas.objects.isNull(this.editData) || ibas.strings.isEmpty(this.editData.supplierCode)) {
+                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
+                        ibas.i18n.prop("bo_purchaseorder_suppliercode")
+                    ));
+                    return;
+                }
+                let criteria: ibas.ICriteria = new ibas.Criteria();
+                let condition: ibas.ICondition = criteria.conditions.create();
+                // 未取消的
+                condition.alias = ibas.BO_PROPERTY_NAME_CANCELED;
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.value = ibas.emYesNo.NO.toString();
+                // 未删除的
+                condition = criteria.conditions.create();
+                condition.alias = ibas.BO_PROPERTY_NAME_DELETED;
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.value = ibas.emYesNo.NO.toString();
+                // 未结算的
+                condition = criteria.conditions.create();
+                condition.alias = ibas.BO_PROPERTY_NAME_DOCUMENTSTATUS;
+                condition.operation = ibas.emConditionOperation.NOT_EQUAL;
+                condition.value = ibas.emDocumentStatus.CLOSED.toString();
+                // 当前供应商的
+                condition.alias = bo.PurchaseQuote.PROPERTY_SUPPLIERCODE_NAME;
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.value = this.editData.supplierCode;
+                // 调用选择服务
+                let that: this = this;
+                ibas.servicesManager.runChooseService<bo.PurchaseQuote>({
+                    boCode: bo.PurchaseQuote.BUSINESS_OBJECT_CODE,
+                    chooseType: ibas.emChooseType.MULTIPLE,
+                    criteria: criteria,
+                    onCompleted(selecteds: ibas.IList<bo.PurchaseQuote>): void {
+                        for (let selected of selecteds) {
+                            if (!ibas.strings.equals(that.editData.supplierCode, selected.supplierCode)) {
+                                continue;
+                            }
+                            that.editData.baseDocument(selected);
+                        }
+                        that.view.showPurchaseOrderItems(that.editData.purchaseOrderItems.filterDeleted());
+                    }
+                });
+            }
 
         }
         /** 视图-采购订单 */
@@ -387,6 +433,8 @@ namespace purchase {
             choosePurchaseOrderItemMaterialBatchEvent: Function;
             /** 显示数据 */
             showPurchaseOrderItems(datas: bo.PurchaseOrderItem[]): void;
+            /** 选择采购订单-采购报价事件 */
+            choosePurchaseOrderPurchaseQuoteEvent: Function;
         }
     }
 }

@@ -5,7 +5,7 @@
  * Use of this source code is governed by an Apache License, Version 2.0
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
  */
-/// <reference path="./PurchaseReturnChooseView.ts" />
-/// <reference path="./PurchaseReturnEditView.ts" />
-/// <reference path="./PurchaseReturnListView.ts" />
-/// <reference path="./PurchaseReturnViewView.ts" />
+/// <reference path="./PurchaseQuoteChooseView.ts" />
+/// <reference path="./PurchaseQuoteEditView.ts" />
+/// <reference path="./PurchaseQuoteListView.ts" />
+/// <reference path="./PurchaseQuoteViewView.ts" />

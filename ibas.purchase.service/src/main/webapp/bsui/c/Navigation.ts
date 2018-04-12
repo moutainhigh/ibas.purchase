@@ -11,6 +11,7 @@
 /// <reference path="./purchasedelivery/index.ts" />
 /// <reference path="./purchaseorder/index.ts" />
 /// <reference path="./purchasereturn/index.ts" />
+/// <reference path="./purchasequote/index.ts" />
 namespace purchase {
     export namespace ui {
         /**
@@ -48,6 +49,18 @@ namespace purchase {
                         break;
                     case app.PurchaseOrderEditApp.APPLICATION_ID:
                         view = new c.PurchaseOrderEditView();
+                        break;
+                    case app.PurchaseQuoteListApp.APPLICATION_ID:
+                        view = new c.PurchaseQuoteListView();
+                        break;
+                    case app.PurchaseQuoteChooseApp.APPLICATION_ID:
+                        view = new c.PurchaseQuoteChooseView();
+                        break;
+                    case app.PurchaseQuoteViewApp.APPLICATION_ID:
+                        view = new c.PurchaseQuoteViewView();
+                        break;
+                    case app.PurchaseQuoteEditApp.APPLICATION_ID:
+                        view = new c.PurchaseQuoteEditView();
                         break;
                     case app.PurchaseReturnListApp.APPLICATION_ID:
                         view = new c.PurchaseReturnListView();

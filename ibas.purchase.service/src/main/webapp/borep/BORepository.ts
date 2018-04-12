@@ -85,6 +85,21 @@ namespace purchase {
                 super.save(bo.PurchaseReturn.name, saver);
             }
 
+            /**
+             * 查询 采购报价
+             * @param fetcher 查询者
+             */
+            fetchPurchaseQuote(fetcher: ibas.IFetchCaller<bo.PurchaseQuote>): void {
+                super.fetch(bo.PurchaseQuote.name, fetcher);
+            }
+            /**
+             * 保存 采购报价
+             * @param saver 保存者
+             */
+            savePurchaseQuote(saver: ibas.ISaveCaller<bo.PurchaseQuote>): void {
+                super.save(bo.PurchaseQuote.name, saver);
+            }
+
         }
     }
 }
