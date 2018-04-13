@@ -566,6 +566,7 @@ namespace purchase {
                 this.objectCode = ibas.config.applyVariables(PurchaseOrder.BUSINESS_OBJECT_CODE);
                 this.documentStatus = ibas.emDocumentStatus.RELEASED;
                 this.documentCurrency = ibas.config.get(ibas.CONFIG_ITEM_DEFAULT_CURRENCY);
+                this.discount = 1;
             }
 
             /** 映射的属性名称-项目的税总计 */
@@ -604,20 +605,20 @@ namespace purchase {
                 return [
                     // 计算项目-行总计
                     new ibas.BusinessRuleSumElements(
-                        PurchaseDelivery.PROPERTY_ITEMSLINETOTAL_NAME, PurchaseDelivery.PROPERTY_PURCHASEDELIVERYITEMS_NAME, PurchaseDeliveryItem.PROPERTY_LINETOTAL_NAME),
+                        PurchaseOrder.PROPERTY_ITEMSLINETOTAL_NAME, PurchaseOrder.PROPERTY_PURCHASEORDERITEMS_NAME, PurchaseOrderItem.PROPERTY_LINETOTAL_NAME),
                     // 计算项目-税总计
                     new ibas.BusinessRuleSumElements(
-                        PurchaseDelivery.PROPERTY_ITEMSTAXTOTAL_NAME, PurchaseDelivery.PROPERTY_PURCHASEDELIVERYITEMS_NAME, PurchaseDeliveryItem.PROPERTY_TAXTOTAL_NAME),
+                        PurchaseOrder.PROPERTY_ITEMSTAXTOTAL_NAME, PurchaseOrder.PROPERTY_PURCHASEORDERITEMS_NAME, PurchaseOrderItem.PROPERTY_TAXTOTAL_NAME),
                     // 计算运输-费用总计
                     new ibas.BusinessRuleSumElements(
-                        PurchaseDelivery.PROPERTY_SHIPPINGSEXPENSETOTAL_NAME, PurchaseDelivery.PROPERTY_SHIPPINGADDRESSS_NAME, ShippingAddress.PROPERTY_EXPENSE_NAME),
+                        PurchaseOrder.PROPERTY_SHIPPINGSEXPENSETOTAL_NAME, PurchaseOrder.PROPERTY_SHIPPINGADDRESSS_NAME, ShippingAddress.PROPERTY_EXPENSE_NAME),
                     // 折扣后总计 = 项目-行总计 * 折扣
                     new ibas.BusinessRuleMultiplication(
-                        PurchaseDelivery.PROPERTY_DISCOUNTTOTAL_NAME, PurchaseDelivery.PROPERTY_ITEMSLINETOTAL_NAME, PurchaseDelivery.PROPERTY_DISCOUNT_NAME),
+                        PurchaseOrder.PROPERTY_DISCOUNTTOTAL_NAME, PurchaseOrder.PROPERTY_ITEMSLINETOTAL_NAME, PurchaseOrder.PROPERTY_DISCOUNT_NAME),
                     // 单据总计 = 折扣后总计 + 运输费用 + 税总额
                     new ibas.BusinessRuleSummation(
-                        PurchaseDelivery.PROPERTY_DOCUMENTTOTAL_NAME, PurchaseDelivery.PROPERTY_DISCOUNTTOTAL_NAME,
-                        PurchaseDelivery.PROPERTY_ITEMSTAXTOTAL_NAME, PurchaseDelivery.PROPERTY_SHIPPINGSEXPENSETOTAL_NAME),
+                        PurchaseOrder.PROPERTY_DOCUMENTTOTAL_NAME, PurchaseOrder.PROPERTY_DISCOUNTTOTAL_NAME,
+                        PurchaseOrder.PROPERTY_ITEMSTAXTOTAL_NAME, PurchaseOrder.PROPERTY_SHIPPINGSEXPENSETOTAL_NAME),
                 ];
             }
         }
@@ -1272,28 +1273,30 @@ namespace purchase {
                 this.materialBatches = new materials.bo.MaterialBatchItems(this);
                 this.materialSerials = new materials.bo.MaterialSerialItems(this);
                 this.currency = ibas.config.get(ibas.CONFIG_ITEM_DEFAULT_CURRENCY);
+                this.discount = 1;
+                this.taxRate = 1;
             }
 
             protected registerRules(): ibas.IBusinessRule[] {
                 return [
                     // 推导 价格 = 折扣前价格 * 折扣
                     new ibas.BusinessRuleMultiplicativeDeduction(
-                        PurchaseDeliveryItem.PROPERTY_DISCOUNT_NAME, PurchaseDeliveryItem.PROPERTY_UNITPRICE_NAME, PurchaseDeliveryItem.PROPERTY_PRICE_NAME),
+                        PurchaseOrderItem.PROPERTY_DISCOUNT_NAME, PurchaseOrderItem.PROPERTY_UNITPRICE_NAME, PurchaseOrderItem.PROPERTY_PRICE_NAME),
                     // 计算价格 = 折扣前价格 * 折扣
                     new ibas.BusinessRuleMultiplication(
-                        PurchaseDeliveryItem.PROPERTY_PRICE_NAME, PurchaseDeliveryItem.PROPERTY_UNITPRICE_NAME, PurchaseDeliveryItem.PROPERTY_DISCOUNT_NAME),
+                        PurchaseOrderItem.PROPERTY_PRICE_NAME, PurchaseOrderItem.PROPERTY_UNITPRICE_NAME, PurchaseOrderItem.PROPERTY_DISCOUNT_NAME),
                     // 计算总计 = 数量 * 价格
                     new ibas.BusinessRuleMultiplication(
-                        PurchaseDeliveryItem.PROPERTY_LINETOTAL_NAME, PurchaseDeliveryItem.PROPERTY_QUANTITY_NAME, PurchaseDeliveryItem.PROPERTY_PRICE_NAME),
+                        PurchaseOrderItem.PROPERTY_LINETOTAL_NAME, PurchaseOrderItem.PROPERTY_QUANTITY_NAME, PurchaseOrderItem.PROPERTY_PRICE_NAME),
                     // 计算毛价 = 价格 * 税率
                     new ibas.BusinessRuleMultiplication(
-                        PurchaseDeliveryItem.PROPERTY_GROSSPRICE_NAME, PurchaseDeliveryItem.PROPERTY_PRICE_NAME, PurchaseDeliveryItem.PROPERTY_TAXRATE_NAME),
+                        PurchaseOrderItem.PROPERTY_GROSSPRICE_NAME, PurchaseOrderItem.PROPERTY_PRICE_NAME, PurchaseOrderItem.PROPERTY_TAXRATE_NAME),
                     // 计算毛总额 = 数量 * 毛价
                     new ibas.BusinessRuleMultiplication(
-                        PurchaseDeliveryItem.PROPERTY_GROSSTOTAL_NAME, PurchaseDeliveryItem.PROPERTY_QUANTITY_NAME, PurchaseDeliveryItem.PROPERTY_GROSSPRICE_NAME),
+                        PurchaseOrderItem.PROPERTY_GROSSTOTAL_NAME, PurchaseOrderItem.PROPERTY_QUANTITY_NAME, PurchaseOrderItem.PROPERTY_GROSSPRICE_NAME),
                     // 计算税总额 = 毛总额 - 总计
                     new ibas.BusinessRuleSubtraction(
-                        PurchaseDeliveryItem.PROPERTY_TAXTOTAL_NAME, PurchaseDeliveryItem.PROPERTY_GROSSTOTAL_NAME, PurchaseDeliveryItem.PROPERTY_LINETOTAL_NAME),
+                        PurchaseOrderItem.PROPERTY_TAXTOTAL_NAME, PurchaseOrderItem.PROPERTY_GROSSTOTAL_NAME, PurchaseOrderItem.PROPERTY_LINETOTAL_NAME),
                 ];
             }
         }
