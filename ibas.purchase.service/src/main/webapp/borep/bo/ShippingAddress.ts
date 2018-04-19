@@ -375,6 +375,7 @@ namespace purchase {
             protected init(): void {
                 this.objectCode = ibas.config.applyVariables(ShippingAddress.BUSINESS_OBJECT_CODE);
                 this.shippingStatus = emShippingStatus.WAITING;
+                this.name = "--";
                 this.currency = ibas.config.get(ibas.CONFIG_ITEM_DEFAULT_CURRENCY);
             }
         }
