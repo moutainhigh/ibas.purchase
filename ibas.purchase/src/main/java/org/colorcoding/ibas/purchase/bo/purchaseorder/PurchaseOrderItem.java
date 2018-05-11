@@ -2322,7 +2322,9 @@ public class PurchaseOrderItem extends BusinessObject<PurchaseOrderItem>
 
 						@Override
 						public Decimal getQuantity() {
-							return PurchaseOrderItem.this.getQuantity();
+							// 订购数量 = 订单数量 - 已收货数量
+							return PurchaseOrderItem.this.getQuantity()
+									.subtract(PurchaseOrderItem.this.getClosedQuantity());
 						}
 
 					}, new IMaterialWarehouseOrderedContract() {
@@ -2344,7 +2346,9 @@ public class PurchaseOrderItem extends BusinessObject<PurchaseOrderItem>
 
 						@Override
 						public Decimal getQuantity() {
-							return PurchaseOrderItem.this.getQuantity();
+							// 订购数量 = 订单数量 - 已收货数量
+							return PurchaseOrderItem.this.getQuantity()
+									.subtract(PurchaseOrderItem.this.getClosedQuantity());
 						}
 
 					}
