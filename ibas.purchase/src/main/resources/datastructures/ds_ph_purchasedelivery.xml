@@ -106,6 +106,5 @@
   </Model>
   <BusinessObject MappedModel="PurchaseDelivery" ShortName="${Company}_PH_PURCHDELIVERY">
     <RelatedBO Relation="OneToMany" MappedModel="PurchaseDeliveryItem"/>
-    <RelatedBO Relation="OneToMany" MappedModel="ShippingAddress"/>
   </BusinessObject>
 </Domain>
