@@ -70,11 +70,11 @@ namespace purchase {
                                 })
                             }),
                             new sap.ui.table.Column("", {
-                                label: ibas.i18n.prop("bo_purchaseorder_documentdate"),
+                                label: ibas.i18n.prop("bo_purchaseorder_deliverydate"),
                                 template: new sap.m.Text("", {
                                     wrapping: false,
                                 }).bindProperty("text", {
-                                    path: "documentDate",
+                                    path: "deliveryDate",
                                     type: new sap.ui.model.type.Date({
                                         pattern: "yyyy-MM-dd",
                                         strictParsing: true,
