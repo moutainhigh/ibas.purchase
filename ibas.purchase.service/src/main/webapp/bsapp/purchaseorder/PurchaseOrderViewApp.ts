@@ -8,7 +8,7 @@
 namespace purchase {
     export namespace app {
         /** 查看应用-采购订单 */
-        export class PurchaseOrderViewApp extends ibas.BOViewService<IPurchaseOrderViewView> {
+        export class PurchaseOrderViewApp extends ibas.BOViewService<IPurchaseOrderViewView, bo.PurchaseOrder> {
             /** 应用标识 */
             static APPLICATION_ID: string = "9c891211-d0e7-4380-a906-fe8f80f3b7f6";
             /** 应用名称 */
@@ -58,13 +58,15 @@ namespace purchase {
                     super.run.apply(this, arguments);
                 }
             }
-            private viewData: bo.PurchaseOrder;
+            protected viewData: bo.PurchaseOrder;
             /** 查询数据 */
             protected fetchData(criteria: ibas.ICriteria | string): void {
                 this.busy(true);
                 let that: this = this;
                 if (typeof criteria === "string") {
+                    let value: string = criteria;
                     criteria = new ibas.Criteria();
+                    criteria.result = 1;
                     // 添加查询条件
 
                 }
@@ -77,7 +79,11 @@ namespace purchase {
                                 throw new Error(opRslt.message);
                             }
                             that.viewData = opRslt.resultObjects.firstOrDefault();
-                            that.viewShowed();
+                            if (!that.isViewShowed()) {
+                                that.show();
+                            } else {
+                                that.viewShowed();
+                            }
                         } catch (error) {
                             that.messages(error);
                         }
