@@ -125,6 +125,11 @@ namespace purchase {
                                     path: "dataOwner"
                                 }
                             }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_purchaseorder_consumer") }),
+                            new sap.m.Input("", {
+                            }).bindProperty("value", {
+                                path: "consumer"
+                            }),
                         ]
                     });
                     this.tablePurchaseOrderItem = new sap.ui.table.Table("", {

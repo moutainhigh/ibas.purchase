@@ -1662,6 +1662,70 @@ public class PurchaseReturn extends BusinessObject<PurchaseReturn>
 	}
 
 	/**
+	 * 属性名称-消费者
+	 */
+	private static final String PROPERTY_CONSUMER_NAME = "Consumer";
+
+	/**
+	 * 消费者 属性
+	 */
+	@DbField(name = "Consumer", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_CONSUMER = registerProperty(PROPERTY_CONSUMER_NAME, String.class,
+			MY_CLASS);
+
+	/**
+	 * 获取-消费者
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_CONSUMER_NAME)
+	public final String getConsumer() {
+		return this.getProperty(PROPERTY_CONSUMER);
+	}
+
+	/**
+	 * 设置-消费者
+	 * 
+	 * @param value
+	 *            值
+	 */
+	public final void setConsumer(String value) {
+		this.setProperty(PROPERTY_CONSUMER, value);
+	}
+
+	/**
+	 * 属性名称-单据类型
+	 */
+	private static final String PROPERTY_ORDERTYPE_NAME = "OrderType";
+
+	/**
+	 * 单据类型 属性
+	 */
+	@DbField(name = "OrderType", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_ORDERTYPE = registerProperty(PROPERTY_ORDERTYPE_NAME,
+			String.class, MY_CLASS);
+
+	/**
+	 * 获取-单据类型
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_ORDERTYPE_NAME)
+	public final String getOrderType() {
+		return this.getProperty(PROPERTY_ORDERTYPE);
+	}
+
+	/**
+	 * 设置-单据类型
+	 * 
+	 * @param value
+	 *            值
+	 */
+	public final void setOrderType(String value) {
+		this.setProperty(PROPERTY_ORDERTYPE, value);
+	}
+
+	/**
 	 * 属性名称-采购退货-行
 	 */
 	private static final String PROPERTY_PURCHASERETURNITEMS_NAME = "PurchaseReturnItems";

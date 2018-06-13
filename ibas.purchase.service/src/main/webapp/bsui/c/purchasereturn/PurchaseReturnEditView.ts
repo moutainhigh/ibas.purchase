@@ -128,6 +128,11 @@ namespace purchase {
                                     path: "dataOwner"
                                 }
                             }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_consumer") }),
+                            new sap.m.Input("", {
+                            }).bindProperty("value", {
+                                path: "consumer"
+                            }),
                         ]
                     });
                     this.tablePurchaseReturnItem = new sap.ui.table.Table("", {

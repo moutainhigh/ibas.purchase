@@ -820,6 +820,36 @@ public interface IPurchaseDelivery extends IBODocument {
 	void setProject(String value);
 
 	/**
+	 * 获取-消费者
+	 * 
+	 * @return 值
+	 */
+	String getConsumer();
+
+	/**
+	 * 设置-消费者
+	 * 
+	 * @param value
+	 *            值
+	 */
+	void setConsumer(String value);
+
+	/**
+	 * 获取-单据类型
+	 * 
+	 * @return 值
+	 */
+	String getOrderType();
+
+	/**
+	 * 设置-单据类型
+	 * 
+	 * @param value
+	 *            值
+	 */
+	void setOrderType(String value);
+
+	/**
 	 * 获取-采购收货-行集合
 	 * 
 	 * @return 值

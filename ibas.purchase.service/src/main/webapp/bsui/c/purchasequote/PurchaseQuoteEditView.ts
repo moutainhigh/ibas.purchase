@@ -117,6 +117,11 @@ namespace purchase {
                                     path: "dataOwner"
                                 }
                             }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasequote_consumer") }),
+                            new sap.m.Input("", {
+                            }).bindProperty("value", {
+                                path: "consumer"
+                            }),
                         ]
                     });
                     this.tablePurchaseQuoteItem = new sap.ui.table.Table("", {
