@@ -94,6 +94,12 @@ namespace purchase {
                                 path: "reference2"
                             }),
                             new sap.ui.core.Title("", { text: ibas.i18n.prop("purchase_title_status") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_docentry") }),
+                            new sap.m.Input("", {
+                                editable: false,
+                            }).bindProperty("value", {
+                                path: "docEntry"
+                            }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_documentstatus") }),
                             new sap.m.Select("", {
                                 items: openui5.utils.createComboBoxItems(ibas.emDocumentStatus),
@@ -121,12 +127,6 @@ namespace purchase {
                                 displayFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
                             }).bindProperty("dateValue", {
                                 path: "deliveryDate",
-                            }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_dataowner") }),
-                            new sap.m.ex.DataOwnerInput("", {
-                                bindingValue: {
-                                    path: "dataOwner"
-                                }
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_consumer") }),
                             new sap.m.Input("", {
@@ -266,7 +266,8 @@ namespace purchase {
                                     width: "100%",
                                     type: sap.m.InputType.Number
                                 }).bindProperty("value", {
-                                    path: "quantity"
+                                    path: "quantity",
+                                    type: new openui5.datatype.Quantity(),
                                 })
                             }),
                             new sap.ui.table.Column("", {
@@ -284,7 +285,8 @@ namespace purchase {
                                     width: "100%",
                                     type: sap.m.InputType.Number
                                 }).bindProperty("value", {
-                                    path: "price"
+                                    path: "price",
+                                    type: new openui5.datatype.Price(),
                                 })
                             }),
                             new sap.ui.table.Column("", {
@@ -293,7 +295,8 @@ namespace purchase {
                                     width: "100%",
                                     wrapping: false
                                 }).bindProperty("text", {
-                                    path: "lineTotal"
+                                    path: "lineTotal",
+                                    type: new openui5.datatype.Sum(),
                                 })
                             }),
                         ]
@@ -308,9 +311,16 @@ namespace purchase {
                     let formBottom: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
                         editable: true,
                         content: [
-                            new sap.ui.core.Title("", { text: ibas.i18n.prop("purchase_title_remarks") }),
+                            new sap.ui.core.Title("", { text: ibas.i18n.prop("purchase_title_others") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_dataowner") }),
+                            new sap.m.ex.DataOwnerInput("", {
+                                bindingValue: {
+                                    path: "dataOwner"
+                                }
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_remarks") }),
                             new sap.m.TextArea("", {
-                                rows: 5,
+                                rows: 3,
                             }).bindProperty("value", {
                                 path: "remarks",
                             }),
@@ -319,19 +329,22 @@ namespace purchase {
                             new sap.m.Input("", {
                                 editable: false,
                             }).bindProperty("value", {
-                                path: "discount"
+                                path: "discount",
+                                type: new openui5.datatype.Percentage(),
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_discounttotal") }),
                             new sap.m.Input("", {
                                 editable: false,
                             }).bindProperty("value", {
-                                path: "discountTotal"
+                                path: "discountTotal",
+                                type: new openui5.datatype.Sum(),
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_documenttotal") }),
                             new sap.m.Input("", {
                                 editable: false,
                             }).bindProperty("value", {
-                                path: "documentTotal"
+                                path: "documentTotal",
+                                type: new openui5.datatype.Sum(),
                             }),
                             new sap.m.Input("", {
                                 editable: false,
