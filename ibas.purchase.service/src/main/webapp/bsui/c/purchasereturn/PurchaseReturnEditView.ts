@@ -38,10 +38,16 @@ namespace purchase {
                 choosePurchaseReturnPurchaseDeliveryEvent: Function;
                 /** 收款采购退货 */
                 paymentPurchaseReturnEvent: Function;
+                /** 编辑地址事件 */
+                editShippingAddressesEvent: Function;
 
                 /** 绘制视图 */
                 draw(): any {
                     let that: this = this;
+                    this.textAddress = new sap.m.TextArea("", {
+                        rows: 3,
+                        editable: false,
+                    });
                     let formTop: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
                         editable: true,
                         content: [
@@ -318,6 +324,73 @@ namespace purchase {
                                     path: "dataOwner"
                                 }
                             }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_shippingaddress") }),
+                            new sap.m.HBox("", {
+                                width: "100%",
+                                items: [
+                                    new sap.m.Select("", {
+                                        width: "100%",
+                                        layoutData: new sap.m.FlexItemData("", {
+                                            growFactor: 12
+                                        }),
+                                        change(oControlEvent: sap.ui.base.Event): void {
+                                            let item: sap.ui.core.Item = oControlEvent.getParameters().selectedItem;
+                                            let index: number = (<any>oControlEvent.getSource()).indexOfItem(item);
+                                            let data: bo.ShippingAddress = (<any>item.getModel()).getData().shippingAddresss[index];
+                                            if (!ibas.objects.isNull(data)) {
+                                                // 显示摘要
+                                                let builder: ibas.StringBuilder = new ibas.StringBuilder();
+                                                builder.valueUndefined = "";
+                                                builder.valueNull = "";
+                                                builder.append(ibas.i18n.prop("bo_shippingaddress_consignee") + ": ");
+                                                builder.append(data.consignee);
+                                                builder.append(" ");
+                                                builder.append(data.mobilePhone);
+                                                builder.append("\n");
+                                                builder.append(ibas.i18n.prop("bo_shippingaddress") + ": ");
+                                                builder.append(data.country);
+                                                builder.append(data.province);
+                                                builder.append(data.city);
+                                                builder.append(data.district);
+                                                builder.append(data.street);
+                                                builder.append("\n");
+                                                builder.append(ibas.i18n.prop("bo_shippingaddress_trackingnumber") + ": ");
+                                                builder.append(data.trackingNumber);
+                                                builder.append(" ");
+                                                builder.append(ibas.i18n.prop("bo_shippingaddress_expense") + ": ");
+                                                builder.append(data.expense);
+                                                builder.append(" ");
+                                                builder.append(data.currency);
+                                                that.textAddress.setValue(builder.toString());
+                                            } else {
+                                                that.textAddress.setValue(null);
+                                            }
+                                        }
+                                    }).bindItems({
+                                        path: "shippingAddresss",
+                                        template: new sap.ui.core.ListItem("", {
+                                            key: {
+                                                path: "objectKey"
+                                            },
+                                            text: {
+                                                path: "name"
+                                            }
+                                        })
+                                    }),
+                                    new sap.m.Button("", {
+                                        type: sap.m.ButtonType.Transparent,
+                                        icon: "sap-icon://value-help",
+                                        layoutData: new sap.m.FlexItemData("", {
+                                            maxWidth: "32px"
+                                        }),
+                                        press: function (): void {
+                                            that.fireViewEvents(that.editShippingAddressesEvent);
+                                        }
+                                    }),
+                                ]
+                            }),
+                            new sap.m.Label("", {}),
+                            this.textAddress,
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_remarks") }),
                             new sap.m.TextArea("", {
                                 rows: 3,
@@ -337,6 +410,13 @@ namespace purchase {
                                 editable: false,
                             }).bindProperty("value", {
                                 path: "discountTotal",
+                                type: new openui5.datatype.Sum(),
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_shippingsexpensetotal") }),
+                            new sap.m.Input("", {
+                                editable: false,
+                            }).bindProperty("value", {
+                                path: "shippingsExpenseTotal",
                                 type: new openui5.datatype.Sum(),
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_documenttotal") }),
@@ -416,6 +496,7 @@ namespace purchase {
                 private page: sap.m.Page;
                 private tablePurchaseReturnItem: sap.ui.table.Table;
                 private layoutMain: sap.ui.layout.VerticalLayout;
+                private textAddress: sap.m.TextArea;
                 /** 改变视图状态 */
                 private changeViewStatus(data: bo.PurchaseReturn): void {
                     if (ibas.objects.isNull(data)) {

@@ -376,6 +376,7 @@ namespace purchase {
                 this.objectCode = ibas.config.applyVariables(ShippingAddress.BUSINESS_OBJECT_CODE);
                 this.shippingStatus = emShippingStatus.WAITING;
                 this.name = "--";
+                this.expense = 0;
                 this.currency = ibas.config.get(ibas.CONFIG_ITEM_DEFAULT_CURRENCY);
             }
         }
@@ -395,6 +396,16 @@ namespace purchase {
             protected afterAdd(item: ShippingAddress): void {
                 super.afterAdd(item);
                 item.baseDocumentEntry = this.parent.docEntry;
+                let max: number = 0;
+                for (let tmp of this) {
+                    let id: number = tmp.objectKey;
+                    if (!isNaN(id)) {
+                        if (id > max) {
+                            max = id;
+                        }
+                    }
+                }
+                item.objectKey = max + 1;
             }
 
             /** 主表属性发生变化后 子项属性赋值  */

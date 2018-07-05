@@ -39,6 +39,7 @@ namespace purchase {
                 this.view.choosePurchaseReturnItemMaterialSerialEvent = this.choosePurchaseReturnItemMaterialSerial;
                 this.view.choosePurchaseReturnPurchaseOrderEvent = this.choosePurchaseReturnPurchaseOrder;
                 this.view.choosePurchaseReturnPurchaseDeliveryEvent = this.choosePurchaseReturnPurchaseDelivery;
+                this.view.editShippingAddressesEvent = this.editShippingAddresses;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
@@ -442,6 +443,17 @@ namespace purchase {
                 });
             }
 
+            private editShippingAddresses(): void {
+                let that: this = this;
+                let app: ShippingAddressesEditApp = new ShippingAddressesEditApp();
+                app.navigation = this.navigation;
+                app.viewShower = this.viewShower;
+                app.onClosed = function (): void {
+                    that.viewShowed();
+                };
+                app.run(this.editData.shippingAddresss);
+            }
+
         }
         /** 视图-采购退货 */
         export interface IPurchaseReturnEditView extends ibas.IBOEditView {
@@ -473,6 +485,8 @@ namespace purchase {
             choosePurchaseReturnPurchaseOrderEvent: Function;
             /** 选择采购退货项目-采购交货事件 */
             choosePurchaseReturnPurchaseDeliveryEvent: Function;
+            /** 编辑地址事件 */
+            editShippingAddressesEvent: Function;
         }
     }
 }

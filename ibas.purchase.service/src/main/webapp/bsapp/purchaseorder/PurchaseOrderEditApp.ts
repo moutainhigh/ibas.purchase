@@ -38,6 +38,7 @@ namespace purchase {
                 this.view.choosePurchaseOrderItemMaterialBatchEvent = this.choosePurchaseOrderItemMaterialBatch;
                 this.view.choosePurchaseOrderItemMaterialSerialEvent = this.choosePurchaseOrderItemMaterialSerial;
                 this.view.choosePurchaseOrderPurchaseQuoteEvent = this.choosePurchaseOrderPurchaseQuote;
+                this.view.editShippingAddressesEvent = this.editShippingAddresses;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
@@ -406,6 +407,17 @@ namespace purchase {
                 });
             }
 
+            private editShippingAddresses(): void {
+                let that: this = this;
+                let app: ShippingAddressesEditApp = new ShippingAddressesEditApp();
+                app.navigation = this.navigation;
+                app.viewShower = this.viewShower;
+                app.onClosed = function (): void {
+                    that.viewShowed();
+                };
+                app.run(this.editData.shippingAddresss);
+            }
+
         }
         /** 视图-采购订单 */
         export interface IPurchaseOrderEditView extends ibas.IBOEditView {
@@ -435,6 +447,8 @@ namespace purchase {
             showPurchaseOrderItems(datas: bo.PurchaseOrderItem[]): void;
             /** 选择采购订单-采购报价事件 */
             choosePurchaseOrderPurchaseQuoteEvent: Function;
+            /** 编辑地址事件 */
+            editShippingAddressesEvent: Function;
         }
     }
 }

@@ -11,6 +11,7 @@
 /// <reference path="./purchaseorder/index.ts" />
 /// <reference path="./purchasereturn/index.ts" />
 /// <reference path="./purchasequote/index.ts" />
+/// <reference path="./shippingaddress/index.ts" />
 
 namespace purchase {
     export namespace app {

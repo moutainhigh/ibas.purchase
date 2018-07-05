@@ -12,6 +12,7 @@
 /// <reference path="./purchaseorder/index.ts" />
 /// <reference path="./purchasereturn/index.ts" />
 /// <reference path="./purchasequote/index.ts" />
+/// <reference path="./shippingaddress/index.ts" />
 namespace purchase {
     export namespace ui {
         /**
@@ -73,6 +74,9 @@ namespace purchase {
                         break;
                     case app.PurchaseReturnEditApp.APPLICATION_ID:
                         view = new c.PurchaseReturnEditView();
+                        break;
+                    case app.ShippingAddressesEditApp.APPLICATION_ID:
+                        view = new c.ShippingAddressesEditView();
                         break;
                     default:
                         break;

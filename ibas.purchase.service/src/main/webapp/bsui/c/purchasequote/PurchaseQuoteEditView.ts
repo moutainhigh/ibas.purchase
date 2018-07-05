@@ -288,6 +288,13 @@ namespace purchase {
                                 path: "discountTotal",
                                 type: new openui5.datatype.Sum(),
                             }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasequote_shippingsexpensetotal") }),
+                            new sap.m.Input("", {
+                                editable: false,
+                            }).bindProperty("value", {
+                                path: "shippingsExpenseTotal",
+                                type: new openui5.datatype.Sum(),
+                            }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasequote_documenttotal") }),
                             new sap.m.Input("", {
                                 editable: false,
