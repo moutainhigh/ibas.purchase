@@ -194,6 +194,7 @@ namespace purchase {
                                     path: "itemDescription"
                                 })
                             }),
+                            /*
                             new sap.ui.table.Column("", {
                                 label: ibas.i18n.prop("bo_purchasequoteitem_warehouse"),
                                 template: new sap.m.Input("", {
@@ -209,6 +210,7 @@ namespace purchase {
                                     path: "warehouse"
                                 })
                             }),
+                            */
                             new sap.ui.table.Column("", {
                                 label: ibas.i18n.prop("bo_purchasequoteitem_quantity"),
                                 template: new sap.m.Input("", {
@@ -286,13 +288,6 @@ namespace purchase {
                                 editable: false,
                             }).bindProperty("value", {
                                 path: "discountTotal",
-                                type: new openui5.datatype.Sum(),
-                            }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasequote_shippingsexpensetotal") }),
-                            new sap.m.Input("", {
-                                editable: false,
-                            }).bindProperty("value", {
-                                path: "shippingsExpenseTotal",
                                 type: new openui5.datatype.Sum(),
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasequote_documenttotal") }),
