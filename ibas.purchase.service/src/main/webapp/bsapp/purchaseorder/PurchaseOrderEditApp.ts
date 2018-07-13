@@ -227,6 +227,7 @@ namespace purchase {
                                 created = true;
                             }
                             item.warehouse = selected.code;
+                            that.view.defaultWarehouse = item.warehouse;
                             item = null;
                         }
                         if (created) {
@@ -254,6 +255,13 @@ namespace purchase {
                     condition = new ibas.Condition();
                     condition.alias = materials.app.conditions.product.CONDITION_ALIAS_WAREHOUSE;
                     condition.value = caller.warehouse;
+                    condition.operation = ibas.emConditionOperation.EQUAL;
+                    condition.relationship = ibas.emConditionRelationship.AND;
+                    conditions.add(condition);
+                } else if (!ibas.strings.isEmpty(this.view.defaultWarehouse)) {
+                    condition = new ibas.Condition();
+                    condition.alias = materials.app.conditions.product.CONDITION_ALIAS_WAREHOUSE;
+                    condition.value = this.view.defaultWarehouse;
                     condition.operation = ibas.emConditionOperation.EQUAL;
                     condition.relationship = ibas.emConditionRelationship.AND;
                     conditions.add(condition);
@@ -286,6 +294,9 @@ namespace purchase {
                             item.warehouse = selected.warehouse;
                             item.quantity = 1;
                             item.uom = selected.inventoryUOM;
+                            if (ibas.strings.isEmpty(item.warehouse) && !ibas.strings.isEmpty(that.view.defaultWarehouse)) {
+                                item.warehouse = that.view.defaultWarehouse;
+                            }
                             item = null;
                         }
                         if (created) {
@@ -449,6 +460,8 @@ namespace purchase {
             choosePurchaseOrderPurchaseQuoteEvent: Function;
             /** 编辑地址事件 */
             editShippingAddressesEvent: Function;
+            /** 默认仓库 */
+            defaultWarehouse: string;
         }
     }
 }

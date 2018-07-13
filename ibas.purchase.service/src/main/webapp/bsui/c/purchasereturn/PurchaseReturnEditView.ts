@@ -141,6 +141,14 @@ namespace purchase {
                             }),
                         ]
                     });
+                    this.selectWarehouse = new sap.m.ex.BOSelect("", {
+                        boText: "name",
+                        boKey: "code",
+                        blank: true,
+                        boCode: ibas.config.applyVariables(materials.bo.BO_CODE_WAREHOUSE),
+                        repositoryName: materials.bo.BO_REPOSITORY_MATERIALS,
+                        criteria: materials.app.conditions.warehouse.create(),
+                    });
                     this.tablePurchaseReturnItem = new sap.ui.table.Table("", {
                         toolbar: new sap.m.Toolbar("", {
                             content: [
@@ -202,7 +210,13 @@ namespace purchase {
                                             }),
                                         ]
                                     })
-                                })
+                                }),
+                                new sap.m.ToolbarSpacer(""),
+                                new sap.m.Label("", {
+                                    wrapping: false,
+                                    text: ibas.i18n.prop("bo_supplier_warehouse")
+                                }),
+                                this.selectWarehouse,
                             ]
                         }),
                         enableSelectAll: false,
@@ -497,6 +511,13 @@ namespace purchase {
                 private tablePurchaseReturnItem: sap.ui.table.Table;
                 private layoutMain: sap.ui.layout.VerticalLayout;
                 private textAddress: sap.m.TextArea;
+                private selectWarehouse: sap.m.Select;
+                get defaultWarehouse(): string {
+                    return this.selectWarehouse.getSelectedKey();
+                }
+                set defaultWarehouse(value: string) {
+                    this.selectWarehouse.setSelectedKey(value);
+                }
                 /** 改变视图状态 */
                 private changeViewStatus(data: bo.PurchaseReturn): void {
                     if (ibas.objects.isNull(data)) {
@@ -532,6 +553,7 @@ namespace purchase {
                     // 监听属性改变，并更新控件
                     openui5.utils.refreshModelChanged(this.tablePurchaseReturnItem, datas);
                 }
+
             }
         }
     }

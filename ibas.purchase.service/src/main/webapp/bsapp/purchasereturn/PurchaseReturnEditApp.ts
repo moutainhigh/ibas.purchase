@@ -182,7 +182,7 @@ namespace purchase {
                     createData();
                 }
             }
-            protected choosePurchaseReturnSupplier(): void {
+            private choosePurchaseReturnSupplier(): void {
                 let that: this = this;
                 ibas.servicesManager.runChooseService<businesspartner.bo.ISupplier>({
                     boCode: businesspartner.bo.BO_CODE_SUPPLIER,
@@ -211,7 +211,7 @@ namespace purchase {
                     }
                 });
             }
-            protected choosePurchaseReturnItemWarehouse(caller: bo.PurchaseReturnItem): void {
+            private choosePurchaseReturnItemWarehouse(caller: bo.PurchaseReturnItem): void {
                 let that: this = this;
                 ibas.servicesManager.runChooseService<materials.bo.IWarehouse>({
                     boCode: materials.bo.BO_CODE_WAREHOUSE,
@@ -228,6 +228,7 @@ namespace purchase {
                                 created = true;
                             }
                             item.warehouse = selected.code;
+                            that.view.defaultWarehouse = item.warehouse;
                             item = null;
                         }
                         if (created) {
@@ -237,7 +238,7 @@ namespace purchase {
                     }
                 });
             }
-            protected choosePurchaseReturnItemMaterial(caller: bo.PurchaseReturnItem): void {
+            private choosePurchaseReturnItemMaterial(caller: bo.PurchaseReturnItem): void {
                 let that: this = this;
                 let condition: ibas.ICondition;
                 let conditions: ibas.IList<ibas.ICondition> = materials.app.conditions.product.create();
@@ -255,6 +256,13 @@ namespace purchase {
                     condition = new ibas.Condition();
                     condition.alias = materials.app.conditions.product.CONDITION_ALIAS_WAREHOUSE;
                     condition.value = caller.warehouse;
+                    condition.operation = ibas.emConditionOperation.EQUAL;
+                    condition.relationship = ibas.emConditionRelationship.AND;
+                    conditions.add(condition);
+                } else if (!ibas.strings.isEmpty(this.view.defaultWarehouse)) {
+                    condition = new ibas.Condition();
+                    condition.alias = materials.app.conditions.product.CONDITION_ALIAS_WAREHOUSE;
+                    condition.value = this.view.defaultWarehouse;
                     condition.operation = ibas.emConditionOperation.EQUAL;
                     condition.relationship = ibas.emConditionRelationship.AND;
                     conditions.add(condition);
@@ -287,6 +295,9 @@ namespace purchase {
                             item.warehouse = selected.warehouse;
                             item.quantity = 1;
                             item.uom = selected.inventoryUOM;
+                            if (ibas.strings.isEmpty(item.warehouse) && !ibas.strings.isEmpty(that.view.defaultWarehouse)) {
+                                item.warehouse = that.view.defaultWarehouse;
+                            }
                             item = null;
                         }
                         if (created) {
@@ -487,6 +498,8 @@ namespace purchase {
             choosePurchaseReturnPurchaseDeliveryEvent: Function;
             /** 编辑地址事件 */
             editShippingAddressesEvent: Function;
+            /** 默认仓库 */
+            defaultWarehouse: string;
         }
     }
 }
