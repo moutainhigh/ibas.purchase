@@ -91,6 +91,15 @@ namespace purchase {
                                     path: "priceList"
                                 }
                             }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_ordertype") }),
+                            new sap.m.ex.SmartField("", {
+                                width: "100%",
+                                boType: bo.PurchaseReturn.name,
+                                propertyName: "orderType",
+                                bindingValue: {
+                                    path: "orderType"
+                                }
+                            }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasereturn_reference1") }),
                             new sap.m.Input("", {}).bindProperty("value", {
                                 path: "reference1"
@@ -354,8 +363,8 @@ namespace purchase {
                                             if (!ibas.objects.isNull(data)) {
                                                 // 显示摘要
                                                 let builder: ibas.StringBuilder = new ibas.StringBuilder();
-                                                builder.valueUndefined = "";
-                                                builder.valueNull = "";
+                                                builder.map(undefined, "");
+                                                builder.map(null, "");
                                                 builder.append(ibas.i18n.prop("bo_shippingaddress_consignee") + ": ");
                                                 builder.append(data.consignee);
                                                 builder.append(" ");
