@@ -78,7 +78,7 @@ namespace purchase {
                             new sap.m.ex.SmartField("", {
                                 width: "100%",
                                 boType: bo.PurchaseQuote.name,
-                                propertyName: "orderType",
+                                propertyName: "OrderType",
                                 bindingValue: {
                                     path: "orderType"
                                 }
