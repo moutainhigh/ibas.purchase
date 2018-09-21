@@ -578,7 +578,7 @@ namespace purchase {
                         PurchaseQuote.PROPERTY_DISCOUNTTOTAL_NAME, PurchaseQuote.PROPERTY_ITEMSLINETOTAL_NAME, PurchaseQuote.PROPERTY_DISCOUNT_NAME),
                     // 单据总计 = 折扣后总计 + 运输费用 + 税总额
                     new ibas.BusinessRuleSummation(
-                        PurchaseQuote.PROPERTY_DOCUMENTTOTAL_NAME, PurchaseQuote.PROPERTY_DISCOUNTTOTAL_NAME, PurchaseQuote.PROPERTY_ITEMSTAXTOTAL_NAME, ),
+                        PurchaseQuote.PROPERTY_DOCUMENTTOTAL_NAME, PurchaseQuote.PROPERTY_DISCOUNTTOTAL_NAME, PurchaseQuote.PROPERTY_ITEMSTAXTOTAL_NAME),
                 ];
             }
         }
@@ -1216,11 +1216,8 @@ namespace purchase {
             protected registerRules(): ibas.IBusinessRule[] {
                 return [
                     // 推导 价格 = 折扣前价格 * 折扣
-                    new ibas.BusinessRuleMultiplicativeDeduction(
+                    new ibas.BusinessRuleMultiplicativeDeductionEx(
                         PurchaseQuoteItem.PROPERTY_DISCOUNT_NAME, PurchaseQuoteItem.PROPERTY_UNITPRICE_NAME, PurchaseQuoteItem.PROPERTY_PRICE_NAME),
-                    // 计算价格 = 折扣前价格 * 折扣
-                    new ibas.BusinessRuleMultiplication(
-                        PurchaseQuoteItem.PROPERTY_PRICE_NAME, PurchaseQuoteItem.PROPERTY_UNITPRICE_NAME, PurchaseQuoteItem.PROPERTY_DISCOUNT_NAME),
                     // 计算总计 = 数量 * 价格
                     new ibas.BusinessRuleMultiplication(
                         PurchaseQuoteItem.PROPERTY_LINETOTAL_NAME, PurchaseQuoteItem.PROPERTY_QUANTITY_NAME, PurchaseQuoteItem.PROPERTY_PRICE_NAME),

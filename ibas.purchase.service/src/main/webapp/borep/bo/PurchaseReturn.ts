@@ -1374,11 +1374,8 @@ namespace purchase {
             protected registerRules(): ibas.IBusinessRule[] {
                 return [
                     // 推导 价格 = 折扣前价格 * 折扣
-                    new ibas.BusinessRuleMultiplicativeDeduction(
+                    new ibas.BusinessRuleMultiplicativeDeductionEx(
                         PurchaseReturnItem.PROPERTY_DISCOUNT_NAME, PurchaseReturnItem.PROPERTY_UNITPRICE_NAME, PurchaseReturnItem.PROPERTY_PRICE_NAME),
-                    // 计算价格 = 折扣前价格 * 折扣
-                    new ibas.BusinessRuleMultiplication(
-                        PurchaseReturnItem.PROPERTY_PRICE_NAME, PurchaseReturnItem.PROPERTY_UNITPRICE_NAME, PurchaseReturnItem.PROPERTY_DISCOUNT_NAME),
                     // 计算总计 = 数量 * 价格
                     new ibas.BusinessRuleMultiplication(
                         PurchaseReturnItem.PROPERTY_LINETOTAL_NAME, PurchaseReturnItem.PROPERTY_QUANTITY_NAME, PurchaseReturnItem.PROPERTY_PRICE_NAME),
