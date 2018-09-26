@@ -9,7 +9,7 @@ namespace purchase {
     export namespace bo {
 
         /** 采购退货 */
-        export class PurchaseReturn extends ibas.BODocument<PurchaseReturn> implements IPurchaseReturn {
+        export class PurchaseReturn extends ibas.BODocument<PurchaseReturn> implements IPurchaseReturn, ibas.IConvertedData {
 
             /** 业务对象编码 */
             static BUSINESS_OBJECT_CODE: string = BO_CODE_PURCHASERETURN;
@@ -609,6 +609,18 @@ namespace purchase {
                         PurchaseReturn.PROPERTY_DOCUMENTTOTAL_NAME, PurchaseReturn.PROPERTY_DISCOUNTTOTAL_NAME,
                         PurchaseReturn.PROPERTY_ITEMSTAXTOTAL_NAME, PurchaseReturn.PROPERTY_SHIPPINGSEXPENSETOTAL_NAME),
                 ];
+            }
+            /** 转换之前 */
+            beforeConvert(): void { }
+            /** 数据解析后 */
+            afterParsing(): void {
+                // 计算部分业务逻辑
+                for (let rule of ibas.businessRulesManager.getRules(ibas.objects.getType(this))) {
+                    if (!(rule instanceof ibas.BusinessRuleSumElements)) {
+                        continue;
+                    }
+                    rule.execute(this);
+                }
             }
             /** 基于采购订单 */
             baseDocument(document: IPurchaseOrder): void;

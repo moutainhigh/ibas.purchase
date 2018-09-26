@@ -9,7 +9,7 @@ namespace purchase {
     export namespace bo {
 
         /** 采购订单 */
-        export class PurchaseOrder extends ibas.BODocument<PurchaseOrder> implements IPurchaseOrder {
+        export class PurchaseOrder extends ibas.BODocument<PurchaseOrder> implements IPurchaseOrder, ibas.IConvertedData {
 
             /** 业务对象编码 */
             static BUSINESS_OBJECT_CODE: string = BO_CODE_PURCHASEORDER;
@@ -642,6 +642,18 @@ namespace purchase {
                         PurchaseOrder.PROPERTY_DOCUMENTTOTAL_NAME, PurchaseOrder.PROPERTY_DISCOUNTTOTAL_NAME,
                         PurchaseOrder.PROPERTY_ITEMSTAXTOTAL_NAME, PurchaseOrder.PROPERTY_SHIPPINGSEXPENSETOTAL_NAME),
                 ];
+            }
+            /** 转换之前 */
+            beforeConvert(): void { }
+            /** 数据解析后 */
+            afterParsing(): void {
+                // 计算部分业务逻辑
+                for (let rule of ibas.businessRulesManager.getRules(ibas.objects.getType(this))) {
+                    if (!(rule instanceof ibas.BusinessRuleSumElements)) {
+                        continue;
+                    }
+                    rule.execute(this);
+                }
             }
         }
 
