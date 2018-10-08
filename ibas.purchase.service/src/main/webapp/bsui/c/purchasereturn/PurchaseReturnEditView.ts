@@ -201,6 +201,7 @@ namespace purchase {
                                 }),
                                 new sap.m.ToolbarSeparator(""),
                                 new sap.m.MenuButton("", {
+                                    icon: "sap-icon://tags",
                                     text: ibas.strings.format("{0}/{1}",
                                         ibas.i18n.prop("purchase_material_batch"), ibas.i18n.prop("purchase_material_serial")),
                                     menu: new sap.m.Menu("", {
