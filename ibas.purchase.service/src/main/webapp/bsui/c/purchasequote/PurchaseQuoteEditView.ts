@@ -259,6 +259,22 @@ namespace purchase {
                                     type: new openui5.datatype.Sum(),
                                 })
                             }),
+                            new sap.ui.table.Column("", {
+                                label: ibas.i18n.prop("bo_purchasequoteitem_reference1"),
+                                template: new sap.m.Text("", {
+                                    wrapping: false,
+                                }).bindProperty("text", {
+                                    path: "reference1",
+                                }),
+                            }),
+                            new sap.ui.table.Column("", {
+                                label: ibas.i18n.prop("bo_purchasequoteitem_reference2"),
+                                template: new sap.m.Text("", {
+                                    wrapping: false,
+                                }).bindProperty("text", {
+                                    path: "reference2",
+                                }),
+                            }),
                         ]
                     });
                     let formMiddle: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
@@ -276,6 +292,18 @@ namespace purchase {
                             new sap.m.ex.DataOwnerInput("", {
                                 bindingValue: {
                                     path: "dataOwner"
+                                }
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasequote_project") }),
+                            new sap.m.ex.ProjectInput("", {
+                                bindingValue: {
+                                    path: "project"
+                                }
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasequote_organization") }),
+                            new sap.m.ex.OrganizationInput("", {
+                                bindingValue: {
+                                    path: "organization"
                                 }
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasequote_remarks") }),
