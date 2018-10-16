@@ -24,6 +24,7 @@ import org.colorcoding.ibas.bobas.mapping.BOCode;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.ownership.IDataOwnership;
+import org.colorcoding.ibas.bobas.period.IPeriodData;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMultiplication;
@@ -32,7 +33,7 @@ import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequiredElements;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleSumElements;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleSummation;
 import org.colorcoding.ibas.businesspartner.logic.ISupplierCheckContract;
-import org.colorcoding.ibas.initialfantasy.data.IProjectData;
+import org.colorcoding.ibas.finance.data.IProjectData;
 import org.colorcoding.ibas.purchase.MyConfiguration;
 import org.colorcoding.ibas.purchase.bo.shippingaddress.IShippingAddresss;
 import org.colorcoding.ibas.purchase.bo.shippingaddress.ShippingAddress;
@@ -47,7 +48,7 @@ import org.colorcoding.ibas.purchase.bo.shippingaddress.ShippingAddresss;
 @XmlRootElement(name = PurchaseOrder.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @BOCode(PurchaseOrder.BUSINESS_OBJECT_CODE)
 public class PurchaseOrder extends BusinessObject<PurchaseOrder> implements IPurchaseOrder, IDataOwnership,
-		IApprovalData, IProjectData, IBOTagDeleted, IBusinessLogicsHost, IBOUserFields {
+		IApprovalData, IPeriodData, IProjectData, IBOTagDeleted, IBusinessLogicsHost, IBOUserFields {
 
 	/**
 	 * 序列化版本标记
