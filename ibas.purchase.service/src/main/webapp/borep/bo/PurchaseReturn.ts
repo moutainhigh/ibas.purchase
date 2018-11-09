@@ -1042,13 +1042,13 @@ namespace purchase {
                 this.setProperty(PurchaseReturnItem.PROPERTY_ORIGINALDOCUMENTLINEID_NAME, value);
             }
 
-            /** 映射的属性名称-物料编号 */
+            /** 映射的属性名称-物料编码 */
             static PROPERTY_ITEMCODE_NAME: string = "ItemCode";
-            /** 获取-物料编号 */
+            /** 获取-物料编码 */
             get itemCode(): string {
                 return this.getProperty<string>(PurchaseReturnItem.PROPERTY_ITEMCODE_NAME);
             }
-            /** 设置-物料编号 */
+            /** 设置-物料编码 */
             set itemCode(value: string) {
                 this.setProperty(PurchaseReturnItem.PROPERTY_ITEMCODE_NAME, value);
             }

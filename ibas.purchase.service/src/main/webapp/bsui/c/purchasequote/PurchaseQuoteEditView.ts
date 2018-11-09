@@ -77,7 +77,7 @@ namespace purchase {
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasequote_ordertype") }),
                             new sap.m.ex.SmartField("", {
                                 width: "100%",
-                                boType: bo.PurchaseQuote.name,
+                                boCode: ibas.config.applyVariables(bo.PurchaseQuote.BUSINESS_OBJECT_CODE),
                                 propertyName: "OrderType",
                                 bindingValue: {
                                     path: "orderType"

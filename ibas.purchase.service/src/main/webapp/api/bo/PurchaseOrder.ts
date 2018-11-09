@@ -249,7 +249,7 @@ namespace purchase {
             /** 原始行号 */
             originalDocumentLineId: number;
 
-            /** 物料编号 */
+            /** 物料编码 */
             itemCode: string;
 
             /** 物料/服务描述 */

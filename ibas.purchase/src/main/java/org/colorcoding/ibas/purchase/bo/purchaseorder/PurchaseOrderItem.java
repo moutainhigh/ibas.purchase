@@ -31,8 +31,7 @@ import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchItems;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialItems;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItem;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItems;
-import org.colorcoding.ibas.materials.logic.IMaterialOrderedContract;
-import org.colorcoding.ibas.materials.logic.IMaterialWarehouseOrderedContract;
+import org.colorcoding.ibas.materials.logic.IMaterialOrderedJournalContract;
 import org.colorcoding.ibas.purchase.MyConfiguration;
 
 /**
@@ -907,19 +906,19 @@ public class PurchaseOrderItem extends BusinessObject<PurchaseOrderItem>
 	}
 
 	/**
-	 * 属性名称-物料编号
+	 * 属性名称-物料编码
 	 */
 	private static final String PROPERTY_ITEMCODE_NAME = "ItemCode";
 
 	/**
-	 * 物料编号 属性
+	 * 物料编码 属性
 	 */
 	@DbField(name = "ItemCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
 	public static final IPropertyInfo<String> PROPERTY_ITEMCODE = registerProperty(PROPERTY_ITEMCODE_NAME, String.class,
 			MY_CLASS);
 
 	/**
-	 * 获取-物料编号
+	 * 获取-物料编码
 	 * 
 	 * @return 值
 	 */
@@ -929,7 +928,7 @@ public class PurchaseOrderItem extends BusinessObject<PurchaseOrderItem>
 	}
 
 	/**
-	 * 设置-物料编号
+	 * 设置-物料编码
 	 * 
 	 * @param value 值
 	 */
@@ -2186,26 +2185,7 @@ public class PurchaseOrderItem extends BusinessObject<PurchaseOrderItem>
 		if (this.getLineStatus() == emDocumentStatus.RELEASED) {
 			return new IBusinessLogicContract[] {
 
-					new IMaterialOrderedContract() {
-
-						@Override
-						public String getIdentifiers() {
-							return PurchaseOrderItem.this.getIdentifiers();
-						}
-
-						@Override
-						public String getItemCode() {
-							return PurchaseOrderItem.this.getItemCode();
-						}
-
-						@Override
-						public Decimal getQuantity() {
-							// 订购数量 = 订单数量 - 已收货数量
-							return PurchaseOrderItem.this.getQuantity()
-									.subtract(PurchaseOrderItem.this.getClosedQuantity());
-						}
-
-					}, new IMaterialWarehouseOrderedContract() {
+					new IMaterialOrderedJournalContract() {
 
 						@Override
 						public String getIdentifiers() {
@@ -2227,6 +2207,21 @@ public class PurchaseOrderItem extends BusinessObject<PurchaseOrderItem>
 							// 订购数量 = 订单数量 - 已收货数量
 							return PurchaseOrderItem.this.getQuantity()
 									.subtract(PurchaseOrderItem.this.getClosedQuantity());
+						}
+
+						@Override
+						public String getDocumentType() {
+							return PurchaseOrderItem.this.getObjectCode();
+						}
+
+						@Override
+						public Integer getDocumentEntry() {
+							return PurchaseOrderItem.this.getDocEntry();
+						}
+
+						@Override
+						public Integer getDocumentLineId() {
+							return PurchaseOrderItem.this.getLineId();
 						}
 
 					}
