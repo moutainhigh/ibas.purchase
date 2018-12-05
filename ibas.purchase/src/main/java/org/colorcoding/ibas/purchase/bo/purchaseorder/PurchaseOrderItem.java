@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
+import org.colorcoding.ibas.bobas.bo.IBOTagCanceled;
 import org.colorcoding.ibas.bobas.bo.IBOTagDeleted;
 import org.colorcoding.ibas.bobas.bo.IBOUserFields;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
@@ -41,7 +42,7 @@ import org.colorcoding.ibas.purchase.MyConfiguration;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = PurchaseOrderItem.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 public class PurchaseOrderItem extends BusinessObject<PurchaseOrderItem>
-		implements IPurchaseOrderItem, IBOTagDeleted, IBusinessLogicsHost, IBOUserFields {
+		implements IPurchaseOrderItem, IBOTagDeleted, IBOTagCanceled, IBusinessLogicsHost, IBOUserFields {
 
 	/**
 	 * 序列化版本标记

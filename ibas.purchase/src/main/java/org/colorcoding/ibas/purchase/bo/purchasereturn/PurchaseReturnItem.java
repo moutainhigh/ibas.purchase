@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
+import org.colorcoding.ibas.bobas.bo.IBOTagCanceled;
 import org.colorcoding.ibas.bobas.bo.IBOTagDeleted;
 import org.colorcoding.ibas.bobas.bo.IBOUserFields;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
@@ -43,7 +44,7 @@ import org.colorcoding.ibas.purchase.logic.IPurchaseOrderReturnContract;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = PurchaseReturnItem.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 public class PurchaseReturnItem extends BusinessObject<PurchaseReturnItem>
-		implements IPurchaseReturnItem, IBusinessLogicsHost, IBOTagDeleted, IBOUserFields {
+		implements IPurchaseReturnItem, IBusinessLogicsHost, IBOTagDeleted, IBOTagCanceled, IBOUserFields {
 
 	/**
 	 * 序列化版本标记

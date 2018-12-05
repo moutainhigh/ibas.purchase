@@ -6,7 +6,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
-import org.colorcoding.ibas.bobas.bo.IBOTagDeleted;
 import org.colorcoding.ibas.bobas.bo.IBOUserFields;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
@@ -30,8 +29,7 @@ import org.colorcoding.ibas.purchase.MyConfiguration;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = PurchaseQuoteItem.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
-public class PurchaseQuoteItem extends BusinessObject<PurchaseQuoteItem>
-		implements IPurchaseQuoteItem, IBOTagDeleted, IBOUserFields {
+public class PurchaseQuoteItem extends BusinessObject<PurchaseQuoteItem> implements IPurchaseQuoteItem, IBOUserFields {
 
 	private static final long serialVersionUID = -1573937349648316698L;
 
