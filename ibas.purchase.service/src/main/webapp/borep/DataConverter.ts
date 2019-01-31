@@ -47,6 +47,10 @@ namespace purchase {
                     if (property === bo.PurchaseOrder.PROPERTY_ROUNDING_NAME) {
                         return ibas.enums.toString(ibas.emYesNo, value);
                     }
+                } else if (boName === bo.PurchaseQuote.name) {
+                    if (property === bo.PurchaseQuote.PROPERTY_ROUNDING_NAME) {
+                        return ibas.enums.toString(ibas.emYesNo, value);
+                    }
                 } else if (boName === bo.PurchaseOrderItem.name) {
                     if (property === bo.PurchaseOrderItem.PROPERTY_BATCHMANAGEMENT_NAME) {
                         return ibas.enums.toString(ibas.emYesNo, value);
@@ -91,6 +95,10 @@ namespace purchase {
             protected parsingData(boName: string, property: string, value: any): any {
                 if (boName === bo.PurchaseOrder.name) {
                     if (property === bo.PurchaseOrder.PROPERTY_ROUNDING_NAME) {
+                        return ibas.enums.valueOf(ibas.emYesNo, value);
+                    }
+                } else if (boName === bo.PurchaseQuote.name) {
+                    if (property === bo.PurchaseQuote.PROPERTY_ROUNDING_NAME) {
                         return ibas.enums.valueOf(ibas.emYesNo, value);
                     }
                 } else if (boName === bo.PurchaseOrderItem.name) {

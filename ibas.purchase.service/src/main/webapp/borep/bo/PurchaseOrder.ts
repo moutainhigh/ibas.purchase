@@ -587,6 +587,7 @@ namespace purchase {
                 this.objectCode = ibas.config.applyVariables(PurchaseOrder.BUSINESS_OBJECT_CODE);
                 this.documentStatus = ibas.emDocumentStatus.RELEASED;
                 this.documentCurrency = ibas.config.get(ibas.CONFIG_ITEM_DEFAULT_CURRENCY);
+                this.rounding = ibas.emYesNo.YES;
                 this.discount = 1;
             }
 
@@ -640,6 +641,10 @@ namespace purchase {
                     new ibas.BusinessRuleSummation(
                         PurchaseOrder.PROPERTY_DOCUMENTTOTAL_NAME, PurchaseOrder.PROPERTY_DISCOUNTTOTAL_NAME,
                         PurchaseOrder.PROPERTY_ITEMSTAXTOTAL_NAME, PurchaseOrder.PROPERTY_SHIPPINGSEXPENSETOTAL_NAME),
+                    // 小数舍入（单据总计）
+                    new ibas.BusinessRuleRoundingOff(
+                        PurchaseOrder.PROPERTY_DIFFAMOUNT_NAME, PurchaseOrder.PROPERTY_DOCUMENTTOTAL_NAME,
+                        ibas.config.get(ibas.CONFIG_ITEM_DECIMAL_PLACES_SUM), PurchaseOrder.PROPERTY_ROUNDING_NAME),
                 ];
             }
             /** 转换之前 */

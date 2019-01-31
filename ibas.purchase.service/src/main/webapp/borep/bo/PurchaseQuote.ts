@@ -542,6 +542,7 @@ namespace purchase {
                 this.objectCode = ibas.config.applyVariables(PurchaseQuote.BUSINESS_OBJECT_CODE);
                 this.documentStatus = ibas.emDocumentStatus.RELEASED;
                 this.documentCurrency = ibas.config.get(ibas.CONFIG_ITEM_DEFAULT_CURRENCY);
+                this.rounding = ibas.emYesNo.YES;
                 this.discount = 1;
             }
             /** 映射的属性名称-项目的税总计 */
@@ -579,6 +580,10 @@ namespace purchase {
                     // 单据总计 = 折扣后总计 + 运输费用 + 税总额
                     new ibas.BusinessRuleSummation(
                         PurchaseQuote.PROPERTY_DOCUMENTTOTAL_NAME, PurchaseQuote.PROPERTY_DISCOUNTTOTAL_NAME, PurchaseQuote.PROPERTY_ITEMSTAXTOTAL_NAME),
+                    // 小数舍入（单据总计）
+                    new ibas.BusinessRuleRoundingOff(
+                        PurchaseQuote.PROPERTY_DIFFAMOUNT_NAME, PurchaseQuote.PROPERTY_DOCUMENTTOTAL_NAME,
+                        ibas.config.get(ibas.CONFIG_ITEM_DECIMAL_PLACES_SUM), PurchaseQuote.PROPERTY_ROUNDING_NAME),
                 ];
             }
             /** 转换之前 */
