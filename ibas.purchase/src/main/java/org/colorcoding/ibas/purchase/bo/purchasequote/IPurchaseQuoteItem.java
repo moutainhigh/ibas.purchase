@@ -1,8 +1,9 @@
 package org.colorcoding.ibas.purchase.bo.purchasequote;
 
+import java.math.BigDecimal;
+
 import org.colorcoding.ibas.bobas.bo.IBODocumentLine;
 import org.colorcoding.ibas.bobas.data.DateTime;
-import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
@@ -452,14 +453,14 @@ public interface IPurchaseQuoteItem extends IBODocumentLine {
 	 * 
 	 * @return 值
 	 */
-	Decimal getQuantity();
+	BigDecimal getQuantity();
 
 	/**
 	 * 设置-数量
 	 * 
 	 * @param value 值
 	 */
-	void setQuantity(Decimal value);
+	void setQuantity(BigDecimal value);
 
 	/**
 	 * 设置-数量
@@ -515,14 +516,14 @@ public interface IPurchaseQuoteItem extends IBODocumentLine {
 	 * 
 	 * @return 值
 	 */
-	Decimal getPrice();
+	BigDecimal getPrice();
 
 	/**
 	 * 设置-价格
 	 * 
 	 * @param value 值
 	 */
-	void setPrice(Decimal value);
+	void setPrice(BigDecimal value);
 
 	/**
 	 * 设置-价格
@@ -564,14 +565,14 @@ public interface IPurchaseQuoteItem extends IBODocumentLine {
 	 * 
 	 * @return 值
 	 */
-	Decimal getRate();
+	BigDecimal getRate();
 
 	/**
 	 * 设置-汇率
 	 * 
 	 * @param value 值
 	 */
-	void setRate(Decimal value);
+	void setRate(BigDecimal value);
 
 	/**
 	 * 设置-汇率
@@ -599,14 +600,14 @@ public interface IPurchaseQuoteItem extends IBODocumentLine {
 	 * 
 	 * @return 值
 	 */
-	Decimal getLineTotal();
+	BigDecimal getLineTotal();
 
 	/**
 	 * 设置-行总计
 	 * 
 	 * @param value 值
 	 */
-	void setLineTotal(Decimal value);
+	void setLineTotal(BigDecimal value);
 
 	/**
 	 * 设置-行总计
@@ -648,14 +649,14 @@ public interface IPurchaseQuoteItem extends IBODocumentLine {
 	 * 
 	 * @return 值
 	 */
-	Decimal getClosedQuantity();
+	BigDecimal getClosedQuantity();
 
 	/**
 	 * 设置-已清数量
 	 * 
 	 * @param value 值
 	 */
-	void setClosedQuantity(Decimal value);
+	void setClosedQuantity(BigDecimal value);
 
 	/**
 	 * 设置-已清数量
@@ -683,14 +684,14 @@ public interface IPurchaseQuoteItem extends IBODocumentLine {
 	 * 
 	 * @return 值
 	 */
-	Decimal getDiscount();
+	BigDecimal getDiscount();
 
 	/**
 	 * 设置-行折扣
 	 * 
 	 * @param value 值
 	 */
-	void setDiscount(Decimal value);
+	void setDiscount(BigDecimal value);
 
 	/**
 	 * 设置-行折扣
@@ -718,14 +719,14 @@ public interface IPurchaseQuoteItem extends IBODocumentLine {
 	 * 
 	 * @return 值
 	 */
-	Decimal getClosedAmount();
+	BigDecimal getClosedAmount();
 
 	/**
 	 * 设置-已清金额
 	 * 
 	 * @param value 值
 	 */
-	void setClosedAmount(Decimal value);
+	void setClosedAmount(BigDecimal value);
 
 	/**
 	 * 设置-已清金额
@@ -767,14 +768,14 @@ public interface IPurchaseQuoteItem extends IBODocumentLine {
 	 * 
 	 * @return 值
 	 */
-	Decimal getUnitPrice();
+	BigDecimal getUnitPrice();
 
 	/**
 	 * 设置-折扣前价格
 	 * 
 	 * @param value 值
 	 */
-	void setUnitPrice(Decimal value);
+	void setUnitPrice(BigDecimal value);
 
 	/**
 	 * 设置-折扣前价格
@@ -816,14 +817,14 @@ public interface IPurchaseQuoteItem extends IBODocumentLine {
 	 * 
 	 * @return 值
 	 */
-	Decimal getTaxRate();
+	BigDecimal getTaxRate();
 
 	/**
 	 * 设置-税率
 	 * 
 	 * @param value 值
 	 */
-	void setTaxRate(Decimal value);
+	void setTaxRate(BigDecimal value);
 
 	/**
 	 * 设置-税率
@@ -851,14 +852,14 @@ public interface IPurchaseQuoteItem extends IBODocumentLine {
 	 * 
 	 * @return 值
 	 */
-	Decimal getTaxTotal();
+	BigDecimal getTaxTotal();
 
 	/**
 	 * 设置-税总额
 	 * 
 	 * @param value 值
 	 */
-	void setTaxTotal(Decimal value);
+	void setTaxTotal(BigDecimal value);
 
 	/**
 	 * 设置-税总额
@@ -886,14 +887,14 @@ public interface IPurchaseQuoteItem extends IBODocumentLine {
 	 * 
 	 * @return 值
 	 */
-	Decimal getGrossPrice();
+	BigDecimal getGrossPrice();
 
 	/**
 	 * 设置-毛价
 	 * 
 	 * @param value 值
 	 */
-	void setGrossPrice(Decimal value);
+	void setGrossPrice(BigDecimal value);
 
 	/**
 	 * 设置-毛价
@@ -921,14 +922,14 @@ public interface IPurchaseQuoteItem extends IBODocumentLine {
 	 * 
 	 * @return 值
 	 */
-	Decimal getGrossTotal();
+	BigDecimal getGrossTotal();
 
 	/**
 	 * 设置-毛总额
 	 * 
 	 * @param value 值
 	 */
-	void setGrossTotal(Decimal value);
+	void setGrossTotal(BigDecimal value);
 
 	/**
 	 * 设置-毛总额

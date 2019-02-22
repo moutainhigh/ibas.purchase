@@ -1,5 +1,7 @@
 package org.colorcoding.ibas.purchase.logic;
 
+import java.math.BigDecimal;
+
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.mapping.LogicContract;
 import org.colorcoding.ibas.purchase.bo.purchasedelivery.IPurchaseDelivery;
@@ -23,7 +25,7 @@ public class PurchaseDeliveryPaymentService extends PurchaseDeliveryService<IPur
 		if (this.getBeAffected() == null) {
 			return;
 		}
-		Decimal paidTotal = this.getBeAffected().getPaidTotal();
+		BigDecimal paidTotal = this.getBeAffected().getPaidTotal();
 		if (paidTotal == null) {
 			paidTotal = Decimal.ZERO;
 		}
@@ -36,7 +38,7 @@ public class PurchaseDeliveryPaymentService extends PurchaseDeliveryService<IPur
 		if (this.getBeAffected() == null) {
 			return;
 		}
-		Decimal paidTotal = this.getBeAffected().getPaidTotal();
+		BigDecimal paidTotal = this.getBeAffected().getPaidTotal();
 		if (paidTotal == null) {
 			paidTotal = Decimal.ZERO;
 		}

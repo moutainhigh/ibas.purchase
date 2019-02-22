@@ -1,6 +1,7 @@
 package org.colorcoding.ibas.purchase.logic;
 
-import org.colorcoding.ibas.bobas.data.Decimal;
+import java.math.BigDecimal;
+
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 
 /**
@@ -16,6 +17,6 @@ public interface IPurchaseOrderReceiptContract extends IBusinessLogicContract, I
 	 * 
 	 * @return
 	 */
-	Decimal getQuantity();
+	BigDecimal getQuantity();
 
 }
