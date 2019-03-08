@@ -20,6 +20,8 @@ import org.colorcoding.ibas.bobas.data.emApprovalStatus;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
+import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
+import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.mapping.BOCode;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
@@ -33,6 +35,7 @@ import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequiredElements;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRoundingOff;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleSumElements;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleSummation;
+import org.colorcoding.ibas.businesspartner.logic.ISupplierCheckContract;
 import org.colorcoding.ibas.purchase.MyConfiguration;
 
 /**
@@ -44,7 +47,7 @@ import org.colorcoding.ibas.purchase.MyConfiguration;
 @XmlRootElement(name = PurchaseQuote.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @BOCode(PurchaseQuote.BUSINESS_OBJECT_CODE)
 public class PurchaseQuote extends BusinessObject<PurchaseQuote>
-		implements IPurchaseQuote, IDataOwnership, IApprovalData, IProjectData, IBOUserFields {
+		implements IPurchaseQuote, IDataOwnership, IApprovalData, IBusinessLogicsHost, IProjectData, IBOUserFields {
 
 	private static final long serialVersionUID = -1107057696040517844L;
 
@@ -1595,19 +1598,19 @@ public class PurchaseQuote extends BusinessObject<PurchaseQuote>
 	}
 
 	/**
-	 * 属性名称-消费者
+	 * 属性名称-终端客户
 	 */
 	private static final String PROPERTY_CONSUMER_NAME = "Consumer";
 
 	/**
-	 * 消费者 属性
+	 * 终端客户 属性
 	 */
 	@DbField(name = "Consumer", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
 	public static final IPropertyInfo<String> PROPERTY_CONSUMER = registerProperty(PROPERTY_CONSUMER_NAME, String.class,
 			MY_CLASS);
 
 	/**
-	 * 获取-消费者
+	 * 获取-终端客户
 	 * 
 	 * @return 值
 	 */
@@ -1617,7 +1620,7 @@ public class PurchaseQuote extends BusinessObject<PurchaseQuote>
 	}
 
 	/**
-	 * 设置-消费者
+	 * 设置-终端客户
 	 * 
 	 * @param value 值
 	 */
@@ -1788,4 +1791,22 @@ public class PurchaseQuote extends BusinessObject<PurchaseQuote>
 		};
 	}
 
+	@Override
+	public IBusinessLogicContract[] getContracts() {
+		return new IBusinessLogicContract[] {
+
+				new ISupplierCheckContract() {
+					@Override
+					public String getIdentifiers() {
+						return PurchaseQuote.this.getIdentifiers();
+					}
+
+					@Override
+					public String getSupplierCode() {
+						return PurchaseQuote.this.getSupplierCode();
+					}
+				}
+
+		};
+	}
 }

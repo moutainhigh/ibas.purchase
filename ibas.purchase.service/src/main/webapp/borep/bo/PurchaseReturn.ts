@@ -501,13 +501,13 @@ namespace purchase {
                 this.setProperty(PurchaseReturn.PROPERTY_PROJECT_NAME, value);
             }
 
-            /** 映射的属性名称-消费者 */
+            /** 映射的属性名称-终端客户 */
             static PROPERTY_CONSUMER_NAME: string = "Consumer";
-            /** 获取-消费者 */
+            /** 获取-终端客户 */
             get consumer(): string {
                 return this.getProperty<string>(PurchaseReturn.PROPERTY_CONSUMER_NAME);
             }
-            /** 设置-消费者 */
+            /** 设置-终端客户 */
             set consumer(value: string) {
                 this.setProperty(PurchaseReturn.PROPERTY_CONSUMER_NAME, value);
             }
@@ -620,7 +620,7 @@ namespace purchase {
             /** 数据解析后 */
             afterParsing(): void {
                 // 计算部分业务逻辑
-                for (let rule of ibas.businessRulesManager.getRules(ibas.objects.getType(this))) {
+                for (let rule of ibas.businessRulesManager.getRules(ibas.objects.typeOf(this))) {
                     if (!(rule instanceof ibas.BusinessRuleSumElements)) {
                         continue;
                     }

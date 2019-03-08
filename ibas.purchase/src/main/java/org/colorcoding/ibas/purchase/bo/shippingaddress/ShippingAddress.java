@@ -34,7 +34,7 @@ public class ShippingAddress extends BusinessObject<ShippingAddress> implements 
 	/**
 	 * 序列化版本标记
 	 */
-	private static final long serialVersionUID = -5086004743874250649L;
+	private static final long serialVersionUID = -5086004743874250648L;
 
 	/**
 	 * 当前类型
@@ -44,12 +44,12 @@ public class ShippingAddress extends BusinessObject<ShippingAddress> implements 
 	/**
 	 * 数据库表
 	 */
-	public static final String DB_TABLE_NAME = "${Company}_SL_OSAD";
+	public static final String DB_TABLE_NAME = "${Company}_PH_OSAD";
 
 	/**
 	 * 业务对象编码
 	 */
-	public static final String BUSINESS_OBJECT_CODE = "${Company}_SL_SHIPADDRESS";
+	public static final String BUSINESS_OBJECT_CODE = "${Company}_PH_SHIPADDRESS";
 
 	/**
 	 * 业务对象名称

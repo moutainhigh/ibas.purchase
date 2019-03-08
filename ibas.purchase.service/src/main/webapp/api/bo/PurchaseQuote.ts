@@ -143,7 +143,7 @@ namespace purchase {
             /** 项目代码 */
             project: string;
 
-            /** 消费者 */
+            /** 终端客户 */
             consumer: string;
 
             /** 单据类型 */
