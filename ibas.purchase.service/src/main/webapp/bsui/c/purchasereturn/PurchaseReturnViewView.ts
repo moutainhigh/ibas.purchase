@@ -8,36 +8,62 @@
 namespace purchase {
     export namespace ui {
         export namespace c {
-            /**
-             * 查看视图-采购退货
-             */
+            /** 查看视图-采购退货 */
             export class PurchaseReturnViewView extends ibas.BOViewView implements app.IPurchaseReturnViewView {
 
                 /** 绘制视图 */
                 draw(): any {
                     let that: this = this;
-                    this.page = new sap.m.Page("", {
+                    let formTop: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
+                        editable: true,
+                        content: [
+                        ]
+                    });
+                    let formPurchaseReturnItem: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
+                        editable: true,
+                        content: [
+                            new sap.ui.core.Title("", { text: ibas.i18n.prop("bo_purchasereturnitem") }),
+                            this.tablePurchaseReturnItem = new sap.extension.table.DataTable("", {
+                                visibleRowCount: sap.extension.table.visibleRowCount(8),
+                                dataInfo: {
+                                    code: bo.PurchaseReturn.BUSINESS_OBJECT_CODE,
+                                    name: bo.PurchaseReturnItem.name
+                                },
+                                rows: "{/rows}",
+                                columns: [
+                                ]
+                            }),
+                        ]
+                    });
+                    let formBottom: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
+                        editable: true,
+                        content: [
+                        ]
+                    });
+                    return this.page = new sap.extension.m.DataPage("", {
                         showHeader: false,
-                        subHeader: new sap.m.Bar("", {
-                            contentLeft: [
+                        dataInfo: {
+                            code: bo.PurchaseReturn.BUSINESS_OBJECT_CODE,
+                        },
+                        subHeader: new sap.m.Toolbar("", {
+                            content: [
                                 new sap.m.Button("", {
                                     text: ibas.i18n.prop("shell_data_edit"),
-                                    visible: this.mode === ibas.emViewMode.VIEW ? false : true,
                                     type: sap.m.ButtonType.Transparent,
                                     icon: "sap-icon://edit",
+                                    visible: this.mode === ibas.emViewMode.VIEW ? false : true,
                                     press: function (): void {
                                         that.fireViewEvents(that.editDataEvent);
                                     }
-                                })
-                            ],
-                            contentRight: [
+                                }),
+                                new sap.m.ToolbarSpacer(""),
                                 new sap.m.Button("", {
                                     type: sap.m.ButtonType.Transparent,
                                     icon: "sap-icon://action",
                                     press: function (event: any): void {
                                         ibas.servicesManager.showServices({
                                             proxy: new ibas.BOServiceProxy({
-                                                data: (<any>that.layoutMain.getModel()).getData(),
+                                                data: that.page.getModel().getData(),
                                                 converter: new bo.DataConverter(),
                                             }),
                                             displayServices(services: ibas.IServiceAgent[]): void {
@@ -59,7 +85,7 @@ namespace purchase {
                                                         }
                                                     }));
                                                 }
-                                                (<any>popover).addStyleClass("sapMOTAPopover sapTntToolHeaderPopover");
+                                                popover.addStyleClass("sapMOTAPopover sapTntToolHeaderPopover");
                                                 popover.openBy(event.getSource(), true);
                                             }
                                         });
@@ -67,22 +93,24 @@ namespace purchase {
                                 })
                             ]
                         }),
-                        content: [this.layoutMain]
+                        content: [
+                            formTop,
+                            formPurchaseReturnItem,
+                            formBottom,
+                        ]
                     });
-                    return this.page;
                 }
-                private page: sap.m.Page;
-                private tablePurchaseReturnItem: sap.ui.table.Table;
-                private layoutMain: sap.ui.layout.VerticalLayout;
+
+                private page: sap.extension.m.Page;
+                private tablePurchaseReturnItem: sap.extension.table.Table;
 
                 /** 显示数据 */
                 showPurchaseReturn(data: bo.PurchaseReturn): void {
-                    this.layoutMain.setModel(new sap.ui.model.json.JSONModel(data));
-                    this.layoutMain.bindObject("/");
+                    this.page.setModel(new sap.extension.model.JSONModel(data));
                 }
-                /** 显示数据 */
+                /** 显示数据-采购退货-行 */
                 showPurchaseReturnItems(datas: bo.PurchaseReturnItem[]): void {
-                    this.tablePurchaseReturnItem.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
+                    this.tablePurchaseReturnItem.setModel(new sap.extension.model.JSONModel({ rows: datas }));
                 }
             }
         }

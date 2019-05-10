@@ -633,6 +633,17 @@ namespace purchase {
                     }
                     // 复制行项目
                     for (let item of document.purchaseOrderItems) {
+                        if (item.canceled === ibas.emYesNo.YES) {
+                            continue;
+                        }
+                        if (item.lineStatus !== ibas.emDocumentStatus.RELEASED) {
+                            continue;
+                        }
+                        // 计算未交货数量
+                        let openQty: number = item.quantity - item.closedQuantity;
+                        if (openQty <= 0) {
+                            continue;
+                        }
                         let myItem: PurchaseDeliveryItem = this.purchaseDeliveryItems.create();
                         myItem.baseDocumentType = item.objectCode;
                         myItem.baseDocumentEntry = item.docEntry;

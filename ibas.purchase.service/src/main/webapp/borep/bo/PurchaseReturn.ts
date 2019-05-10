@@ -641,6 +641,12 @@ namespace purchase {
                     }
                     // 复制行项目
                     for (let item of document.purchaseOrderItems) {
+                        if (item.canceled === ibas.emYesNo.YES) {
+                            continue;
+                        }
+                        if (item.lineStatus !== ibas.emDocumentStatus.RELEASED) {
+                            continue;
+                        }
                         let myItem: PurchaseReturnItem = this.purchaseReturnItems.create();
                         myItem.baseDocumentType = item.objectCode;
                         myItem.baseDocumentEntry = item.docEntry;
@@ -689,6 +695,12 @@ namespace purchase {
                     }
                     // 复制行项目
                     for (let item of document.purchaseDeliveryItems) {
+                        if (item.canceled === ibas.emYesNo.YES) {
+                            continue;
+                        }
+                        if (item.lineStatus !== ibas.emDocumentStatus.RELEASED) {
+                            continue;
+                        }
                         let myItem: PurchaseReturnItem = this.purchaseReturnItems.create();
                         myItem.baseDocumentType = item.objectCode;
                         myItem.baseDocumentEntry = item.docEntry;

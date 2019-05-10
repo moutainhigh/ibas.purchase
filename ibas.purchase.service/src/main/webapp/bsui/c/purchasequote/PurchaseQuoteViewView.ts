@@ -8,36 +8,62 @@
 namespace purchase {
     export namespace ui {
         export namespace c {
-            /**
-             * 查看视图-采购订单
-             */
+            /** 查看视图-采购报价 */
             export class PurchaseQuoteViewView extends ibas.BOViewView implements app.IPurchaseQuoteViewView {
 
                 /** 绘制视图 */
                 draw(): any {
                     let that: this = this;
-                    this.page = new sap.m.Page("", {
+                    let formTop: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
+                        editable: true,
+                        content: [
+                        ]
+                    });
+                    let formPurchaseQuoteItem: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
+                        editable: true,
+                        content: [
+                            new sap.ui.core.Title("", { text: ibas.i18n.prop("bo_purchasequoteitem") }),
+                            this.tablePurchaseQuoteItem = new sap.extension.table.DataTable("", {
+                                visibleRowCount: sap.extension.table.visibleRowCount(8),
+                                dataInfo: {
+                                    code: bo.PurchaseQuote.BUSINESS_OBJECT_CODE,
+                                    name: bo.PurchaseQuoteItem.name
+                                },
+                                rows: "{/rows}",
+                                columns: [
+                                ]
+                            }),
+                        ]
+                    });
+                    let formBottom: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
+                        editable: true,
+                        content: [
+                        ]
+                    });
+                    return this.page = new sap.extension.m.DataPage("", {
                         showHeader: false,
-                        subHeader: new sap.m.Bar("", {
-                            contentLeft: [
+                        dataInfo: {
+                            code: bo.PurchaseQuote.BUSINESS_OBJECT_CODE,
+                        },
+                        subHeader: new sap.m.Toolbar("", {
+                            content: [
                                 new sap.m.Button("", {
                                     text: ibas.i18n.prop("shell_data_edit"),
-                                    visible: this.mode === ibas.emViewMode.VIEW ? false : true,
                                     type: sap.m.ButtonType.Transparent,
                                     icon: "sap-icon://edit",
+                                    visible: this.mode === ibas.emViewMode.VIEW ? false : true,
                                     press: function (): void {
                                         that.fireViewEvents(that.editDataEvent);
                                     }
-                                })
-                            ],
-                            contentRight: [
+                                }),
+                                new sap.m.ToolbarSpacer(""),
                                 new sap.m.Button("", {
                                     type: sap.m.ButtonType.Transparent,
                                     icon: "sap-icon://action",
                                     press: function (event: any): void {
                                         ibas.servicesManager.showServices({
                                             proxy: new ibas.BOServiceProxy({
-                                                data: (<any>that.layoutMain.getModel()).getData(),
+                                                data: that.page.getModel().getData(),
                                                 converter: new bo.DataConverter(),
                                             }),
                                             displayServices(services: ibas.IServiceAgent[]): void {
@@ -59,7 +85,7 @@ namespace purchase {
                                                         }
                                                     }));
                                                 }
-                                                (<any>popover).addStyleClass("sapMOTAPopover sapTntToolHeaderPopover");
+                                                popover.addStyleClass("sapMOTAPopover sapTntToolHeaderPopover");
                                                 popover.openBy(event.getSource(), true);
                                             }
                                         });
@@ -67,21 +93,24 @@ namespace purchase {
                                 })
                             ]
                         }),
-                        content: [this.layoutMain]
+                        content: [
+                            formTop,
+                            formPurchaseQuoteItem,
+                            formBottom,
+                        ]
                     });
-                    return this.page;
                 }
-                private page: sap.m.Page;
-                private tablePurchaseQuoteItem: sap.ui.table.Table;
-                private layoutMain: sap.ui.layout.VerticalLayout;
+
+                private page: sap.extension.m.Page;
+                private tablePurchaseQuoteItem: sap.extension.table.Table;
 
                 /** 显示数据 */
                 showPurchaseQuote(data: bo.PurchaseQuote): void {
-                    this.layoutMain.setModel(new sap.ui.model.json.JSONModel(data));
+                    this.page.setModel(new sap.extension.model.JSONModel(data));
                 }
-                /** 显示数据 */
+                /** 显示数据-采购报价-行 */
                 showPurchaseQuoteItems(datas: bo.PurchaseQuoteItem[]): void {
-                    this.tablePurchaseQuoteItem.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
+                    this.tablePurchaseQuoteItem.setModel(new sap.extension.model.JSONModel({ rows: datas }));
                 }
             }
         }

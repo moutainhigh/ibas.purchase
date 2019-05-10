@@ -22,6 +22,8 @@ namespace purchase {
                 removePurchaseQuoteItemEvent: Function;
                 /** 选择采购订单供应商信息 */
                 choosePurchaseQuoteSupplierEvent: Function;
+                /** 选择采购报价联系人信息 */
+                choosePurchaseQuoteContactPersonEvent: Function;
                 /** 选择采购订单价格清单信息 */
                 choosePurchaseQuotePriceListEvent: Function;
                 /** 选择采购订单-行物料主数据 */
@@ -36,252 +38,265 @@ namespace purchase {
                         content: [
                             new sap.ui.core.Title("", { text: ibas.i18n.prop("purchase_title_general") }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasequote_suppliercode") }),
-                            new sap.m.Input("", {
+                            new sap.extension.m.Input("", {
                                 showValueHelp: true,
                                 valueHelpRequest: function (): void {
                                     that.fireViewEvents(that.choosePurchaseQuoteSupplierEvent);
                                 }
-                            }).bindProperty("value", {
-                                path: "supplierCode"
+                            }).bindProperty("bindingValue", {
+                                path: "supplierCode",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 20
+                                })
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasequote_suppliername") }),
-                            new sap.m.Input("", {
+                            new sap.extension.m.Input("", {
                                 editable: false,
-                            }).bindProperty("value", {
-                                path: "supplierName"
+                            }).bindProperty("bindingValue", {
+                                path: "supplierName",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 100
+                                })
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasequote_contactperson") }),
-                            new sap.m.ex.BOChooseInput("", {
-                                boText: "name",
-                                boKey: "objectKey",
-                                boCode: ibas.config.applyVariables(businesspartner.bo.BO_CODE_CONTACTPERSON),
-                                repositoryName: businesspartner.bo.BO_REPOSITORY_BUSINESSPARTNER,
-                                criteria: businesspartner.app.conditions.contactperson.create(businesspartner.bo.emBusinessPartnerType.SUPPLIER, "{supplierCode}"),
-                                bindingValue: {
-                                    path: "contactPerson"
-                                }
+                            new sap.extension.m.RepositoryInput("", {
+                                showValueHelp: true,
+                                repository: businesspartner.bo.BORepositoryBusinessPartner,
+                                dataInfo: {
+                                    type: businesspartner.bo.ContactPerson,
+                                    key: "ObjectKey",
+                                    text: "Name"
+                                },
+                                valueHelpRequest: function (): void {
+                                    that.fireViewEvents(that.choosePurchaseQuoteContactPersonEvent);
+                                },
+                            }).bindProperty("bindingValue", {
+                                path: "contactPerson",
+                                type: new sap.extension.data.Numeric()
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasequote_pricelist") }),
-                            new sap.m.ex.BOInput("", {
-                                boText: "name",
-                                boKey: "objectKey",
-                                boCode: ibas.config.applyVariables(materials.bo.BO_CODE_MATERIALPRICELIST),
-                                repositoryName: materials.bo.BO_REPOSITORY_MATERIALS,
+                            new sap.extension.m.RepositoryInput("", {
+                                showValueHelp: true,
+                                repository: materials.bo.BORepositoryMaterials,
+                                dataInfo: {
+                                    type: materials.bo.MaterialPriceList,
+                                    key: "ObjectKey",
+                                    text: "Name"
+                                },
                                 valueHelpRequest: function (): void {
                                     that.fireViewEvents(that.choosePurchaseQuotePriceListEvent);
                                 },
-                                bindingValue: {
-                                    path: "priceList"
-                                }
+                            }).bindProperty("bindingValue", {
+                                path: "priceList",
+                                type: new sap.extension.data.Numeric()
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasequote_ordertype") }),
-                            new sap.m.ex.SmartField("", {
-                                width: "100%",
-                                boCode: ibas.config.applyVariables(bo.PurchaseQuote.BUSINESS_OBJECT_CODE),
-                                propertyName: "OrderType",
-                                bindingValue: {
-                                    path: "orderType"
-                                }
+                            new sap.extension.m.PropertySelect("", {
+                                dataInfo: {
+                                    code: bo.PurchaseQuote.BUSINESS_OBJECT_CODE,
+                                },
+                                propertyName: "orderType",
+                            }).bindProperty("bindingValue", {
+                                path: "orderType",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 8
+                                })
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasequote_reference1") }),
-                            new sap.m.Input("", {}).bindProperty("value", {
-                                path: "reference1"
+                            new sap.extension.m.Input("", {
+                            }).bindProperty("bindingValue", {
+                                path: "reference1",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 100
+                                })
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasequote_reference2") }),
-                            new sap.m.Input("", {}).bindProperty("value", {
-                                path: "reference2"
+                            new sap.extension.m.Input("", {
+                            }).bindProperty("bindingValue", {
+                                path: "reference2",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 200
+                                })
                             }),
                             new sap.ui.core.Title("", { text: ibas.i18n.prop("purchase_title_status") }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasequote_docentry") }),
-                            new sap.m.Input("", {
+                            new sap.extension.m.Input("", {
                                 editable: false,
-                            }).bindProperty("value", {
-                                path: "docEntry"
+                            }).bindProperty("bindingValue", {
+                                path: "docEntry",
+                                type: new sap.extension.data.Numeric()
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasequote_documentstatus") }),
-                            new sap.m.Select("", {
-                                items: openui5.utils.createComboBoxItems(ibas.emDocumentStatus),
-                            }).bindProperty("selectedKey", {
+                            new sap.extension.m.EnumSelect("", {
+                                enumType: ibas.emDocumentStatus
+                            }).bindProperty("bindingValue", {
                                 path: "documentStatus",
-                                type: "sap.ui.model.type.Integer",
+                                type: new sap.extension.data.DocumentStatus()
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasequote_canceled") }),
-                            new sap.m.Select("", {
-                                items: openui5.utils.createComboBoxItems(ibas.emYesNo),
-                            }).bindProperty("selectedKey", {
+                            new sap.extension.m.CheckBox("", {
+                                text: ibas.i18n.prop("bo_payment_canceled")
+                            }).bindProperty("bindingValue", {
                                 path: "canceled",
-                                type: "sap.ui.model.type.Integer",
+                                type: new sap.extension.data.YesNo()
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasequote_documentdate") }),
-                            new sap.m.DatePicker("", {
-                                valueFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
-                                displayFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
-                            }).bindProperty("dateValue", {
+                            new sap.extension.m.DatePicker("", {
+                            }).bindProperty("bindingValue", {
                                 path: "documentDate",
+                                type: new sap.extension.data.Date()
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasequote_deliverydate") }),
-                            new sap.m.DatePicker("", {
-                                valueFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
-                                displayFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
-                            }).bindProperty("dateValue", {
+                            new sap.extension.m.DatePicker("", {
+                            }).bindProperty("bindingValue", {
                                 path: "deliveryDate",
+                                type: new sap.extension.data.Date()
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasequote_consumer") }),
-                            new sap.m.Input("", {
-                            }).bindProperty("value", {
-                                path: "consumer"
+                            new sap.extension.m.Input("", {
+                            }).bindProperty("bindingValue", {
+                                path: "consumer",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 100
+                                })
                             }),
                         ]
                     });
-                    this.tablePurchaseQuoteItem = new sap.ui.table.Table("", {
-                        toolbar: new sap.m.Toolbar("", {
-                            content: [
-                                new sap.m.Button("", {
-                                    text: ibas.i18n.prop("shell_data_add"),
-                                    type: sap.m.ButtonType.Transparent,
-                                    icon: "sap-icon://add",
-                                    press: function (): void {
-                                        that.fireViewEvents(that.addPurchaseQuoteItemEvent);
-                                    }
-                                }),
-                                new sap.m.Button("", {
-                                    text: ibas.i18n.prop("shell_data_remove"),
-                                    type: sap.m.ButtonType.Transparent,
-                                    icon: "sap-icon://less",
-                                    press: function (): void {
-                                        that.fireViewEvents(that.removePurchaseQuoteItemEvent,
-                                            // 获取表格选中的对象
-                                            openui5.utils.getSelecteds<bo.PurchaseQuoteItem>(that.tablePurchaseQuoteItem)
-                                        );
-                                    }
-                                }),
-                            ]
-                        }),
-                        enableSelectAll: false,
-                        selectionBehavior: sap.ui.table.SelectionBehavior.Row,
-                        visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 8),
-                        rows: "{/rows}",
-                        columns: [
-                            new sap.ui.table.Column("", {
-                                label: ibas.i18n.prop("bo_purchasequoteitem_lineid"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false,
-                                }).bindProperty("text", {
-                                    path: "lineId",
-                                }),
-                            }),
-                            new sap.ui.table.Column("", {
-                                label: ibas.i18n.prop("bo_purchasequoteitem_linestatus"),
-                                template: new sap.m.Select("", {
-                                    width: "100%",
-                                    items: openui5.utils.createComboBoxItems(ibas.emDocumentStatus),
-                                }).bindProperty("selectedKey", {
-                                    path: "lineStatus",
-                                    type: "sap.ui.model.type.Integer",
-                                })
-                            }),
-                            new sap.ui.table.Column("", {
-                                label: ibas.i18n.prop("bo_purchasequoteitem_itemcode"),
-                                template: new sap.m.Input("", {
-                                    width: "100%",
-                                    showValueHelp: true,
-                                    valueHelpRequest: function (): void {
-                                        that.fireViewEvents(that.choosePurchaseQuoteItemMaterialEvent,
-                                            // 获取当前对象
-                                            this.getBindingContext().getObject()
-                                        );
-                                    }
-                                }).bindProperty("value", {
-                                    path: "itemCode"
-                                })
-                            }),
-                            new sap.ui.table.Column("", {
-                                label: ibas.i18n.prop("bo_purchasequoteitem_itemdescription"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false,
-                                }).bindProperty("text", {
-                                    path: "itemDescription"
-                                })
-                            }),
-                            /*
-                            new sap.ui.table.Column("", {
-                                label: ibas.i18n.prop("bo_purchasequoteitem_warehouse"),
-                                template: new sap.m.Input("", {
-                                    width: "100%",
-                                    showValueHelp: true,
-                                    valueHelpRequest: function (): void {
-                                        that.fireViewEvents(that.choosePurchaseQuoteItemWarehouseEvent,
-                                            // 获取当前对象
-                                            this.getBindingContext().getObject()
-                                        );
-                                    }
-                                }).bindProperty("value", {
-                                    path: "warehouse"
-                                })
-                            }),
-                            */
-                            new sap.ui.table.Column("", {
-                                label: ibas.i18n.prop("bo_purchasequoteitem_quantity"),
-                                template: new sap.m.Input("", {
-                                    width: "100%",
-                                    type: sap.m.InputType.Number
-                                }).bindProperty("value", {
-                                    path: "quantity",
-                                    type: new openui5.datatype.Quantity(),
-                                })
-                            }),
-                            new sap.ui.table.Column("", {
-                                label: ibas.i18n.prop("bo_purchasequoteitem_uom"),
-                                template: new sap.m.Text("", {
-                                    width: "100%",
-                                    wrapping: false
-                                }).bindProperty("text", {
-                                    path: "uom"
-                                })
-                            }),
-                            new sap.ui.table.Column("", {
-                                label: ibas.i18n.prop("bo_purchasequoteitem_price"),
-                                template: new sap.m.Input("", {
-                                    width: "100%",
-                                    type: sap.m.InputType.Number
-                                }).bindProperty("value", {
-                                    path: "price",
-                                    type: new openui5.datatype.Price(),
-                                })
-                            }),
-                            new sap.ui.table.Column("", {
-                                label: ibas.i18n.prop("bo_purchasequoteitem_linetotal"),
-                                template: new sap.m.Text("", {
-                                    width: "100%",
-                                    wrapping: false
-                                }).bindProperty("text", {
-                                    path: "lineTotal",
-                                    type: new openui5.datatype.Sum(),
-                                })
-                            }),
-                            new sap.ui.table.Column("", {
-                                label: ibas.i18n.prop("bo_purchasequoteitem_reference1"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false,
-                                }).bindProperty("text", {
-                                    path: "reference1",
-                                }),
-                            }),
-                            new sap.ui.table.Column("", {
-                                label: ibas.i18n.prop("bo_purchasequoteitem_reference2"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false,
-                                }).bindProperty("text", {
-                                    path: "reference2",
-                                }),
-                            }),
-                        ]
-                    });
-                    let formMiddle: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
+                    let formPurchaseQuoteItem: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
                         editable: true,
                         content: [
                             new sap.ui.core.Title("", { text: ibas.i18n.prop("bo_purchasequoteitem") }),
-                            this.tablePurchaseQuoteItem,
+                            this.tablePurchaseQuoteItem = new sap.extension.table.DataTable("", {
+                                enableSelectAll: false,
+                                visibleRowCount: sap.extension.table.visibleRowCount(8),
+                                dataInfo: {
+                                    code: bo.PurchaseQuote.BUSINESS_OBJECT_CODE,
+                                    name: bo.PurchaseQuoteItem.name
+                                },
+                                toolbar: new sap.m.Toolbar("", {
+                                    content: [
+                                        new sap.m.Button("", {
+                                            text: ibas.i18n.prop("shell_data_add"),
+                                            type: sap.m.ButtonType.Transparent,
+                                            icon: "sap-icon://add",
+                                            press: function (): void {
+                                                that.fireViewEvents(that.addPurchaseQuoteItemEvent);
+                                            }
+                                        }),
+                                        new sap.m.Button("", {
+                                            text: ibas.i18n.prop("shell_data_remove"),
+                                            type: sap.m.ButtonType.Transparent,
+                                            icon: "sap-icon://less",
+                                            press: function (): void {
+                                                that.fireViewEvents(that.removePurchaseQuoteItemEvent, that.tablePurchaseQuoteItem.getSelecteds());
+                                            }
+                                        }),
+                                    ]
+                                }),
+                                rows: "{/rows}",
+                                columns: [
+                                    new sap.extension.table.DataColumn("", {
+                                        label: ibas.i18n.prop("bo_purchasequoteitem_lineid"),
+                                        template: new sap.extension.m.Text("", {
+                                        }).bindProperty("bindingValue", {
+                                            path: "lineId",
+                                            type: new sap.extension.data.Numeric()
+                                        }),
+                                    }),
+                                    new sap.extension.table.DataColumn("", {
+                                        label: ibas.i18n.prop("bo_purchasequoteitem_linestatus"),
+                                        template: new sap.extension.m.EnumSelect("", {
+                                            enumType: ibas.emDocumentStatus
+                                        }).bindProperty("bindingValue", {
+                                            path: "lineStatus",
+                                            type: new sap.extension.data.DocumentStatus()
+                                        }),
+                                    }),
+                                    new sap.extension.table.DataColumn("", {
+                                        label: ibas.i18n.prop("bo_purchasequoteitem_itemcode"),
+                                        template: new sap.extension.m.Input("", {
+                                            showValueHelp: true,
+                                            valueHelpRequest: function (): void {
+                                                that.fireViewEvents(that.choosePurchaseQuoteItemMaterialEvent,
+                                                    // 获取当前对象
+                                                    this.getBindingContext().getObject()
+                                                );
+                                            }
+                                        }).bindProperty("bindingValue", {
+                                            path: "itemCode",
+                                            type: new sap.extension.data.Alphanumeric({
+                                                maxLength: 20
+                                            })
+                                        }),
+                                    }),
+                                    new sap.extension.table.DataColumn("", {
+                                        label: ibas.i18n.prop("bo_purchasequoteitem_itemdescription"),
+                                        width: "16rem",
+                                        template: new sap.extension.m.Text("", {
+                                        }).bindProperty("bindingValue", {
+                                            path: "itemDescription",
+                                            type: new sap.extension.data.Alphanumeric({
+                                                maxLength: 100
+                                            })
+                                        }),
+                                    }),
+                                    new sap.extension.table.DataColumn("", {
+                                        label: ibas.i18n.prop("bo_purchasequoteitem_quantity"),
+                                        template: new sap.extension.m.Input("", {
+                                            type: sap.m.InputType.Number
+                                        }).bindProperty("bindingValue", {
+                                            path: "quantity",
+                                            type: new sap.extension.data.Quantity()
+                                        }),
+                                    }),
+                                    new sap.extension.table.DataColumn("", {
+                                        label: ibas.i18n.prop("bo_purchasequoteitem_uom"),
+                                        template: new sap.extension.m.Text("", {
+                                        }).bindProperty("bindingValue", {
+                                            path: "uom",
+                                            type: new sap.extension.data.Alphanumeric({
+                                                maxLength: 8
+                                            })
+                                        }),
+                                    }),
+                                    new sap.extension.table.DataColumn("", {
+                                        label: ibas.i18n.prop("bo_purchasequoteitem_price"),
+                                        template: new sap.extension.m.Input("", {
+                                            type: sap.m.InputType.Number
+                                        }).bindProperty("bindingValue", {
+                                            path: "price",
+                                            type: new sap.extension.data.Price()
+                                        }),
+                                    }),
+                                    new sap.extension.table.DataColumn("", {
+                                        label: ibas.i18n.prop("bo_purchasequoteitem_linetotal"),
+                                        template: new sap.extension.m.Text("", {
+                                        }).bindProperty("bindingValue", {
+                                            path: "lineTotal",
+                                            type: new sap.extension.data.Sum()
+                                        }),
+                                    }),
+                                    new sap.extension.table.DataColumn("", {
+                                        label: ibas.i18n.prop("bo_purchasequoteitem_reference1"),
+                                        template: new sap.extension.m.Input("", {
+                                        }).bindProperty("bindingValue", {
+                                            path: "reference1",
+                                            type: new sap.extension.data.Alphanumeric({
+                                                maxLength: 100
+                                            })
+                                        }),
+                                    }),
+                                    new sap.extension.table.DataColumn("", {
+                                        label: ibas.i18n.prop("bo_purchasequoteitem_reference2"),
+                                        template: new sap.extension.m.Input("", {
+                                        }).bindProperty("bindingValue", {
+                                            path: "reference2",
+                                            type: new sap.extension.data.Alphanumeric({
+                                                maxLength: 200
+                                            })
+                                        }),
+                                    }),
+                                ]
+                            })
                         ]
                     });
                     let formBottom: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
@@ -289,67 +304,85 @@ namespace purchase {
                         content: [
                             new sap.ui.core.Title("", { text: ibas.i18n.prop("purchase_title_others") }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasequote_dataowner") }),
-                            new sap.m.ex.DataOwnerInput("", {
-                                bindingValue: {
-                                    path: "dataOwner"
-                                }
+                            new sap.extension.m.UserInput("", {
+                                showValueHelp: true,
+                            }).bindProperty("bindingValue", {
+                                path: "dataOwner",
+                                type: new sap.extension.data.Numeric()
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasequote_project") }),
-                            new sap.m.ex.ProjectInput("", {
-                                bindingValue: {
-                                    path: "project"
-                                }
+                            new sap.extension.m.SelectionInput("", {
+                                showValueHelp: true,
+                                repository: accounting.bo.BORepositoryAccounting,
+                                dataInfo: {
+                                    type: accounting.bo.Project,
+                                    key: "Code",
+                                    text: "Name"
+                                },
+                                criteria: [
+                                    new ibas.Condition(accounting.bo.Project.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES.toString())
+                                ]
+                            }).bindProperty("bindingValue", {
+                                path: "project",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 8
+                                })
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasequote_organization") }),
-                            new sap.m.ex.OrganizationInput("", {
-                                bindingValue: {
-                                    path: "organization"
-                                }
+                            new sap.extension.m.OrganizationInput("", {
+                                showValueHelp: true,
+                            }).bindProperty("bindingValue", {
+                                path: "organization",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 8
+                                })
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasequote_remarks") }),
-                            new sap.m.TextArea("", {
+                            new sap.extension.m.TextArea("", {
                                 rows: 3,
-                            }).bindProperty("value", {
+                            }).bindProperty("bindingValue", {
                                 path: "remarks",
+                                type: new sap.extension.data.Alphanumeric()
                             }),
                             new sap.ui.core.Title("", { text: ibas.i18n.prop("purchase_title_total") }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasequote_discount") }),
-                            new sap.m.Input("", {
+                            new sap.extension.m.Input("", {
                                 editable: false,
-                            }).bindProperty("value", {
-                                path: "discount",
-                                type: new openui5.datatype.Percentage(),
-                            }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasequote_discounttotal") }),
-                            new sap.m.Input("", {
-                                editable: false,
-                            }).bindProperty("value", {
+                                type: sap.m.InputType.Number
+                            }).bindProperty("bindingValue", {
                                 path: "discountTotal",
-                                type: new openui5.datatype.Sum(),
+                                type: new sap.extension.data.Sum()
+                            }),
+                            new sap.extension.m.Input("", {
+                                editable: false,
+                                type: sap.m.InputType.Text
+                            }).bindProperty("bindingValue", {
+                                path: "discount",
+                                type: new sap.extension.data.Percentage()
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasequote_documenttotal") }),
-                            new sap.m.Input("", {
+                            new sap.extension.m.Input("", {
                                 editable: false,
-                            }).bindProperty("value", {
+                                type: sap.m.InputType.Number
+                            }).bindProperty("bindingValue", {
                                 path: "documentTotal",
-                                type: new openui5.datatype.Sum(),
+                                type: new sap.extension.data.Sum()
                             }),
-                            new sap.m.Input("", {
+                            new sap.extension.m.Input("", {
                                 editable: false,
-                            }).bindProperty("value", {
-                                path: "documentCurrency"
+                            }).bindProperty("bindingValue", {
+                                path: "documentCurrency",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 8
+                                })
                             }),
                         ]
                     });
-                    this.layoutMain = new sap.ui.layout.VerticalLayout("", {
-                        content: [
-                            formTop,
-                            formMiddle,
-                            formBottom,
-                        ]
-                    });
-                    this.page = new sap.m.Page("", {
+                    return this.page = new sap.extension.m.DataPage("", {
                         showHeader: false,
+                        dataInfo: {
+                            code: bo.PurchaseQuote.BUSINESS_OBJECT_CODE,
+                        },
                         subHeader: new sap.m.Toolbar("", {
                             content: [
                                 new sap.m.Button("", {
@@ -397,49 +430,24 @@ namespace purchase {
                                 }),
                             ]
                         }),
-                        content: [this.layoutMain]
+                        content: [
+                            formTop,
+                            formPurchaseQuoteItem,
+                            formBottom,
+                        ]
                     });
-                    return this.page;
                 }
-                private page: sap.m.Page;
-                private tablePurchaseQuoteItem: sap.ui.table.Table;
-                private layoutMain: sap.ui.layout.VerticalLayout;
-                /** 改变视图状态 */
-                private changeViewStatus(data: bo.PurchaseQuote): void {
-                    if (ibas.objects.isNull(data)) {
-                        return;
-                    }
-                    // 新建时：禁用删除，
-                    if (data.isNew) {
-                        if (this.page.getSubHeader() instanceof sap.m.Toolbar) {
-                            openui5.utils.changeToolbarSavable(<sap.m.Toolbar>this.page.getSubHeader(), true);
-                            openui5.utils.changeToolbarDeletable(<sap.m.Toolbar>this.page.getSubHeader(), false);
-                        }
-                    }
-                    // 不可编辑：已批准，
-                    if (data.approvalStatus === ibas.emApprovalStatus.APPROVED) {
-                        if (this.page.getSubHeader() instanceof sap.m.Toolbar) {
-                            openui5.utils.changeToolbarSavable(<sap.m.Toolbar>this.page.getSubHeader(), false);
-                            openui5.utils.changeToolbarDeletable(<sap.m.Toolbar>this.page.getSubHeader(), false);
-                        }
-                        openui5.utils.changeFormEditable(this.layoutMain, false);
-                    }
-                }
-
+                private page: sap.extension.m.Page;
+                private tablePurchaseQuoteItem: sap.extension.table.Table;
                 /** 显示数据 */
                 showPurchaseQuote(data: bo.PurchaseQuote): void {
-                    this.layoutMain.setModel(new sap.ui.model.json.JSONModel(data));
-                    this.layoutMain.bindObject("/");
-                    // 监听属性改变，并更新控件
-                    openui5.utils.refreshModelChanged(this.layoutMain, data);
-                    // 改变视图状态
-                    this.changeViewStatus(data);
+                    this.page.setModel(new sap.extension.model.JSONModel(data));
+                    // 改变页面状态
+                    sap.extension.pages.changeStatus(this.page);
                 }
-                /** 显示数据 */
+                /** 显示数据-采购收货-行 */
                 showPurchaseQuoteItems(datas: bo.PurchaseQuoteItem[]): void {
-                    this.tablePurchaseQuoteItem.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
-                    // 监听属性改变，并更新控件
-                    openui5.utils.refreshModelChanged(this.tablePurchaseQuoteItem, datas);
+                    this.tablePurchaseQuoteItem.setModel(new sap.extension.model.JSONModel({ rows: datas }));
                 }
             }
         }

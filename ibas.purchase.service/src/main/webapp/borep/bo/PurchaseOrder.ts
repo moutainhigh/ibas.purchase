@@ -554,6 +554,12 @@ namespace purchase {
                     }
                     // 复制行项目
                     for (let item of document.purchaseQuoteItems) {
+                        if (item.canceled === ibas.emYesNo.YES) {
+                            continue;
+                        }
+                        if (item.lineStatus !== ibas.emDocumentStatus.RELEASED) {
+                            continue;
+                        }
                         let myItem: PurchaseOrderItem = this.purchaseOrderItems.create();
                         myItem.baseDocumentType = item.objectCode;
                         myItem.baseDocumentEntry = item.docEntry;

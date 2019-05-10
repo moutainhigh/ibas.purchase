@@ -6,6 +6,8 @@
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
  */
 /// <reference path="../../index.d.ts" />
+/// <reference path="../Component.d.ts" />
+/// <reference path="../Component.ts" />
 /// <reference path="./purchasedelivery/index.ts" />
 /// <reference path="./purchaseorder/index.ts" />
 /// <reference path="./purchasereturn/index.ts" />

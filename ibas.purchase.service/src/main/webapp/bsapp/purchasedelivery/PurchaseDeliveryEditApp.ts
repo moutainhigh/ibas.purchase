@@ -32,6 +32,7 @@ namespace purchase {
                 this.view.addPurchaseDeliveryItemEvent = this.addPurchaseDeliveryItem;
                 this.view.removePurchaseDeliveryItemEvent = this.removePurchaseDeliveryItem;
                 this.view.choosePurchaseDeliverySupplierEvent = this.choosePurchaseDeliverySupplier;
+                this.view.choosePurchaseDeliveryContactPersonEvent = this.choosePurchaseDeliveryContactPerson;
                 this.view.choosePurchaseDeliveryPriceListEvent = this.choosePurchaseDeliveryPriceList;
                 this.view.choosePurchaseDeliveryItemMaterialEvent = this.choosePurchaseDeliveryItemMaterial;
                 this.view.choosePurchaseDeliveryItemWarehouseEvent = this.choosePurchaseDeliveryItemWarehouse;
@@ -398,11 +399,11 @@ namespace purchase {
                 condition.alias = ibas.BO_PROPERTY_NAME_DELETED;
                 condition.operation = ibas.emConditionOperation.EQUAL;
                 condition.value = ibas.emYesNo.NO.toString();
-                // 未结算的
+                // 仅下达的
                 condition = criteria.conditions.create();
                 condition.alias = ibas.BO_PROPERTY_NAME_DOCUMENTSTATUS;
-                condition.operation = ibas.emConditionOperation.NOT_EQUAL;
-                condition.value = ibas.emDocumentStatus.CLOSED.toString();
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.value = ibas.emDocumentStatus.RELEASED.toString();
                 // 当前供应商的
                 condition.alias = bo.PurchaseOrder.PROPERTY_SUPPLIERCODE_NAME;
                 condition.operation = ibas.emConditionOperation.EQUAL;
@@ -424,7 +425,36 @@ namespace purchase {
                     }
                 });
             }
-
+            /** 选择联系人 */
+            private choosePurchaseDeliveryContactPerson(): void {
+                if (ibas.objects.isNull(this.editData) || ibas.strings.isEmpty(this.editData.supplierCode)) {
+                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
+                        ibas.i18n.prop("bo_purchasedelivery_suppliercode")
+                    ));
+                    return;
+                }
+                let criteria: ibas.ICriteria = new ibas.Criteria();
+                let condition: ibas.ICondition = criteria.conditions.create();
+                condition.alias = businesspartner.bo.ContactPerson.PROPERTY_OWNERTYPE_NAME;
+                condition.value = businesspartner.bo.emBusinessPartnerType.SUPPLIER.toString();
+                condition = criteria.conditions.create();
+                condition.alias = businesspartner.bo.ContactPerson.PROPERTY_BUSINESSPARTNER_NAME;
+                condition.value = this.editData.supplierCode;
+                condition = criteria.conditions.create();
+                condition.alias = businesspartner.bo.ContactPerson.PROPERTY_ACTIVATED_NAME;
+                condition.value = ibas.emYesNo.YES.toString();
+                // 调用选择服务
+                let that: this = this;
+                ibas.servicesManager.runChooseService<businesspartner.bo.IContactPerson>({
+                    boCode: businesspartner.bo.BO_CODE_CONTACTPERSON,
+                    chooseType: ibas.emChooseType.SINGLE,
+                    criteria: criteria,
+                    onCompleted(selecteds: ibas.IList<businesspartner.bo.IContactPerson>): void {
+                        let selected: businesspartner.bo.IContactPerson = selecteds.firstOrDefault();
+                        that.editData.contactPerson = selected.objectKey;
+                    }
+                });
+            }
             private editShippingAddresses(): void {
                 let that: this = this;
                 let app: ShippingAddressesEditApp = new ShippingAddressesEditApp();
@@ -450,6 +480,8 @@ namespace purchase {
             removePurchaseDeliveryItemEvent: Function;
             /** 选择采购收货供应商信息 */
             choosePurchaseDeliverySupplierEvent: Function;
+            /** 选择采购收货联系人信息 */
+            choosePurchaseDeliveryContactPersonEvent: Function;
             /** 选择采购收货价格清单信息 */
             choosePurchaseDeliveryPriceListEvent: Function;
             /** 选择采购收货-行物料主数据 */
