@@ -51,6 +51,9 @@ namespace purchase {
                     case app.PurchaseOrderEditApp.APPLICATION_ID:
                         view = new c.PurchaseOrderEditView();
                         break;
+                    case app.PurchaseOrderItemExtraApp.APPLICATION_ID:
+                        view = new c.PurchaseOrderItemExtraView();
+                        break;
                     case app.PurchaseQuoteListApp.APPLICATION_ID:
                         view = new c.PurchaseQuoteListView();
                         break;
@@ -62,6 +65,9 @@ namespace purchase {
                         break;
                     case app.PurchaseQuoteEditApp.APPLICATION_ID:
                         view = new c.PurchaseQuoteEditView();
+                        break;
+                    case app.PurchaseQuoteItemExtraApp.APPLICATION_ID:
+                        view = new c.PurchaseQuoteItemExtraView();
                         break;
                     case app.PurchaseReturnListApp.APPLICATION_ID:
                         view = new c.PurchaseReturnListView();

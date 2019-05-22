@@ -10,3 +10,4 @@
 /// <reference path="./PurchaseQuoteFunc.ts" />
 /// <reference path="./PurchaseQuoteListApp.ts" />
 /// <reference path="./PurchaseQuoteViewApp.ts" />
+/// <reference path="./PurchaseQuoteItemExtraApp.ts" />

@@ -9,3 +9,4 @@
 /// <reference path="./PurchaseOrderEditView.ts" />
 /// <reference path="./PurchaseOrderListView.ts" />
 /// <reference path="./PurchaseOrderViewView.ts" />
+/// <reference path="./PurchaseOrderItemExtraView.ts" />

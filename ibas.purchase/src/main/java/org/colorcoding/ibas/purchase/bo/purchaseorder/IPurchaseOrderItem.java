@@ -1024,4 +1024,17 @@ public interface IPurchaseOrderItem extends IBODocumentLine, IMaterialBatchItemP
 	 */
 	void setDistributionRule5(String value);
 
+	/**
+	 * 获取-采购订单-行-额外信息集合
+	 * 
+	 * @return 值
+	 */
+	IPurchaseOrderItemExtras getPurchaseOrderItemExtras();
+
+	/**
+	 * 设置-采购订单-行-额外信息集合
+	 * 
+	 * @param value 值
+	 */
+	void setPurchaseOrderItemExtras(IPurchaseOrderItemExtras value);
 }

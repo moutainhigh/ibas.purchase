@@ -2070,6 +2070,38 @@ public class PurchaseOrderItem extends BusinessObject<PurchaseOrderItem>
 	}
 
 	/**
+	 * 属性名称-采购订单-行-额外信息
+	 */
+	private static final String PROPERTY_SALESORDERITEMEXTRAS_NAME = "PurchaseOrderItemExtras";
+
+	/**
+	 * 采购订单-行-额外信息的集合属性
+	 * 
+	 */
+	public static final IPropertyInfo<IPurchaseOrderItemExtras> PROPERTY_SALESORDERITEMEXTRAS = registerProperty(
+			PROPERTY_SALESORDERITEMEXTRAS_NAME, IPurchaseOrderItemExtras.class, MY_CLASS);
+
+	/**
+	 * 获取-采购订单-行-额外信息集合
+	 * 
+	 * @return 值
+	 */
+	@XmlElementWrapper(name = PROPERTY_SALESORDERITEMEXTRAS_NAME)
+	@XmlElement(name = PurchaseOrderItemExtra.BUSINESS_OBJECT_NAME, type = PurchaseOrderItemExtra.class)
+	public final IPurchaseOrderItemExtras getPurchaseOrderItemExtras() {
+		return this.getProperty(PROPERTY_SALESORDERITEMEXTRAS);
+	}
+
+	/**
+	 * 设置-采购订单-行-额外信息集合
+	 * 
+	 * @param value 值
+	 */
+	public final void setPurchaseOrderItemExtras(IPurchaseOrderItemExtras value) {
+		this.setProperty(PROPERTY_SALESORDERITEMEXTRAS, value);
+	}
+
+	/**
 	 * 属性名称-物料批次
 	 */
 	private static final String PROPERTY_MATERIALBATCHES_NAME = "MaterialBatches";
@@ -2139,6 +2171,7 @@ public class PurchaseOrderItem extends BusinessObject<PurchaseOrderItem>
 	@Override
 	protected void initialize() {
 		super.initialize();// 基类初始化，不可去除
+		this.setPurchaseOrderItemExtras(new PurchaseOrderItemExtras(this));
 		this.setMaterialBatches(new MaterialBatchItems(this));
 		this.setMaterialSerials(new MaterialSerialItems(this));
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));

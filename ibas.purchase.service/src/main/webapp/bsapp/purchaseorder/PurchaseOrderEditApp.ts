@@ -40,6 +40,7 @@ namespace purchase {
                 this.view.choosePurchaseOrderItemMaterialSerialEvent = this.choosePurchaseOrderItemMaterialSerial;
                 this.view.choosePurchaseOrderPurchaseQuoteEvent = this.choosePurchaseOrderPurchaseQuote;
                 this.view.editShippingAddressesEvent = this.editShippingAddresses;
+                this.view.showPurchaseOrderItemExtraEvent = this.showSaleOrderItemExtra;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
@@ -460,6 +461,19 @@ namespace purchase {
                 };
                 app.run(this.editData.shippingAddresss);
             }
+            private showSaleOrderItemExtra(data: bo.PurchaseOrderItem): void {
+                // 检查目标数据
+                if (ibas.objects.isNull(data)) {
+                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
+                        ibas.i18n.prop("shell_data_view")
+                    ));
+                    return;
+                }
+                let app: PurchaseOrderItemExtraApp = new PurchaseOrderItemExtraApp();
+                app.navigation = this.navigation;
+                app.viewShower = this.viewShower;
+                app.run(data);
+            }
 
         }
         /** 视图-采购订单 */
@@ -488,6 +502,8 @@ namespace purchase {
             choosePurchaseOrderItemMaterialSerialEvent: Function;
             /** 选择采购订单-行 物料批次事件 */
             choosePurchaseOrderItemMaterialBatchEvent: Function;
+            /** 显示采购订单行额外信息事件 */
+            showPurchaseOrderItemExtraEvent: Function;
             /** 显示数据 */
             showPurchaseOrderItems(datas: bo.PurchaseOrderItem[]): void;
             /** 选择采购订单-采购报价事件 */

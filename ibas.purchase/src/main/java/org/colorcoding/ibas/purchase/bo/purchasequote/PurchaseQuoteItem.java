@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
@@ -2054,11 +2055,44 @@ public class PurchaseQuoteItem extends BusinessObject<PurchaseQuoteItem> impleme
 	}
 
 	/**
+	 * 属性名称-采购报价-行-额外信息
+	 */
+	private static final String PROPERTY_SALESQUOTEITEMEXTRAS_NAME = "PurchaseQuoteItemExtras";
+
+	/**
+	 * 采购报价-行-额外信息的集合属性
+	 * 
+	 */
+	public static final IPropertyInfo<IPurchaseQuoteItemExtras> PROPERTY_SALESQUOTEITEMEXTRAS = registerProperty(
+			PROPERTY_SALESQUOTEITEMEXTRAS_NAME, IPurchaseQuoteItemExtras.class, MY_CLASS);
+
+	/**
+	 * 获取-采购报价-行-额外信息集合
+	 * 
+	 * @return 值
+	 */
+	@XmlElementWrapper(name = PROPERTY_SALESQUOTEITEMEXTRAS_NAME)
+	@XmlElement(name = PurchaseQuoteItemExtra.BUSINESS_OBJECT_NAME, type = PurchaseQuoteItemExtra.class)
+	public final IPurchaseQuoteItemExtras getPurchaseQuoteItemExtras() {
+		return this.getProperty(PROPERTY_SALESQUOTEITEMEXTRAS);
+	}
+
+	/**
+	 * 设置-采购报价-行-额外信息集合
+	 * 
+	 * @param value 值
+	 */
+	public final void setPurchaseQuoteItemExtras(IPurchaseQuoteItemExtras value) {
+		this.setProperty(PROPERTY_SALESQUOTEITEMEXTRAS, value);
+	}
+
+	/**
 	 * 初始化数据
 	 */
 	@Override
 	protected void initialize() {
 		super.initialize();// 基类初始化，不可去除
+		this.setPurchaseQuoteItemExtras(new PurchaseQuoteItemExtras(this));
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
 		this.setDiscount(Decimal.ONE);
 		this.setTaxRate(Decimal.ONE);

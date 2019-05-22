@@ -30,6 +30,8 @@ namespace purchase {
                 choosePurchaseQuoteItemMaterialEvent: Function;
                 /** 选择采购订单-行 仓库 */
                 choosePurchaseQuoteItemWarehouseEvent: Function;
+                /** 显示采购报价额外信息事件 */
+                showPurchaseQuoteItemExtraEvent: Function;
                 /** 绘制视图 */
                 draw(): any {
                     let that: this = this;
@@ -188,6 +190,15 @@ namespace purchase {
                                             icon: "sap-icon://less",
                                             press: function (): void {
                                                 that.fireViewEvents(that.removePurchaseQuoteItemEvent, that.tablePurchaseQuoteItem.getSelecteds());
+                                            }
+                                        }),
+                                        new sap.m.ToolbarSeparator(""),
+                                        new sap.m.Button("", {
+                                            text: ibas.i18n.prop("sales_extra_information"),
+                                            type: sap.m.ButtonType.Transparent,
+                                            icon: "sap-icon://sap-box",
+                                            press: function (): void {
+                                                that.fireViewEvents(that.showPurchaseQuoteItemExtraEvent, that.tablePurchaseQuoteItem.getSelecteds().firstOrDefault());
                                             }
                                         }),
                                     ]

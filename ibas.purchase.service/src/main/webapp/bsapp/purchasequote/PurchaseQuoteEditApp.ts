@@ -36,6 +36,7 @@ namespace purchase {
                 this.view.choosePurchaseQuotePriceListEvent = this.choosePurchaseQuotePriceList;
                 this.view.choosePurchaseQuoteItemMaterialEvent = this.choosePurchaseQuoteItemMaterial;
                 this.view.choosePurchaseQuoteItemWarehouseEvent = this.choosePurchaseQuoteItemWarehouse;
+                this.view.showPurchaseQuoteItemExtraEvent = this.showPurchaseQuoteItemExtra;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
@@ -353,6 +354,19 @@ namespace purchase {
                     }
                 });
             }
+            private showPurchaseQuoteItemExtra(data: bo.PurchaseQuoteItem): void {
+                // 检查目标数据
+                if (ibas.objects.isNull(data)) {
+                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
+                        ibas.i18n.prop("shell_data_view")
+                    ));
+                    return;
+                }
+                let app: PurchaseQuoteItemExtraApp = new PurchaseQuoteItemExtraApp();
+                app.navigation = this.navigation;
+                app.viewShower = this.viewShower;
+                app.run(data);
+            }
 
         }
         /** 视图-采购报价 */
@@ -377,6 +391,8 @@ namespace purchase {
             choosePurchaseQuoteItemMaterialEvent: Function;
             /** 选择采购报价-行 仓库 */
             choosePurchaseQuoteItemWarehouseEvent: Function;
+            /** 显示采购报价额外信息事件 */
+            showPurchaseQuoteItemExtraEvent: Function;
             /** 显示数据 */
             showPurchaseQuoteItems(datas: bo.PurchaseQuoteItem[]): void;
         }

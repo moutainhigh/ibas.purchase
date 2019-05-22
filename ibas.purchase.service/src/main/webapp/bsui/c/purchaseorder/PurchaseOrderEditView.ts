@@ -34,6 +34,8 @@ namespace purchase {
                 choosePurchaseOrderItemMaterialSerialEvent: Function;
                 /** 选择采购订单-行 物料批次事件 */
                 choosePurchaseOrderItemMaterialBatchEvent: Function;
+                /** 显示采购订单行额外信息事件 */
+                showPurchaseOrderItemExtraEvent: Function;
                 /** 选择采购订单-采购报价事件 */
                 choosePurchaseOrderPurchaseQuoteEvent: Function;
                 /** 付款采购订单 */
@@ -234,6 +236,15 @@ namespace purchase {
                                                     }),
                                                 ]
                                             })
+                                        }),
+                                        new sap.m.ToolbarSeparator(""),
+                                        new sap.m.Button("", {
+                                            text: ibas.i18n.prop("sales_extra_information"),
+                                            type: sap.m.ButtonType.Transparent,
+                                            icon: "sap-icon://sap-box",
+                                            press: function (): void {
+                                                that.fireViewEvents(that.showPurchaseOrderItemExtraEvent, that.tablePurchaseOrderItem.getSelecteds().firstOrDefault());
+                                            }
                                         }),
                                         new sap.m.ToolbarSpacer(""),
                                         new sap.m.Label("", {
