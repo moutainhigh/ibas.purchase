@@ -381,9 +381,9 @@ namespace purchase {
             }
         }
 
-
         /** 送货地址 集合 */
-        export class ShippingAddresss extends ibas.BusinessObjects<ShippingAddress, ibas.IBODocument> implements IShippingAddresss {
+        export class ShippingAddresss
+            extends ibas.BusinessObjects<ShippingAddress, IPurchaseQuote | IPurchaseOrder | IPurchaseDelivery | IPurchaseReturn> implements IShippingAddresss {
 
             /** 创建并添加子项 */
             create(): ShippingAddress {
@@ -395,6 +395,7 @@ namespace purchase {
             /** 添加子项后 子项属性赋值 */
             protected afterAdd(item: ShippingAddress): void {
                 super.afterAdd(item);
+                item.baseDocumentType = this.parent.objectCode;
                 item.baseDocumentEntry = this.parent.docEntry;
                 let max: number = 0;
                 for (let tmp of this) {

@@ -680,7 +680,7 @@ namespace purchase {
                     }
                     // 复制地址
                     for (let address of document.shippingAddresss) {
-                        let myAddress: IShippingAddress = ibas.objects.clone(address);
+                        let myAddress: IShippingAddress = address.clone();
                         this.shippingAddresss.add(<ShippingAddress>myAddress);
                     }
                 }
