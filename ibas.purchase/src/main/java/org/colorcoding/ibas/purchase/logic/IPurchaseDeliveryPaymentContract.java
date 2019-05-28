@@ -20,7 +20,7 @@ public interface IPurchaseDeliveryPaymentContract extends IBusinessLogicContract
 	BigDecimal getAmount();
 
 	/**
-	 * 币种
+	 * 货币
 	 * 
 	 * @return
 	 */

@@ -257,6 +257,9 @@ namespace purchase {
             /** 物料/服务描述 */
             itemDescription: string;
 
+            /** 物料标识 */
+            itemSign: string;
+
             /** 序号管理 */
             serialManagement: ibas.emYesNo;
 
