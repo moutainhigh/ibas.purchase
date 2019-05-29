@@ -37,8 +37,7 @@ public class PurchaseDeliveryItems extends BusinessObjects<IPurchaseDeliveryItem
 	/**
 	 * 构造方法
 	 * 
-	 * @param parent
-	 *            父项对象
+	 * @param parent 父项对象
 	 */
 	public PurchaseDeliveryItems(IPurchaseDelivery parent) {
 		super(parent);
@@ -84,5 +83,10 @@ public class PurchaseDeliveryItems extends BusinessObjects<IPurchaseDeliveryItem
 	@Override
 	public void onParentPropertyChanged(PropertyChangeEvent evt) {
 		super.onParentPropertyChanged(evt);
+		if (PurchaseDelivery.PROPERTY_DOCUMENTCURRENCY.getName().equals(evt.getPropertyName())) {
+			this.forEach(c -> c.setCurrency(this.getParent().getDocumentCurrency()));
+		} else if (PurchaseDelivery.PROPERTY_DOCUMENTRATE.getName().equals(evt.getPropertyName())) {
+			this.forEach(c -> c.setRate(this.getParent().getDocumentRate()));
+		}
 	}
 }

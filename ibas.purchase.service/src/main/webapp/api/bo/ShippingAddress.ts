@@ -65,6 +65,9 @@ namespace purchase {
             /** 货币 */
             currency: string;
 
+            /** 汇率 */
+            rate: number;
+
             /** 快递单号 */
             trackingNumber: string;
 

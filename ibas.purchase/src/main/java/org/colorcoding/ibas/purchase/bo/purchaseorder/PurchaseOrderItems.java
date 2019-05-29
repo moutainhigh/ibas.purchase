@@ -37,8 +37,7 @@ public class PurchaseOrderItems extends BusinessObjects<IPurchaseOrderItem, IPur
 	/**
 	 * 构造方法
 	 * 
-	 * @param parent
-	 *            父项对象
+	 * @param parent 父项对象
 	 */
 	public PurchaseOrderItems(IPurchaseOrder parent) {
 		super(parent);
@@ -84,5 +83,10 @@ public class PurchaseOrderItems extends BusinessObjects<IPurchaseOrderItem, IPur
 	@Override
 	public void onParentPropertyChanged(PropertyChangeEvent evt) {
 		super.onParentPropertyChanged(evt);
+		if (PurchaseOrder.PROPERTY_DOCUMENTCURRENCY.getName().equals(evt.getPropertyName())) {
+			this.forEach(c -> c.setCurrency(this.getParent().getDocumentCurrency()));
+		} else if (PurchaseOrder.PROPERTY_DOCUMENTRATE.getName().equals(evt.getPropertyName())) {
+			this.forEach(c -> c.setRate(this.getParent().getDocumentRate()));
+		}
 	}
 }

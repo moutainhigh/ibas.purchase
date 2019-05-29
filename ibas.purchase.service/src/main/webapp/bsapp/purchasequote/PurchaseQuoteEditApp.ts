@@ -192,6 +192,7 @@ namespace purchase {
                         that.editData.supplierName = selected.name;
                         that.editData.priceList = selected.priceList;
                         that.editData.contactPerson = selected.contactPerson;
+                        that.editData.documentCurrency = selected.currency;
                     }
                 });
             }

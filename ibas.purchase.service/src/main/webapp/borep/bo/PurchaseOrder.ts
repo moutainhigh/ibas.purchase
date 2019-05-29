@@ -578,6 +578,7 @@ namespace purchase {
                         myItem.batchManagement = item.batchManagement;
                         myItem.serialManagement = item.serialManagement;
                         myItem.price = item.price;
+                        myItem.currency = item.currency;
                         myItem.quantity = item.quantity;
                         myItem.uom = item.uom;
                         myItem.warehouse = item.warehouse;
