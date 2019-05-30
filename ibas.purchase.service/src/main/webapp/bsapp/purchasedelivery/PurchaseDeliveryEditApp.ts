@@ -408,6 +408,7 @@ namespace purchase {
                 condition.operation = ibas.emConditionOperation.EQUAL;
                 condition.value = ibas.emDocumentStatus.RELEASED.toString();
                 // 当前供应商的
+                condition = criteria.conditions.create();
                 condition.alias = bo.PurchaseOrder.PROPERTY_SUPPLIERCODE_NAME;
                 condition.operation = ibas.emConditionOperation.EQUAL;
                 condition.value = this.editData.supplierCode;

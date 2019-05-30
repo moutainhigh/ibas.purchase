@@ -403,6 +403,7 @@ namespace purchase {
                 condition.operation = ibas.emConditionOperation.NOT_EQUAL;
                 condition.value = ibas.emDocumentStatus.PLANNED.toString();
                 // 当前供应商的
+                condition = criteria.conditions.create();
                 condition.alias = bo.PurchaseOrder.PROPERTY_SUPPLIERCODE_NAME;
                 condition.operation = ibas.emConditionOperation.EQUAL;
                 condition.value = this.editData.supplierCode;
@@ -448,6 +449,7 @@ namespace purchase {
                 condition.operation = ibas.emConditionOperation.NOT_EQUAL;
                 condition.value = ibas.emDocumentStatus.PLANNED.toString();
                 // 当前供应商的
+                condition = criteria.conditions.create();
                 condition.alias = bo.PurchaseDelivery.PROPERTY_SUPPLIERCODE_NAME;
                 condition.operation = ibas.emConditionOperation.EQUAL;
                 condition.value = this.editData.supplierCode;

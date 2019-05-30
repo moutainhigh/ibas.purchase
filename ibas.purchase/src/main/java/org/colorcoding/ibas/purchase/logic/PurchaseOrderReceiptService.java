@@ -3,6 +3,7 @@ package org.colorcoding.ibas.purchase.logic;
 import java.math.BigDecimal;
 
 import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.mapping.LogicContract;
@@ -40,6 +41,10 @@ public class PurchaseOrderReceiptService extends PurchaseOrderService<IPurchaseO
 		}
 		closedQuantity = closedQuantity.add(contract.getQuantity());
 		orderItem.setClosedQuantity(closedQuantity);
+		if (orderItem.getLineStatus() == emDocumentStatus.RELEASED
+				&& closedQuantity.compareTo(orderItem.getQuantity()) >= 0) {
+			orderItem.setLineStatus(emDocumentStatus.FINISHED);
+		}
 	}
 
 	@Override
@@ -59,6 +64,10 @@ public class PurchaseOrderReceiptService extends PurchaseOrderService<IPurchaseO
 		}
 		closedQuantity = closedQuantity.subtract(contract.getQuantity());
 		orderItem.setClosedQuantity(closedQuantity);
+		if (orderItem.getLineStatus() == emDocumentStatus.FINISHED
+				&& closedQuantity.compareTo(orderItem.getQuantity()) < 0) {
+			orderItem.setLineStatus(emDocumentStatus.RELEASED);
+		}
 	}
 
 }
