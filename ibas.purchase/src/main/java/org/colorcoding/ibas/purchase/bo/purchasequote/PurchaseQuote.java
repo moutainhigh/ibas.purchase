@@ -1701,7 +1701,7 @@ public class PurchaseQuote extends BusinessObject<PurchaseQuote>
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
 		this.setPostingDate(DateTime.getToday());
 		this.setDocumentDate(DateTime.getToday());
-		this.setDeliveryDate(DateTime.getToday());
+		this.setDeliveryDate(this.getDocumentDate().addDays(30));
 		this.setDocumentStatus(emDocumentStatus.RELEASED);
 		this.setDiscount(Decimal.ONE);
 

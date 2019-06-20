@@ -407,6 +407,11 @@ namespace purchase {
                 condition.alias = bo.PurchaseQuote.PROPERTY_SUPPLIERCODE_NAME;
                 condition.operation = ibas.emConditionOperation.EQUAL;
                 condition.value = this.editData.supplierCode;
+                // 未过期的
+                condition = criteria.conditions.create();
+                condition.alias = bo.PurchaseQuote.PROPERTY_DELIVERYDATE_NAME;
+                condition.operation = ibas.emConditionOperation.LESS_EQUAL;
+                condition.value = ibas.dates.toString(ibas.dates.today());
                 // 调用选择服务
                 let that: this = this;
                 ibas.servicesManager.runChooseService<bo.PurchaseQuote>({

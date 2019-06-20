@@ -377,7 +377,7 @@
         "bo_purchasequote_teammembers": "团队成员",
         "bo_purchasequote_organization": "数据所属组织",
         "bo_purchasequote_postingdate": "过账日期",
-        "bo_purchasequote_deliverydate": "收货日期",
+        "bo_purchasequote_deliverydate": "到期日期",
         "bo_purchasequote_documentdate": "凭证日期",
         "bo_purchasequote_reference1": "参考1",
         "bo_purchasequote_reference2": "参考2",

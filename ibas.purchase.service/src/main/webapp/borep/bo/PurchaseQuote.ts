@@ -568,6 +568,9 @@ namespace purchase {
             }
             protected registerRules(): ibas.IBusinessRule[] {
                 return [
+                    // 计算项目-到期日期
+                    new ibas.BusinessRuleDateCalculation(
+                        PurchaseQuote.PROPERTY_DOCUMENTDATE_NAME, PurchaseQuote.PROPERTY_DELIVERYDATE_NAME, 30),
                     // 计算项目-行总计
                     new ibas.BusinessRuleSumElements(
                         PurchaseQuote.PROPERTY_ITEMSLINETOTAL_NAME, PurchaseQuote.PROPERTY_PURCHASEQUOTEITEMS_NAME, PurchaseQuoteItem.PROPERTY_LINETOTAL_NAME),
