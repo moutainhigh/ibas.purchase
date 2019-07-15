@@ -185,6 +185,10 @@ namespace purchase {
                 }
             }
             private choosePurchaseOrderSupplier(): void {
+                if (!ibas.objects.isNull(this.editData) && this.editData.purchaseOrderItems.length > 0) {
+                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("purchase_existing_items_not_allowed_operation"));
+                    return;
+                }
                 let that: this = this;
                 ibas.servicesManager.runChooseService<businesspartner.bo.ISupplier>({
                     boCode: businesspartner.bo.BO_CODE_SUPPLIER,
@@ -300,6 +304,8 @@ namespace purchase {
                             item.warehouse = selected.warehouse;
                             item.quantity = 1;
                             item.uom = selected.inventoryUOM;
+                            item.price = selected.price;
+                            item.currency = selected.currency;
                             if (ibas.strings.isEmpty(item.warehouse) && !ibas.strings.isEmpty(that.view.defaultWarehouse)) {
                                 item.warehouse = that.view.defaultWarehouse;
                             }

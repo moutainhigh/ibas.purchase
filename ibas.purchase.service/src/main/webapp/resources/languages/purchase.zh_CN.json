@@ -38,5 +38,6 @@
   "purchase_create_continue": "新建{0}，是否继续？",
   "purchase_copy_data_continue": "复制{0}，是否继续？",
   "purchase_unrecognized_extra_information": "不能识别的信息[{0}]",
+  "purchase_existing_items_not_allowed_operation": "已存在行项目，不允许执行此操作",
   "purchase_closing_delimiter": "----结束----"
 }

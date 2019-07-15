@@ -35,6 +35,7 @@ import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchItems;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialItems;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItem;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItems;
+import org.colorcoding.ibas.materials.logic.IMaterialCompletionContract;
 import org.colorcoding.ibas.materials.logic.IMaterialIssueContract;
 import org.colorcoding.ibas.purchase.MyConfiguration;
 import org.colorcoding.ibas.purchase.logic.IPurchaseOrderReturnContract;
@@ -2227,7 +2228,7 @@ public class PurchaseReturnItem extends BusinessObject<PurchaseReturnItem>
 	@Override
 	public IBusinessLogicContract[] getContracts() {
 		return new IBusinessLogicContract[] {
-
+				// 物料发货
 				new IMaterialIssueContract() {
 					@Override
 					public String getIdentifiers() {
@@ -2352,6 +2353,38 @@ public class PurchaseReturnItem extends BusinessObject<PurchaseReturnItem>
 						return PurchaseReturnItem.this.getOriginalDocumentLineId();
 					}
 
+				},
+				// 物料信息补全
+				new IMaterialCompletionContract() {
+					@Override
+					public String getIdentifiers() {
+						return PurchaseReturnItem.this.getIdentifiers();
+					}
+
+					@Override
+					public String getItemCode() {
+						return PurchaseReturnItem.this.getItemCode();
+					}
+
+					@Override
+					public String getItemSign() {
+						return PurchaseReturnItem.this.getItemSign();
+					}
+
+					@Override
+					public void setItemSign(String value) {
+						PurchaseReturnItem.this.setItemSign(value);
+					}
+
+					@Override
+					public String getItemDescription() {
+						return PurchaseReturnItem.this.getItemDescription();
+					}
+
+					@Override
+					public void setItemDescription(String value) {
+						PurchaseReturnItem.this.setItemDescription(value);
+					}
 				}
 
 		};

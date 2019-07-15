@@ -615,6 +615,12 @@ namespace purchase {
                         ibas.config.get(ibas.CONFIG_ITEM_DECIMAL_PLACES_SUM), PurchaseReturn.PROPERTY_ROUNDING_NAME),
                 ];
             }
+            /** 重置 */
+            resetStatus(): void {
+                super.resetStatus();
+                this.paidTotal = 0;
+                this.documentStatus = ibas.emDocumentStatus.RELEASED;
+            }
             /** 转换之前 */
             beforeConvert(): void { }
             /** 数据解析后 */
@@ -1428,6 +1434,12 @@ namespace purchase {
                     new ibas.BusinessRuleSubtraction(
                         PurchaseReturnItem.PROPERTY_TAXTOTAL_NAME, PurchaseReturnItem.PROPERTY_GROSSTOTAL_NAME, PurchaseReturnItem.PROPERTY_LINETOTAL_NAME),
                 ];
+            }
+            /** 重置 */
+            resetStatus(): void {
+                super.resetStatus();
+                this.closedAmount = 0;
+                this.closedQuantity = 0;
             }
         }
     }

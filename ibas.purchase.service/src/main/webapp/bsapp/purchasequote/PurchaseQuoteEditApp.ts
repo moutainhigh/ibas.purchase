@@ -287,6 +287,8 @@ namespace purchase {
                             item.warehouse = selected.warehouse;
                             item.quantity = 1;
                             item.uom = selected.inventoryUOM;
+                            item.price = selected.price;
+                            item.currency = selected.currency;
                             item = null;
                         }
                         if (created) {

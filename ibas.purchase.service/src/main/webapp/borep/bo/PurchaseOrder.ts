@@ -655,6 +655,12 @@ namespace purchase {
                         ibas.config.get(ibas.CONFIG_ITEM_DECIMAL_PLACES_SUM), PurchaseOrder.PROPERTY_ROUNDING_NAME),
                 ];
             }
+            /** 重置 */
+            resetStatus(): void {
+                super.resetStatus();
+                this.paidTotal = 0;
+                this.documentStatus = ibas.emDocumentStatus.RELEASED;
+            }
             /** 转换之前 */
             beforeConvert(): void { }
             /** 数据解析后 */
@@ -1353,6 +1359,12 @@ namespace purchase {
                         PurchaseOrderItem.PROPERTY_TAXTOTAL_NAME, PurchaseOrderItem.PROPERTY_GROSSTOTAL_NAME, PurchaseOrderItem.PROPERTY_LINETOTAL_NAME),
                 ];
             }
+            /** 重置 */
+            resetStatus(): void {
+                super.resetStatus();
+                this.closedAmount = 0;
+                this.closedQuantity = 0;
+            }
         }
         /** 采购订单-行-额外信息 集合 */
         export class PurchaseOrderItemExtras extends ibas.BusinessObjects<PurchaseOrderItemExtra, PurchaseOrderItem> implements IPurchaseOrderItemExtras {
@@ -1633,8 +1645,6 @@ namespace purchase {
             set note(value: string) {
                 this.setProperty(PurchaseOrderItemExtra.PROPERTY_NOTE_NAME, value);
             }
-
-
             /** 初始化数据 */
             protected init(): void {
             }

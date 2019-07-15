@@ -185,6 +185,10 @@ namespace purchase {
             }
             /** 选择供应商信息 */
             private choosePurchaseDeliverySupplier(): void {
+                if (!ibas.objects.isNull(this.editData) && this.editData.purchaseDeliveryItems.length > 0) {
+                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("purchase_existing_items_not_allowed_operation"));
+                    return;
+                }
                 let that: this = this;
                 ibas.servicesManager.runChooseService<businesspartner.bo.ISupplier>({
                     boCode: businesspartner.bo.BO_CODE_SUPPLIER,

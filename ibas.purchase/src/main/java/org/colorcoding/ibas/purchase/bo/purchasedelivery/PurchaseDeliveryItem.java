@@ -35,6 +35,7 @@ import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchItems;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialItems;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItem;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItems;
+import org.colorcoding.ibas.materials.logic.IMaterialCompletionContract;
 import org.colorcoding.ibas.materials.logic.IMaterialReceiptContract;
 import org.colorcoding.ibas.purchase.MyConfiguration;
 import org.colorcoding.ibas.purchase.logic.IPurchaseOrderReceiptContract;
@@ -2228,7 +2229,7 @@ public class PurchaseDeliveryItem extends BusinessObject<PurchaseDeliveryItem>
 	@Override
 	public IBusinessLogicContract[] getContracts() {
 		return new IBusinessLogicContract[] {
-
+				// 物料收货
 				new IMaterialReceiptContract() {
 
 					@Override
@@ -2296,7 +2297,7 @@ public class PurchaseDeliveryItem extends BusinessObject<PurchaseDeliveryItem>
 						return PurchaseDeliveryItem.this.getSerialManagement();
 					}
 				},
-
+				// 采购订单收货
 				new IPurchaseOrderReceiptContract() {
 
 					@Override
@@ -2324,6 +2325,38 @@ public class PurchaseDeliveryItem extends BusinessObject<PurchaseDeliveryItem>
 						return PurchaseDeliveryItem.this.getBaseDocumentLineId();
 					}
 
+				},
+				// 物料信息完成
+				new IMaterialCompletionContract() {
+					@Override
+					public String getIdentifiers() {
+						return PurchaseDeliveryItem.this.getIdentifiers();
+					}
+
+					@Override
+					public String getItemCode() {
+						return PurchaseDeliveryItem.this.getItemCode();
+					}
+
+					@Override
+					public String getItemSign() {
+						return PurchaseDeliveryItem.this.getItemSign();
+					}
+
+					@Override
+					public void setItemSign(String value) {
+						PurchaseDeliveryItem.this.setItemSign(value);
+					}
+
+					@Override
+					public String getItemDescription() {
+						return PurchaseDeliveryItem.this.getItemDescription();
+					}
+
+					@Override
+					public void setItemDescription(String value) {
+						PurchaseDeliveryItem.this.setItemDescription(value);
+					}
 				}
 
 		};

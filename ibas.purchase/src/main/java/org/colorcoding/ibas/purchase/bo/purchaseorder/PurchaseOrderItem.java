@@ -13,6 +13,7 @@ import org.colorcoding.ibas.bobas.bo.IBOTagCanceled;
 import org.colorcoding.ibas.bobas.bo.IBOTagDeleted;
 import org.colorcoding.ibas.bobas.bo.IBOUserFields;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
+import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
@@ -34,6 +35,7 @@ import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchItems;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialItems;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItem;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItems;
+import org.colorcoding.ibas.materials.logic.IMaterialCompletionContract;
 import org.colorcoding.ibas.materials.logic.IMaterialOrderedJournalContract;
 import org.colorcoding.ibas.purchase.MyConfiguration;
 
@@ -2103,24 +2105,24 @@ public class PurchaseOrderItem extends BusinessObject<PurchaseOrderItem>
 	/**
 	 * 属性名称-采购订单-行-额外信息
 	 */
-	private static final String PROPERTY_SALESORDERITEMEXTRAS_NAME = "PurchaseOrderItemExtras";
+	private static final String PROPERTY_PURCHASEORDERITEMEXTRAS_NAME = "PurchaseOrderItemExtras";
 
 	/**
 	 * 采购订单-行-额外信息的集合属性
 	 * 
 	 */
-	public static final IPropertyInfo<IPurchaseOrderItemExtras> PROPERTY_SALESORDERITEMEXTRAS = registerProperty(
-			PROPERTY_SALESORDERITEMEXTRAS_NAME, IPurchaseOrderItemExtras.class, MY_CLASS);
+	public static final IPropertyInfo<IPurchaseOrderItemExtras> PROPERTY_PURCHASEORDERITEMEXTRAS = registerProperty(
+			PROPERTY_PURCHASEORDERITEMEXTRAS_NAME, IPurchaseOrderItemExtras.class, MY_CLASS);
 
 	/**
 	 * 获取-采购订单-行-额外信息集合
 	 * 
 	 * @return 值
 	 */
-	@XmlElementWrapper(name = PROPERTY_SALESORDERITEMEXTRAS_NAME)
+	@XmlElementWrapper(name = PROPERTY_PURCHASEORDERITEMEXTRAS_NAME)
 	@XmlElement(name = PurchaseOrderItemExtra.BUSINESS_OBJECT_NAME, type = PurchaseOrderItemExtra.class)
 	public final IPurchaseOrderItemExtras getPurchaseOrderItemExtras() {
-		return this.getProperty(PROPERTY_SALESORDERITEMEXTRAS);
+		return this.getProperty(PROPERTY_PURCHASEORDERITEMEXTRAS);
 	}
 
 	/**
@@ -2129,7 +2131,7 @@ public class PurchaseOrderItem extends BusinessObject<PurchaseOrderItem>
 	 * @param value 值
 	 */
 	public final void setPurchaseOrderItemExtras(IPurchaseOrderItemExtras value) {
-		this.setProperty(PROPERTY_SALESORDERITEMEXTRAS, value);
+		this.setProperty(PROPERTY_PURCHASEORDERITEMEXTRAS, value);
 	}
 
 	/**
@@ -2249,52 +2251,81 @@ public class PurchaseOrderItem extends BusinessObject<PurchaseOrderItem>
 
 	@Override
 	public IBusinessLogicContract[] getContracts() {
+		ArrayList<IBusinessLogicContract> contracts = new ArrayList<>(2);
 		if (this.getLineStatus() == emDocumentStatus.RELEASED) {
-			return new IBusinessLogicContract[] {
+			// 物料已订购数量
+			contracts.add(new IMaterialOrderedJournalContract() {
 
-					new IMaterialOrderedJournalContract() {
+				@Override
+				public String getIdentifiers() {
+					return PurchaseOrderItem.this.getIdentifiers();
+				}
 
-						@Override
-						public String getIdentifiers() {
-							return PurchaseOrderItem.this.getIdentifiers();
-						}
+				@Override
+				public String getItemCode() {
+					return PurchaseOrderItem.this.getItemCode();
+				}
 
-						@Override
-						public String getItemCode() {
-							return PurchaseOrderItem.this.getItemCode();
-						}
+				@Override
+				public String getWarehouse() {
+					return PurchaseOrderItem.this.getWarehouse();
+				}
 
-						@Override
-						public String getWarehouse() {
-							return PurchaseOrderItem.this.getWarehouse();
-						}
+				@Override
+				public BigDecimal getQuantity() {
+					// 订购数量 = 订单数量 - 已收货数量
+					return PurchaseOrderItem.this.getQuantity().subtract(PurchaseOrderItem.this.getClosedQuantity());
+				}
 
-						@Override
-						public BigDecimal getQuantity() {
-							// 订购数量 = 订单数量 - 已收货数量
-							return PurchaseOrderItem.this.getQuantity()
-									.subtract(PurchaseOrderItem.this.getClosedQuantity());
-						}
+				@Override
+				public String getDocumentType() {
+					return PurchaseOrderItem.this.getObjectCode();
+				}
 
-						@Override
-						public String getDocumentType() {
-							return PurchaseOrderItem.this.getObjectCode();
-						}
+				@Override
+				public Integer getDocumentEntry() {
+					return PurchaseOrderItem.this.getDocEntry();
+				}
 
-						@Override
-						public Integer getDocumentEntry() {
-							return PurchaseOrderItem.this.getDocEntry();
-						}
-
-						@Override
-						public Integer getDocumentLineId() {
-							return PurchaseOrderItem.this.getLineId();
-						}
-
-					}
-
-			};
+				@Override
+				public Integer getDocumentLineId() {
+					return PurchaseOrderItem.this.getLineId();
+				}
+			});
 		}
-		return new IBusinessLogicContract[] {};
+		// 物料信息补全
+		contracts.add(new IMaterialCompletionContract() {
+			@Override
+			public String getIdentifiers() {
+				return PurchaseOrderItem.this.getIdentifiers();
+			}
+
+			@Override
+			public String getItemCode() {
+				return PurchaseOrderItem.this.getItemCode();
+			}
+
+			@Override
+			public String getItemSign() {
+				return PurchaseOrderItem.this.getItemSign();
+			}
+
+			@Override
+			public void setItemSign(String value) {
+				PurchaseOrderItem.this.setItemSign(value);
+			}
+
+			@Override
+			public String getItemDescription() {
+				return PurchaseOrderItem.this.getItemDescription();
+			}
+
+			@Override
+			public void setItemDescription(String value) {
+				PurchaseOrderItem.this.setItemDescription(value);
+			}
+
+		});
+		return contracts.toArray(new IBusinessLogicContract[] {});
 	}
 }
