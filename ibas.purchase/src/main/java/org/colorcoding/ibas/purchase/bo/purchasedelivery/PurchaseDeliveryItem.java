@@ -2214,6 +2214,13 @@ public class PurchaseDeliveryItem extends BusinessObject<PurchaseDeliveryItem>
 	}
 
 	@Override
+	public void reset() {
+		super.reset();
+		this.setClosedAmount(Decimal.ZERO);
+		this.setClosedQuantity(Decimal.ZERO);
+	}
+
+	@Override
 	public void check() throws BusinessRuleException {
 		// 批次检查
 		this.getMaterialBatches().check();

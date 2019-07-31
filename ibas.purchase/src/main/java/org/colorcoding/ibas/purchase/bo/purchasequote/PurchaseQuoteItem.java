@@ -2163,6 +2163,13 @@ public class PurchaseQuoteItem extends BusinessObject<PurchaseQuoteItem>
 		};
 	}
 
+	@Override
+	public void reset() {
+		super.reset();
+		this.setClosedAmount(Decimal.ZERO);
+		this.setClosedQuantity(Decimal.ZERO);
+	}
+
 	/**
 	 * 父项
 	 */

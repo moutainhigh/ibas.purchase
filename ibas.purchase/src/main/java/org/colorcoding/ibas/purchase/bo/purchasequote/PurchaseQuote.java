@@ -1792,6 +1792,12 @@ public class PurchaseQuote extends BusinessObject<PurchaseQuote>
 	}
 
 	@Override
+	public void reset() {
+		super.reset();
+		this.setPaidTotal(Decimal.ZERO);
+	}
+
+	@Override
 	public IBusinessLogicContract[] getContracts() {
 		return new IBusinessLogicContract[] {
 

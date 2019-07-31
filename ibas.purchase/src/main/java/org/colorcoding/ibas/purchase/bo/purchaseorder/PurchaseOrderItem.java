@@ -2244,6 +2244,13 @@ public class PurchaseOrderItem extends BusinessObject<PurchaseOrderItem>
 		};
 	}
 
+	@Override
+	public void reset() {
+		super.reset();
+		this.setClosedAmount(Decimal.ZERO);
+		this.setClosedQuantity(Decimal.ZERO);
+	}
+
 	/**
 	 * 父项
 	 */

@@ -1866,6 +1866,12 @@ public class PurchaseOrder extends BusinessObject<PurchaseOrder> implements IPur
 	}
 
 	@Override
+	public void reset() {
+		super.reset();
+		this.setPaidTotal(Decimal.ZERO);
+	}
+
+	@Override
 	public IBusinessLogicContract[] getContracts() {
 		return new IBusinessLogicContract[] {
 
