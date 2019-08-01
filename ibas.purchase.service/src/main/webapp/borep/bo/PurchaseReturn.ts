@@ -650,7 +650,17 @@ namespace purchase {
                         if (item.canceled === ibas.emYesNo.YES) {
                             continue;
                         }
-                        if (item.lineStatus !== ibas.emDocumentStatus.RELEASED) {
+                        if (item.lineStatus === ibas.emDocumentStatus.PLANNED) {
+                            continue;
+                        }
+                        if (this.purchaseReturnItems.firstOrDefault(
+                            c => c.baseDocumentType === item.objectCode
+                                && c.baseDocumentEntry === item.docEntry
+                                && c.baseDocumentLineId === item.lineId) !== null) {
+                            continue;
+                        }
+                        let quantity: number = item.quantity - item.closedQuantity;
+                        if (quantity <= 0) {
                             continue;
                         }
                         let myItem: PurchaseReturnItem = this.purchaseReturnItems.create();
@@ -672,7 +682,7 @@ namespace purchase {
                         myItem.serialManagement = item.serialManagement;
                         myItem.price = item.price;
                         myItem.currency = item.currency;
-                        myItem.quantity = item.quantity;
+                        myItem.quantity = quantity;
                         myItem.uom = item.uom;
                         myItem.warehouse = item.warehouse;
                         myItem.reference1 = item.reference1;
@@ -710,7 +720,13 @@ namespace purchase {
                         if (item.canceled === ibas.emYesNo.YES) {
                             continue;
                         }
-                        if (item.lineStatus !== ibas.emDocumentStatus.RELEASED) {
+                        if (item.lineStatus === ibas.emDocumentStatus.PLANNED) {
+                            continue;
+                        }
+                        if (this.purchaseReturnItems.firstOrDefault(
+                            c => c.baseDocumentType === item.objectCode
+                                && c.baseDocumentEntry === item.docEntry
+                                && c.baseDocumentLineId === item.lineId) !== null) {
                             continue;
                         }
                         let myItem: PurchaseReturnItem = this.purchaseReturnItems.create();

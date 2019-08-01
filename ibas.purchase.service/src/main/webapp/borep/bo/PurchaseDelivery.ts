@@ -613,7 +613,7 @@ namespace purchase {
                 ];
             }
             /** 重置 */
-             reset(): void {
+            reset(): void {
                 super.reset();
                 this.paidTotal = 0;
                 this.documentStatus = ibas.emDocumentStatus.RELEASED;
@@ -643,6 +643,12 @@ namespace purchase {
                             continue;
                         }
                         if (item.lineStatus !== ibas.emDocumentStatus.RELEASED) {
+                            continue;
+                        }
+                        if (this.purchaseDeliveryItems.firstOrDefault(
+                            c => c.baseDocumentType === item.objectCode
+                                && c.baseDocumentEntry === item.docEntry
+                                && c.baseDocumentLineId === item.lineId) !== null) {
                             continue;
                         }
                         // 计算未交货数量
@@ -1373,7 +1379,7 @@ namespace purchase {
                 ];
             }
             /** 重置 */
-             reset(): void {
+            reset(): void {
                 super.reset();
                 this.closedAmount = 0;
                 this.closedQuantity = 0;

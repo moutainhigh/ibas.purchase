@@ -560,6 +560,12 @@ namespace purchase {
                         if (item.lineStatus !== ibas.emDocumentStatus.RELEASED) {
                             continue;
                         }
+                        if (this.purchaseOrderItems.firstOrDefault(
+                            c => c.baseDocumentType === item.objectCode
+                                && c.baseDocumentEntry === item.docEntry
+                                && c.baseDocumentLineId === item.lineId) !== null) {
+                            continue;
+                        }
                         let myItem: PurchaseOrderItem = this.purchaseOrderItems.create();
                         myItem.baseDocumentType = item.objectCode;
                         myItem.baseDocumentEntry = item.docEntry;

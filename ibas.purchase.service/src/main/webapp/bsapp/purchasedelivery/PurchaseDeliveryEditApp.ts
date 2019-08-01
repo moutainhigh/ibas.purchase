@@ -185,7 +185,7 @@ namespace purchase {
             }
             /** 选择供应商信息 */
             private choosePurchaseDeliverySupplier(): void {
-                if (!ibas.objects.isNull(this.editData) && this.editData.purchaseDeliveryItems.length > 0) {
+                if (!ibas.objects.isNull(this.editData) && this.editData.purchaseDeliveryItems.where(c => !ibas.strings.isEmpty(c.baseDocumentType)).length > 0) {
                     this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("purchase_existing_items_not_allowed_operation"));
                     return;
                 }
