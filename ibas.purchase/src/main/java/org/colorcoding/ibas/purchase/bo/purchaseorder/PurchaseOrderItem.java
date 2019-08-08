@@ -35,7 +35,6 @@ import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchItems;
 import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialItems;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItem;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItems;
-import org.colorcoding.ibas.materials.logic.IMaterialCompletionContract;
 import org.colorcoding.ibas.materials.logic.IMaterialOrderedJournalContract;
 import org.colorcoding.ibas.purchase.MyConfiguration;
 
@@ -2300,39 +2299,6 @@ public class PurchaseOrderItem extends BusinessObject<PurchaseOrderItem>
 				}
 			});
 		}
-		// 物料信息补全
-		contracts.add(new IMaterialCompletionContract() {
-			@Override
-			public String getIdentifiers() {
-				return PurchaseOrderItem.this.getIdentifiers();
-			}
-
-			@Override
-			public String getItemCode() {
-				return PurchaseOrderItem.this.getItemCode();
-			}
-
-			@Override
-			public String getItemSign() {
-				return PurchaseOrderItem.this.getItemSign();
-			}
-
-			@Override
-			public void setItemSign(String value) {
-				PurchaseOrderItem.this.setItemSign(value);
-			}
-
-			@Override
-			public String getItemDescription() {
-				return PurchaseOrderItem.this.getItemDescription();
-			}
-
-			@Override
-			public void setItemDescription(String value) {
-				PurchaseOrderItem.this.setItemDescription(value);
-			}
-
-		});
 		return contracts.toArray(new IBusinessLogicContract[] {});
 	}
 }

@@ -16,8 +16,6 @@ import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
-import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
-import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
@@ -26,7 +24,6 @@ import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMultiplication;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMultiplicativeDeductionEx;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleSubtraction;
-import org.colorcoding.ibas.materials.logic.IMaterialCompletionContract;
 import org.colorcoding.ibas.purchase.MyConfiguration;
 
 /**
@@ -35,8 +32,7 @@ import org.colorcoding.ibas.purchase.MyConfiguration;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = PurchaseQuoteItem.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
-public class PurchaseQuoteItem extends BusinessObject<PurchaseQuoteItem>
-		implements IPurchaseQuoteItem, IBOUserFields, IBusinessLogicsHost {
+public class PurchaseQuoteItem extends BusinessObject<PurchaseQuoteItem> implements IPurchaseQuoteItem, IBOUserFields {
 
 	private static final long serialVersionUID = -1573937349648316698L;
 
@@ -2174,43 +2170,4 @@ public class PurchaseQuoteItem extends BusinessObject<PurchaseQuoteItem>
 	 * 父项
 	 */
 	IPurchaseQuote parent;
-
-	@Override
-	public IBusinessLogicContract[] getContracts() {
-		return new IBusinessLogicContract[] {
-				// 物料信息补全
-				new IMaterialCompletionContract() {
-					@Override
-					public String getIdentifiers() {
-						return PurchaseQuoteItem.this.getIdentifiers();
-					}
-
-					@Override
-					public String getItemCode() {
-						return PurchaseQuoteItem.this.getItemCode();
-					}
-
-					@Override
-					public String getItemSign() {
-						return PurchaseQuoteItem.this.getItemSign();
-					}
-
-					@Override
-					public void setItemSign(String value) {
-						PurchaseQuoteItem.this.setItemSign(value);
-					}
-
-					@Override
-					public String getItemDescription() {
-						return PurchaseQuoteItem.this.getItemDescription();
-					}
-
-					@Override
-					public void setItemDescription(String value) {
-						PurchaseQuoteItem.this.setItemDescription(value);
-					}
-				}
-
-		};
-	}
 }
