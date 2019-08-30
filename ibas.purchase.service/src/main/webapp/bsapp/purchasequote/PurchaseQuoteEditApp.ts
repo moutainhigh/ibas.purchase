@@ -289,6 +289,9 @@ namespace purchase {
                             item.uom = selected.inventoryUOM;
                             item.price = selected.price;
                             item.currency = selected.currency;
+                            if (!ibas.strings.isEmpty(selected.purchaseTaxGroup)) {
+                                item.tax = selected.purchaseTaxGroup;
+                            }
                             item = null;
                         }
                         if (created) {

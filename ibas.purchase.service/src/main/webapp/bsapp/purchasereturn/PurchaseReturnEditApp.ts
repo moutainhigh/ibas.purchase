@@ -323,6 +323,9 @@ namespace purchase {
                             if (ibas.strings.isEmpty(item.warehouse) && !ibas.strings.isEmpty(that.view.defaultWarehouse)) {
                                 item.warehouse = that.view.defaultWarehouse;
                             }
+                            if (!ibas.strings.isEmpty(selected.purchaseTaxGroup)) {
+                                item.tax = selected.purchaseTaxGroup;
+                            }
                             item = null;
                         }
                         if (created) {

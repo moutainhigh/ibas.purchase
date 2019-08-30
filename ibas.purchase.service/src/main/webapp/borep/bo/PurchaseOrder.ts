@@ -1323,7 +1323,7 @@ namespace purchase {
                 this.materialSerials = new materials.bo.MaterialSerialItems(this);
                 this.currency = ibas.config.get(ibas.CONFIG_ITEM_DEFAULT_CURRENCY);
                 this.discount = 1;
-                this.taxRate = 1;
+                this.taxRate = 0;
             }
 
             protected registerRules(): ibas.IBusinessRule[] {
@@ -1335,7 +1335,7 @@ namespace purchase {
                     new ibas.BusinessRuleMultiplication(
                         PurchaseOrderItem.PROPERTY_LINETOTAL_NAME, PurchaseOrderItem.PROPERTY_QUANTITY_NAME, PurchaseOrderItem.PROPERTY_PRICE_NAME),
                     // 计算毛价 = 价格 * 税率
-                    new ibas.BusinessRuleMultiplication(
+                    new BusinessRuleCalculateGrossPrice(
                         PurchaseOrderItem.PROPERTY_GROSSPRICE_NAME, PurchaseOrderItem.PROPERTY_PRICE_NAME, PurchaseOrderItem.PROPERTY_TAXRATE_NAME),
                     // 计算毛总额 = 数量 * 毛价
                     new ibas.BusinessRuleMultiplication(

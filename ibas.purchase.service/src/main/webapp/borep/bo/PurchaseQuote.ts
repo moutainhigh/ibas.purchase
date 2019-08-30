@@ -1248,7 +1248,7 @@ namespace purchase {
                 this.purchaseQuoteItemExtras = new PurchaseQuoteItemExtras(this);
                 this.currency = ibas.config.get(ibas.CONFIG_ITEM_DEFAULT_CURRENCY);
                 this.discount = 1;
-                this.taxRate = 1;
+                this.taxRate = 0;
             }
 
             protected registerRules(): ibas.IBusinessRule[] {
@@ -1260,7 +1260,7 @@ namespace purchase {
                     new ibas.BusinessRuleMultiplication(
                         PurchaseQuoteItem.PROPERTY_LINETOTAL_NAME, PurchaseQuoteItem.PROPERTY_QUANTITY_NAME, PurchaseQuoteItem.PROPERTY_PRICE_NAME),
                     // 计算毛价 = 价格 * 税率
-                    new ibas.BusinessRuleMultiplication(
+                    new BusinessRuleCalculateGrossPrice(
                         PurchaseQuoteItem.PROPERTY_GROSSPRICE_NAME, PurchaseQuoteItem.PROPERTY_PRICE_NAME, PurchaseQuoteItem.PROPERTY_TAXRATE_NAME),
                     // 计算毛总额 = 数量 * 毛价
                     new ibas.BusinessRuleMultiplication(
