@@ -49,6 +49,23 @@ namespace purchase {
                 }
                 this.view.showPurchaseQuote(this.editData);
                 this.view.showPurchaseQuoteItems(this.editData.purchaseQuoteItems.filterDeleted());
+                // 查询额外信息
+                if (!ibas.strings.isEmpty(this.editData.supplierCode)) {
+                    let boRepository: businesspartner.bo.BORepositoryBusinessPartner = new businesspartner.bo.BORepositoryBusinessPartner();
+                    boRepository.fetchSupplier({
+                        criteria: [
+                            new ibas.Condition(businesspartner.bo.Supplier.PROPERTY_CODE_NAME, ibas.emConditionOperation.EQUAL, this.editData.supplierCode)
+                        ],
+                        onCompleted: (opRslt) => {
+                            let supplier: businesspartner.bo.Supplier = opRslt.resultObjects.firstOrDefault();
+                            if (!ibas.objects.isNull(supplier)) {
+                                if (!ibas.strings.isEmpty(supplier.taxGroup)) {
+                                    this.view.defaultTaxGroup = supplier.taxGroup;
+                                }
+                            }
+                        }
+                    });
+                }
             }
             /** 运行,覆盖原方法 */
             run(): void;
@@ -289,8 +306,12 @@ namespace purchase {
                             item.uom = selected.inventoryUOM;
                             item.price = selected.price;
                             item.currency = selected.currency;
-                            if (!ibas.strings.isEmpty(selected.purchaseTaxGroup)) {
-                                item.tax = selected.purchaseTaxGroup;
+                            if (ibas.strings.isEmpty(that.view.defaultTaxGroup)) {
+                                if (!ibas.strings.isEmpty(selected.purchaseTaxGroup)) {
+                                    item.tax = selected.purchaseTaxGroup;
+                                }
+                            } else {
+                                item.tax = that.view.defaultTaxGroup;
                             }
                             item = null;
                         }
@@ -402,6 +423,8 @@ namespace purchase {
             showPurchaseQuoteItemExtraEvent: Function;
             /** 显示数据 */
             showPurchaseQuoteItems(datas: bo.PurchaseQuoteItem[]): void;
+            /** 默认税组 */
+            defaultTaxGroup: string;
         }
     }
 }

@@ -53,6 +53,26 @@ namespace purchase {
                 }
                 this.view.showPurchaseOrder(this.editData);
                 this.view.showPurchaseOrderItems(this.editData.purchaseOrderItems.filterDeleted());
+                // 查询额外信息
+                if (!ibas.strings.isEmpty(this.editData.supplierCode)) {
+                    let boRepository: businesspartner.bo.BORepositoryBusinessPartner = new businesspartner.bo.BORepositoryBusinessPartner();
+                    boRepository.fetchSupplier({
+                        criteria: [
+                            new ibas.Condition(businesspartner.bo.Supplier.PROPERTY_CODE_NAME, ibas.emConditionOperation.EQUAL, this.editData.supplierCode)
+                        ],
+                        onCompleted: (opRslt) => {
+                            let supplier: businesspartner.bo.Supplier = opRslt.resultObjects.firstOrDefault();
+                            if (!ibas.objects.isNull(supplier)) {
+                                if (!ibas.strings.isEmpty(supplier.warehouse)) {
+                                    this.view.defaultWarehouse = supplier.warehouse;
+                                }
+                                if (!ibas.strings.isEmpty(supplier.taxGroup)) {
+                                    this.view.defaultTaxGroup = supplier.taxGroup;
+                                }
+                            }
+                        }
+                    });
+                }
             }
             /** 运行,覆盖原方法 */
             run(): void;
@@ -323,8 +343,12 @@ namespace purchase {
                             if (ibas.strings.isEmpty(item.warehouse) && !ibas.strings.isEmpty(that.view.defaultWarehouse)) {
                                 item.warehouse = that.view.defaultWarehouse;
                             }
-                            if (!ibas.strings.isEmpty(selected.purchaseTaxGroup)) {
-                                item.tax = selected.purchaseTaxGroup;
+                            if (ibas.strings.isEmpty(that.view.defaultTaxGroup)) {
+                                if (!ibas.strings.isEmpty(selected.purchaseTaxGroup)) {
+                                    item.tax = selected.purchaseTaxGroup;
+                                }
+                            } else {
+                                item.tax = that.view.defaultTaxGroup;
                             }
                             item = null;
                         }
@@ -540,6 +564,8 @@ namespace purchase {
             editShippingAddressesEvent: Function;
             /** 默认仓库 */
             defaultWarehouse: string;
+            /** 默认税组 */
+            defaultTaxGroup: string;
         }
     }
 }

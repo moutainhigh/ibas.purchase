@@ -471,6 +471,8 @@ namespace purchase {
                 }
                 private page: sap.extension.m.Page;
                 private tablePurchaseQuoteItem: sap.extension.table.Table;
+                /** 默认税组 */
+                defaultTaxGroup: string;
                 /** 显示数据 */
                 showPurchaseQuote(data: bo.PurchaseQuote): void {
                     this.page.setModel(new sap.extension.model.JSONModel(data));

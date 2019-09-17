@@ -568,6 +568,8 @@ namespace purchase {
                 set defaultWarehouse(value: string) {
                     this.selectWarehouse.setSelectedKey(value);
                 }
+                /** 默认税组 */
+                defaultTaxGroup: string;
                 /** 显示数据 */
                 showPurchaseDelivery(data: bo.PurchaseDelivery): void {
                     this.page.setModel(new sap.extension.model.JSONModel(data));
