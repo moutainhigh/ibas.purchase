@@ -36,17 +36,21 @@ namespace purchase {
                 this.view.showExtraDatas(this.editData.purchaseOrderItemExtras.filterDeleted());
             }
             run(): void;
-            run(data: bo.PurchaseOrderItem): void;
+            run(data: bo.PurchaseOrderItem, parent?: bo.PurchaseOrder): void;
             run(): void {
                 let data: bo.PurchaseOrderItem = arguments[0];
                 if (data instanceof bo.PurchaseOrderItem) {
                     this.editData = data;
+                    if (arguments[1] instanceof bo.PurchaseOrder) {
+                        this.dataParent = arguments[1];
+                    }
                     super.run();
                 } else {
                     throw new Error(ibas.i18n.prop("sys_unrecognized_data"));
                 }
             }
             private editData: bo.PurchaseOrderItem;
+            private dataParent: bo.PurchaseOrder;
             /** 添加采购订单-行事件 */
             private addPurchaseOrderItemExtra(type: string | FormData): void {
                 if (type === materials.bo.MaterialSpecification.BUSINESS_OBJECT_CODE) {
@@ -64,6 +68,8 @@ namespace purchase {
                                 ibas.servicesManager.runApplicationService<materials.app.ISpecificationTreeContract, materials.bo.MaterialSpecification>({
                                     proxy: new materials.app.SpecificationTreeServiceProxy({
                                         target: that.editData.itemCode,
+                                        supplier: that.dataParent ? that.dataParent.supplierCode : undefined,
+                                        project: that.dataParent ? that.dataParent.project : undefined,
                                     }),
                                     onCompleted(result: materials.bo.MaterialSpecification): void {
                                         let item: bo.PurchaseOrderItemExtra = that.editData.purchaseOrderItemExtras.create();

@@ -393,7 +393,7 @@ namespace purchase {
                 let app: PurchaseQuoteItemExtraApp = new PurchaseQuoteItemExtraApp();
                 app.navigation = this.navigation;
                 app.viewShower = this.viewShower;
-                app.run(data);
+                app.run(data, this.editData);
             }
 
         }

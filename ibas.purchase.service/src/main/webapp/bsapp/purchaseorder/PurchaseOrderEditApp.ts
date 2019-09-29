@@ -524,7 +524,7 @@ namespace purchase {
                 let app: PurchaseOrderItemExtraApp = new PurchaseOrderItemExtraApp();
                 app.navigation = this.navigation;
                 app.viewShower = this.viewShower;
-                app.run(data);
+                app.run(data, this.editData);
             }
 
         }
