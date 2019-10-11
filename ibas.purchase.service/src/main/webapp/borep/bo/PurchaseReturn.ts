@@ -604,7 +604,8 @@ namespace purchase {
                         PurchaseReturn.PROPERTY_SHIPPINGSEXPENSETOTAL_NAME, PurchaseReturn.PROPERTY_SHIPPINGADDRESSS_NAME, ShippingAddress.PROPERTY_EXPENSE_NAME),
                     // 折扣后总计 = 项目-行总计 * 折扣
                     new ibas.BusinessRuleMultiplication(
-                        PurchaseReturn.PROPERTY_DISCOUNTTOTAL_NAME, PurchaseReturn.PROPERTY_ITEMSLINETOTAL_NAME, PurchaseReturn.PROPERTY_DISCOUNT_NAME),
+                        PurchaseReturn.PROPERTY_DISCOUNTTOTAL_NAME, PurchaseReturn.PROPERTY_ITEMSLINETOTAL_NAME, PurchaseReturn.PROPERTY_DISCOUNT_NAME
+                        , ibas.config.get(ibas.CONFIG_ITEM_DECIMAL_PLACES_SUM)),
                     // 单据总计 = 折扣后总计 + 运输费用 + 税总额
                     new ibas.BusinessRuleSummation(
                         PurchaseReturn.PROPERTY_DOCUMENTTOTAL_NAME, PurchaseReturn.PROPERTY_DISCOUNTTOTAL_NAME,
@@ -1396,16 +1397,23 @@ namespace purchase {
                 return [
                     // 推导 价格 = 折扣前价格 * 折扣
                     new ibas.BusinessRuleMultiplicativeDeductionEx(
-                        PurchaseReturnItem.PROPERTY_DISCOUNT_NAME, PurchaseReturnItem.PROPERTY_UNITPRICE_NAME, PurchaseReturnItem.PROPERTY_PRICE_NAME),
+                        PurchaseReturnItem.PROPERTY_DISCOUNT_NAME, PurchaseReturnItem.PROPERTY_UNITPRICE_NAME, PurchaseReturnItem.PROPERTY_PRICE_NAME
+                        , ibas.config.get(ibas.CONFIG_ITEM_DECIMAL_PLACES_PRICE)
+                        , ibas.config.get(ibas.CONFIG_ITEM_DECIMAL_PLACES_PRICE)
+                        , undefined // 折扣使用默认小数位，以减小误差
+                    ),
                     // 计算总计 = 数量 * 价格
                     new ibas.BusinessRuleMultiplication(
-                        PurchaseReturnItem.PROPERTY_LINETOTAL_NAME, PurchaseReturnItem.PROPERTY_QUANTITY_NAME, PurchaseReturnItem.PROPERTY_PRICE_NAME),
+                        PurchaseReturnItem.PROPERTY_LINETOTAL_NAME, PurchaseReturnItem.PROPERTY_QUANTITY_NAME, PurchaseReturnItem.PROPERTY_PRICE_NAME
+                        , ibas.config.get(ibas.CONFIG_ITEM_DECIMAL_PLACES_SUM)),
                     // 计算毛价 = 价格 * 税率
                     new BusinessRuleCalculateGrossPrice(
-                        PurchaseReturnItem.PROPERTY_GROSSPRICE_NAME, PurchaseReturnItem.PROPERTY_PRICE_NAME, PurchaseReturnItem.PROPERTY_TAXRATE_NAME),
+                        PurchaseReturnItem.PROPERTY_GROSSPRICE_NAME, PurchaseReturnItem.PROPERTY_PRICE_NAME, PurchaseReturnItem.PROPERTY_TAXRATE_NAME
+                        , ibas.config.get(ibas.CONFIG_ITEM_DECIMAL_PLACES_PRICE)),
                     // 计算毛总额 = 数量 * 毛价
                     new ibas.BusinessRuleMultiplication(
-                        PurchaseReturnItem.PROPERTY_GROSSTOTAL_NAME, PurchaseReturnItem.PROPERTY_QUANTITY_NAME, PurchaseReturnItem.PROPERTY_GROSSPRICE_NAME),
+                        PurchaseReturnItem.PROPERTY_GROSSTOTAL_NAME, PurchaseReturnItem.PROPERTY_QUANTITY_NAME, PurchaseReturnItem.PROPERTY_GROSSPRICE_NAME
+                        , ibas.config.get(ibas.CONFIG_ITEM_DECIMAL_PLACES_SUM)),
                     // 计算税总额 = 毛总额 - 总计
                     new ibas.BusinessRuleSubtraction(
                         PurchaseReturnItem.PROPERTY_TAXTOTAL_NAME, PurchaseReturnItem.PROPERTY_GROSSTOTAL_NAME, PurchaseReturnItem.PROPERTY_LINETOTAL_NAME),
