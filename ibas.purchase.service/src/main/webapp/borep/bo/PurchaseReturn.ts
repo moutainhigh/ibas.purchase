@@ -662,10 +662,6 @@ namespace purchase {
                                 && c.baseDocumentLineId === item.lineId) !== null) {
                             continue;
                         }
-                        let quantity: number = item.quantity - item.closedQuantity;
-                        if (quantity <= 0) {
-                            continue;
-                        }
                         let myItem: PurchaseReturnItem = this.purchaseReturnItems.create();
                         bo.baseDocumentItem(myItem, item);
                         // 复制批次

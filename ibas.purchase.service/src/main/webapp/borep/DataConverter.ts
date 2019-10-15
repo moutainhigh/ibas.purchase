@@ -146,9 +146,9 @@ namespace purchase {
         ): void {
             // 复制头信息
             target.contactPerson = source.contactPerson;
-            target.deliveryDate = source.deliveryDate;
-            target.documentDate = source.documentDate;
-            target.postingDate = source.postingDate;
+            target.deliveryDate = ibas.dates.today();
+            target.documentDate = ibas.dates.today();
+            target.postingDate = ibas.dates.today();
             target.reference1 = source.reference1;
             target.reference2 = source.reference2;
             target.remarks = source.remarks;
@@ -196,7 +196,7 @@ namespace purchase {
             target.quantity = source.quantity;
             target.uom = source.uom;
             target.warehouse = source.warehouse;
-            target.deliveryDate = source.deliveryDate;
+            target.deliveryDate = ibas.dates.today();
             target.reference1 = source.reference1;
             target.reference2 = source.reference2;
             target.tax = source.tax;

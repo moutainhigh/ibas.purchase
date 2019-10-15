@@ -436,17 +436,17 @@ namespace purchase {
                 let criteria: ibas.ICriteria = new ibas.Criteria();
                 let condition: ibas.ICondition = criteria.conditions.create();
                 // 未取消的
-                condition.alias = ibas.BO_PROPERTY_NAME_CANCELED;
+                condition.alias = bo.PurchaseQuote.PROPERTY_CANCELED_NAME;
                 condition.operation = ibas.emConditionOperation.EQUAL;
                 condition.value = ibas.emYesNo.NO.toString();
                 // 未删除的
                 condition = criteria.conditions.create();
-                condition.alias = ibas.BO_PROPERTY_NAME_DELETED;
+                condition.alias = bo.PurchaseQuote.PROPERTY_DELETED_NAME;
                 condition.operation = ibas.emConditionOperation.EQUAL;
                 condition.value = ibas.emYesNo.NO.toString();
                 // 仅下达的
                 condition = criteria.conditions.create();
-                condition.alias = ibas.BO_PROPERTY_NAME_DOCUMENTSTATUS;
+                condition.alias = bo.PurchaseQuote.PROPERTY_DOCUMENTSTATUS_NAME;
                 condition.operation = ibas.emConditionOperation.EQUAL;
                 condition.value = ibas.emDocumentStatus.RELEASED.toString();
                 // 当前供应商的
@@ -457,7 +457,7 @@ namespace purchase {
                 // 未过期的
                 condition = criteria.conditions.create();
                 condition.alias = bo.PurchaseQuote.PROPERTY_DELIVERYDATE_NAME;
-                condition.operation = ibas.emConditionOperation.LESS_EQUAL;
+                condition.operation = ibas.emConditionOperation.GRATER_EQUAL;
                 condition.value = ibas.dates.toString(ibas.dates.today());
                 // 调用选择服务
                 let that: this = this;
