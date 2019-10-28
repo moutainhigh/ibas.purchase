@@ -324,9 +324,7 @@ namespace purchase {
             }
             /** 添加采购报价-行事件 */
             private addPurchaseQuoteItem(): void {
-                this.editData.purchaseQuoteItems.create();
-                // 仅显示没有标记删除的
-                this.view.showPurchaseQuoteItems(this.editData.purchaseQuoteItems.filterDeleted());
+                this.choosePurchaseQuoteItemMaterial(undefined);
             }
             /** 删除采购报价-行事件 */
             private removePurchaseQuoteItem(items: bo.PurchaseQuoteItem[]): void {

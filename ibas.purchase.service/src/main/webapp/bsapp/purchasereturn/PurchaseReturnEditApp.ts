@@ -337,9 +337,7 @@ namespace purchase {
             }
             /** 添加采购退货-行事件 */
             private addPurchaseReturnItem(): void {
-                this.editData.purchaseReturnItems.create();
-                // 仅显示没有标记删除的
-                this.view.showPurchaseReturnItems(this.editData.purchaseReturnItems.filterDeleted());
+                this.choosePurchaseReturnItemMaterial(undefined);
             }
             /** 删除采购退货-行事件 */
             private removePurchaseReturnItem(items: bo.PurchaseReturnItem[]): void {

@@ -364,9 +364,7 @@ namespace purchase {
             }
             /** 添加采购收货-行事件 */
             private addPurchaseDeliveryItem(): void {
-                this.editData.purchaseDeliveryItems.create();
-                // 仅显示没有标记删除的
-                this.view.showPurchaseDeliveryItems(this.editData.purchaseDeliveryItems.filterDeleted());
+                this.choosePurchaseDeliveryItemMaterial(undefined);
             }
             /** 删除采购收货-行事件 */
             private removePurchaseDeliveryItem(items: bo.PurchaseDeliveryItem[]): void {
