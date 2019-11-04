@@ -423,6 +423,18 @@ namespace purchase {
                 condition.alias = bo.PurchaseOrder.PROPERTY_DOCUMENTSTATUS_NAME;
                 condition.operation = ibas.emConditionOperation.NOT_EQUAL;
                 condition.value = ibas.emDocumentStatus.PLANNED.toString();
+                // 审批通过的或未进审批
+                condition = criteria.conditions.create();
+                condition.alias = bo.PurchaseOrder.PROPERTY_APPROVALSTATUS_NAME;
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.value = ibas.emApprovalStatus.APPROVED.toString();
+                condition.bracketOpen = 1;
+                condition = criteria.conditions.create();
+                condition.alias = bo.PurchaseOrder.PROPERTY_APPROVALSTATUS_NAME;
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.value = ibas.emApprovalStatus.UNAFFECTED.toString();
+                condition.relationship = ibas.emConditionRelationship.OR;
+                condition.bracketClose = 1;
                 // 当前供应商的
                 condition = criteria.conditions.create();
                 condition.alias = bo.PurchaseOrder.PROPERTY_SUPPLIERCODE_NAME;
@@ -469,6 +481,18 @@ namespace purchase {
                 condition.alias = bo.PurchaseDelivery.PROPERTY_DOCUMENTSTATUS_NAME;
                 condition.operation = ibas.emConditionOperation.NOT_EQUAL;
                 condition.value = ibas.emDocumentStatus.PLANNED.toString();
+                // 审批通过的或未进审批
+                condition = criteria.conditions.create();
+                condition.alias = bo.PurchaseDelivery.PROPERTY_APPROVALSTATUS_NAME;
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.value = ibas.emApprovalStatus.APPROVED.toString();
+                condition.bracketOpen = 1;
+                condition = criteria.conditions.create();
+                condition.alias = bo.PurchaseDelivery.PROPERTY_APPROVALSTATUS_NAME;
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.value = ibas.emApprovalStatus.UNAFFECTED.toString();
+                condition.relationship = ibas.emConditionRelationship.OR;
+                condition.bracketClose = 1;
                 // 当前供应商的
                 condition = criteria.conditions.create();
                 condition.alias = bo.PurchaseDelivery.PROPERTY_SUPPLIERCODE_NAME;

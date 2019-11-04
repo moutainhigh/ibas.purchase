@@ -2089,24 +2089,24 @@ public class PurchaseQuoteItem extends BusinessObject<PurchaseQuoteItem> impleme
 	/**
 	 * 属性名称-采购报价-行-额外信息
 	 */
-	private static final String PROPERTY_SALESQUOTEITEMEXTRAS_NAME = "PurchaseQuoteItemExtras";
+	private static final String PROPERTY_PURCHASEQUOTEITEMEXTRAS_NAME = "PurchaseQuoteItemExtras";
 
 	/**
 	 * 采购报价-行-额外信息的集合属性
 	 * 
 	 */
-	public static final IPropertyInfo<IPurchaseQuoteItemExtras> PROPERTY_SALESQUOTEITEMEXTRAS = registerProperty(
-			PROPERTY_SALESQUOTEITEMEXTRAS_NAME, IPurchaseQuoteItemExtras.class, MY_CLASS);
+	public static final IPropertyInfo<IPurchaseQuoteItemExtras> PROPERTY_PURCHASEQUOTEITEMEXTRAS = registerProperty(
+			PROPERTY_PURCHASEQUOTEITEMEXTRAS_NAME, IPurchaseQuoteItemExtras.class, MY_CLASS);
 
 	/**
 	 * 获取-采购报价-行-额外信息集合
 	 * 
 	 * @return 值
 	 */
-	@XmlElementWrapper(name = PROPERTY_SALESQUOTEITEMEXTRAS_NAME)
+	@XmlElementWrapper(name = PROPERTY_PURCHASEQUOTEITEMEXTRAS_NAME)
 	@XmlElement(name = PurchaseQuoteItemExtra.BUSINESS_OBJECT_NAME, type = PurchaseQuoteItemExtra.class)
 	public final IPurchaseQuoteItemExtras getPurchaseQuoteItemExtras() {
-		return this.getProperty(PROPERTY_SALESQUOTEITEMEXTRAS);
+		return this.getProperty(PROPERTY_PURCHASEQUOTEITEMEXTRAS);
 	}
 
 	/**
@@ -2115,7 +2115,7 @@ public class PurchaseQuoteItem extends BusinessObject<PurchaseQuoteItem> impleme
 	 * @param value 值
 	 */
 	public final void setPurchaseQuoteItemExtras(IPurchaseQuoteItemExtras value) {
-		this.setProperty(PROPERTY_SALESQUOTEITEMEXTRAS, value);
+		this.setProperty(PROPERTY_PURCHASEQUOTEITEMEXTRAS, value);
 	}
 
 	/**

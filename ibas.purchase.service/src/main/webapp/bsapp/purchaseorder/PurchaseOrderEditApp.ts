@@ -447,6 +447,18 @@ namespace purchase {
                 condition.alias = bo.PurchaseQuote.PROPERTY_DOCUMENTSTATUS_NAME;
                 condition.operation = ibas.emConditionOperation.EQUAL;
                 condition.value = ibas.emDocumentStatus.RELEASED.toString();
+                // 审批通过的或未进审批
+                condition = criteria.conditions.create();
+                condition.alias = bo.PurchaseQuote.PROPERTY_APPROVALSTATUS_NAME;
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.value = ibas.emApprovalStatus.APPROVED.toString();
+                condition.bracketOpen = 1;
+                condition = criteria.conditions.create();
+                condition.alias = bo.PurchaseQuote.PROPERTY_APPROVALSTATUS_NAME;
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.value = ibas.emApprovalStatus.UNAFFECTED.toString();
+                condition.relationship = ibas.emConditionRelationship.OR;
+                condition.bracketClose = 1;
                 // 当前供应商的
                 condition = criteria.conditions.create();
                 condition.alias = bo.PurchaseQuote.PROPERTY_SUPPLIERCODE_NAME;
