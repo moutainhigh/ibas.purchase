@@ -402,7 +402,7 @@ namespace purchase {
                         content: [
                             new sap.ui.core.Title("", { text: ibas.i18n.prop("purchase_title_others") }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasedelivery_dataowner") }),
-                            new sap.extension.m.UserInput("", {
+                            new sap.extension.m.DataOwnerInput("", {
                                 showValueHelp: true,
                             }).bindProperty("bindingValue", {
                                 path: "dataOwner",
