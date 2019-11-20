@@ -310,21 +310,9 @@ namespace purchase {
                                 item = that.editData.purchaseReturnItems.create();
                                 created = true;
                             }
-                            item.itemCode = selected.code;
-                            item.itemDescription = selected.name;
-                            item.itemSign = selected.sign;
-                            item.serialManagement = selected.serialManagement;
-                            item.batchManagement = selected.batchManagement;
-                            item.warehouse = selected.warehouse;
-                            item.quantity = 1;
-                            item.uom = selected.inventoryUOM;
-                            item.price = selected.price;
-                            item.currency = selected.currency;
-                            if (ibas.strings.isEmpty(item.warehouse) && !ibas.strings.isEmpty(that.view.defaultWarehouse)) {
+                            item.baseProduct(selected);
+                            if (!ibas.strings.isEmpty(that.view.defaultWarehouse)) {
                                 item.warehouse = that.view.defaultWarehouse;
-                            }
-                            if (!ibas.strings.isEmpty(selected.purchaseTaxGroup)) {
-                                item.tax = selected.purchaseTaxGroup;
                             }
                             item = null;
                         }

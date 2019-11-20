@@ -1838,7 +1838,8 @@ public class PurchaseOrder extends BusinessObject<PurchaseOrder> implements IPur
 
 	@Override
 	protected IBusinessRule[] registerRules() {
-		return new IBusinessRule[] { // 注册的业务规则
+		return new IBusinessRule[] {
+				// 注册的业务规则
 				new BusinessRuleRequired(PROPERTY_SUPPLIERCODE), // 要求有值
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_DISCOUNT), // 不能低于0
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_DOCUMENTRATE), // 不能低于0
@@ -1848,14 +1849,12 @@ public class PurchaseOrder extends BusinessObject<PurchaseOrder> implements IPur
 						PurchaseOrderItem.PROPERTY_LINESTATUS), // 使用集合元素状态
 				new BusinessRuleSumElements(PROPERTY_ITEMSLINETOTAL, PROPERTY_PURCHASEORDERITEMS,
 						PurchaseOrderItem.PROPERTY_LINETOTAL), // 计算项目-行总计
-				new BusinessRuleSumElements(PROPERTY_ITEMSTAXTOTAL, PROPERTY_PURCHASEORDERITEMS,
-						PurchaseOrderItem.PROPERTY_TAXTOTAL), // 计算项目-税总计
 				new BusinessRuleSumElements(PROPERTY_SHIPPINGSEXPENSETOTAL, PROPERTY_SHIPPINGADDRESSS,
 						ShippingAddress.PROPERTY_EXPENSE), // 计算运输-费用总计
 				// 折扣后总计 = 项目-行总计 * 折扣
 				new BusinessRuleMultiplication(PROPERTY_DISCOUNTTOTAL, PROPERTY_ITEMSLINETOTAL, PROPERTY_DISCOUNT),
 				// 单据总计 = 折扣后总计 + 运输费用 + 税总额
-				new BusinessRuleSummation(PROPERTY_DOCUMENTTOTAL, PROPERTY_DISCOUNTTOTAL, PROPERTY_ITEMSTAXTOTAL,
+				new BusinessRuleSummation(PROPERTY_DOCUMENTTOTAL, PROPERTY_DISCOUNTTOTAL,
 						PROPERTY_SHIPPINGSEXPENSETOTAL),
 				// 小数舍入（单据总计）
 				new BusinessRuleRoundingOff(PROPERTY_DIFFAMOUNT, PROPERTY_DOCUMENTTOTAL, PROPERTY_ROUNDING),

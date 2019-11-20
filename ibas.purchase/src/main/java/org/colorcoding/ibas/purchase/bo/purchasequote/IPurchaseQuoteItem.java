@@ -764,20 +764,6 @@ public interface IPurchaseQuoteItem extends IBODocumentLine {
 	void setClosedAmount(double value);
 
 	/**
-	 * 获取-科目代码
-	 * 
-	 * @return 值
-	 */
-	String getAccountCode();
-
-	/**
-	 * 设置-科目代码
-	 * 
-	 * @param value 值
-	 */
-	void setAccountCode(String value);
-
-	/**
 	 * 获取-折扣前价格
 	 * 
 	 * @return 值
@@ -897,74 +883,74 @@ public interface IPurchaseQuoteItem extends IBODocumentLine {
 	void setTaxTotal(double value);
 
 	/**
-	 * 获取-毛价
+	 * 获取-税前价格
 	 * 
 	 * @return 值
 	 */
-	BigDecimal getGrossPrice();
+	BigDecimal getPreTaxPrice();
 
 	/**
-	 * 设置-毛价
+	 * 设置-税前价格
 	 * 
 	 * @param value 值
 	 */
-	void setGrossPrice(BigDecimal value);
+	void setPreTaxPrice(BigDecimal value);
 
 	/**
-	 * 设置-毛价
+	 * 设置-税前价格
 	 * 
 	 * @param value 值
 	 */
-	void setGrossPrice(String value);
+	void setPreTaxPrice(String value);
 
 	/**
-	 * 设置-毛价
+	 * 设置-税前价格
 	 * 
 	 * @param value 值
 	 */
-	void setGrossPrice(int value);
+	void setPreTaxPrice(int value);
 
 	/**
-	 * 设置-毛价
+	 * 设置-税前价格
 	 * 
 	 * @param value 值
 	 */
-	void setGrossPrice(double value);
+	void setPreTaxPrice(double value);
 
 	/**
-	 * 获取-毛总额
+	 * 获取-税前行总计
 	 * 
 	 * @return 值
 	 */
-	BigDecimal getGrossTotal();
+	BigDecimal getPreTaxLineTotal();
 
 	/**
-	 * 设置-毛总额
+	 * 设置-税前行总计
 	 * 
 	 * @param value 值
 	 */
-	void setGrossTotal(BigDecimal value);
+	void setPreTaxLineTotal(BigDecimal value);
 
 	/**
-	 * 设置-毛总额
+	 * 设置-税前行总计
 	 * 
 	 * @param value 值
 	 */
-	void setGrossTotal(String value);
+	void setPreTaxLineTotal(String value);
 
 	/**
-	 * 设置-毛总额
+	 * 设置-税前行总计
 	 * 
 	 * @param value 值
 	 */
-	void setGrossTotal(int value);
+	void setPreTaxLineTotal(int value);
 
 	/**
-	 * 设置-毛总额
+	 * 设置-税前行总计
 	 * 
 	 * @param value 值
 	 */
-	void setGrossTotal(double value);
+	void setPreTaxLineTotal(double value);
 
 	/**
 	 * 获取-分配规则1

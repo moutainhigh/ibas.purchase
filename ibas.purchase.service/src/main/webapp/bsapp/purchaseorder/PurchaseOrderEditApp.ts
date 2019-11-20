@@ -236,6 +236,7 @@ namespace purchase {
                         that.editData.contactPerson = selected.contactPerson;
                         that.editData.documentCurrency = selected.currency;
                         that.view.defaultWarehouse = selected.warehouse;
+                        that.view.defaultTaxGroup = selected.taxGroup;
                     }
                 });
             }
@@ -330,25 +331,22 @@ namespace purchase {
                                 item = that.editData.purchaseOrderItems.create();
                                 created = true;
                             }
-                            item.itemCode = selected.code;
-                            item.itemDescription = selected.name;
-                            item.itemSign = selected.sign;
-                            item.serialManagement = selected.serialManagement;
-                            item.batchManagement = selected.batchManagement;
-                            item.warehouse = selected.warehouse;
-                            item.quantity = 1;
-                            item.uom = selected.inventoryUOM;
-                            item.price = selected.price;
-                            item.currency = selected.currency;
-                            if (ibas.strings.isEmpty(item.warehouse) && !ibas.strings.isEmpty(that.view.defaultWarehouse)) {
+                            item.baseProduct(selected);
+                            if (!ibas.strings.isEmpty(that.view.defaultWarehouse)) {
                                 item.warehouse = that.view.defaultWarehouse;
                             }
-                            if (ibas.strings.isEmpty(that.view.defaultTaxGroup)) {
-                                if (!ibas.strings.isEmpty(selected.purchaseTaxGroup)) {
-                                    item.tax = selected.purchaseTaxGroup;
-                                }
-                            } else {
+                            if (!ibas.strings.isEmpty(that.view.defaultTaxGroup)) {
                                 item.tax = that.view.defaultTaxGroup;
+                                if (!ibas.strings.isEmpty(item.tax)) {
+                                    accounting.taxrate.assign(item.tax, (rate) => {
+                                        if (rate >= 0) {
+                                            item.taxRate = rate;
+                                            if (selected.taxed === ibas.emYesNo.NO) {
+                                                item.preTaxPrice = selected.price;
+                                            }
+                                        }
+                                    });
+                                }
                             }
                             item = null;
                         }

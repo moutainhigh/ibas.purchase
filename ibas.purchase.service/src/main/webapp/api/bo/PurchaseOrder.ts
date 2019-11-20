@@ -297,9 +297,6 @@ namespace purchase {
             /** 已清金额 */
             closedAmount: number;
 
-            /** 科目代码 */
-            accountCode: string;
-
             /** 折扣前价格 */
             unitPrice: number;
 
@@ -312,11 +309,11 @@ namespace purchase {
             /** 税总额 */
             taxTotal: number;
 
-            /** 毛价 */
-            grossPrice: number;
+            /** 税前价格 */
+            preTaxPrice: number;
 
-            /** 毛总额 */
-            grossTotal: number;
+            /** 税前行总计 */
+            preTaxLineTotal: number;
 
             /** 分配规则1 */
             distributionRule1: string;
@@ -335,6 +332,9 @@ namespace purchase {
 
             /** 采购订单-行-额外信息集合 */
             purchaseOrderItemExtras: IPurchaseOrderItemExtras;
+
+            /** 赋值产品 */
+            baseProduct(source: materials.bo.IProduct): void;
 
         }
 
