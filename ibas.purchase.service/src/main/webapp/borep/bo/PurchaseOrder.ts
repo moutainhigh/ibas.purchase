@@ -554,6 +554,8 @@ namespace purchase {
                     }
                     // 复制头信息
                     bo.baseDocument(this, document);
+                    // 交货日期带报价的
+                    this.deliveryDate = document.deliveryDate;
                     // 复制行项目
                     for (let item of document.purchaseQuoteItems) {
                         if (item.canceled === ibas.emYesNo.YES) {
@@ -570,6 +572,16 @@ namespace purchase {
                         }
                         let myItem: PurchaseOrderItem = this.purchaseOrderItems.create();
                         bo.baseDocumentItem(myItem, item);
+                        // 交货日期带报价的
+                        myItem.deliveryDate = item.deliveryDate;
+                        // 复制额外信息
+                        for (let extra of item.purchaseQuoteItemExtras) {
+                            let myExtra: PurchaseOrderItemExtra = myItem.purchaseOrderItemExtras.create();
+                            myExtra.extraType = extra.extraType;
+                            myExtra.extraKey = extra.extraKey;
+                            myExtra.note = extra.note;
+                            myExtra.quantity = extra.quantity;
+                        }
                     }
                 }
             }
@@ -584,7 +596,6 @@ namespace purchase {
                 this.rounding = ibas.emYesNo.YES;
                 this.discount = 1;
             }
-
             /** 映射的属性名称-项目的税总计 */
             static PROPERTY_ITEMSTAXTOTAL_NAME: string = "ItemsTaxTotal";
             /** 获取-项目的税总计 */
@@ -607,6 +618,17 @@ namespace purchase {
                 this.setProperty(PurchaseOrder.PROPERTY_ITEMSLINETOTAL_NAME, value);
             }
 
+            /** 映射的属性名称-运送费税总计 */
+            static PROPERTY_SHIPPINGSTAXTOTAL_NAME: string = "ShippingsTaxTotal";
+            /** 获取-运送费税总计 */
+            get shippingsTaxTotal(): number {
+                return this.getProperty<number>(PurchaseOrder.PROPERTY_SHIPPINGSTAXTOTAL_NAME);
+            }
+            /** 设置-运送费税总计 */
+            set shippingsTaxTotal(value: number) {
+                this.setProperty(PurchaseOrder.PROPERTY_SHIPPINGSTAXTOTAL_NAME, value);
+            }
+
             /** 映射的属性名称-运送费用总计 */
             static PROPERTY_SHIPPINGSEXPENSETOTAL_NAME: string = "ShippingsExpenseTotal";
             /** 获取-运送费用总计 */
@@ -617,22 +639,40 @@ namespace purchase {
             set shippingsExpenseTotal(value: number) {
                 this.setProperty(PurchaseOrder.PROPERTY_SHIPPINGSEXPENSETOTAL_NAME, value);
             }
+
+            /** 映射的属性名称-单据税总计 */
+            static PROPERTY_DOCUMENTTAXTOTAL_NAME: string = "DocumentTaxTotal";
+            /** 获取-单据税总计 */
+            get documentTaxTotal(): number {
+                return this.getProperty<number>(PurchaseOrder.PROPERTY_DOCUMENTTAXTOTAL_NAME);
+            }
+            /** 设置-单据税总计 */
+            set documentTaxTotal(value: number) {
+                this.setProperty(PurchaseOrder.PROPERTY_DOCUMENTTAXTOTAL_NAME, value);
+            }
+
             protected registerRules(): ibas.IBusinessRule[] {
                 return [
                     // 计算项目-行总计
                     new ibas.BusinessRuleSumElements(
-                        PurchaseOrder.PROPERTY_ITEMSLINETOTAL_NAME, PurchaseOrder.PROPERTY_PURCHASEORDERITEMS_NAME, PurchaseOrderItem.PROPERTY_LINETOTAL_NAME),
+                        PurchaseOrder.PROPERTY_ITEMSLINETOTAL_NAME, PurchaseOrder.PROPERTY_PURCHASEORDERITEMS_NAME, PurchaseDeliveryItem.PROPERTY_LINETOTAL_NAME),
                     // 计算项目-税总计
                     new ibas.BusinessRuleSumElements(
-                        PurchaseOrder.PROPERTY_ITEMSTAXTOTAL_NAME, PurchaseOrder.PROPERTY_PURCHASEORDERITEMS_NAME, PurchaseOrderItem.PROPERTY_TAXTOTAL_NAME),
+                        PurchaseOrder.PROPERTY_ITEMSTAXTOTAL_NAME, PurchaseOrder.PROPERTY_PURCHASEORDERITEMS_NAME, PurchaseDeliveryItem.PROPERTY_TAXTOTAL_NAME),
                     // 计算运输-费用总计
                     new ibas.BusinessRuleSumElements(
                         PurchaseOrder.PROPERTY_SHIPPINGSEXPENSETOTAL_NAME, PurchaseOrder.PROPERTY_SHIPPINGADDRESSS_NAME, ShippingAddress.PROPERTY_EXPENSE_NAME),
+                    // 计算运输-税总计
+                    new ibas.BusinessRuleSumElements(
+                        PurchaseOrder.PROPERTY_SHIPPINGSTAXTOTAL_NAME, PurchaseOrder.PROPERTY_SHIPPINGADDRESSS_NAME, ShippingAddress.PROPERTY_TAXTOTAL_NAME),
                     // 折扣后总计 = 项目-行总计 * 折扣
                     new ibas.BusinessRuleMultiplication(
                         PurchaseOrder.PROPERTY_DISCOUNTTOTAL_NAME, PurchaseOrder.PROPERTY_ITEMSLINETOTAL_NAME, PurchaseOrder.PROPERTY_DISCOUNT_NAME
                         , ibas.config.get(ibas.CONFIG_ITEM_DECIMAL_PLACES_SUM)),
-                    // 单据总计 = 折扣后总计 + 运输费用
+                    // 单据税总计 = 行税总计 + 运输税总计
+                    new ibas.BusinessRuleSummation(
+                        PurchaseOrder.PROPERTY_DOCUMENTTAXTOTAL_NAME, PurchaseOrder.PROPERTY_ITEMSTAXTOTAL_NAME, PurchaseOrder.PROPERTY_SHIPPINGSTAXTOTAL_NAME),
+                    // 单据总计 = 行总计 + 运输费用
                     new ibas.BusinessRuleSummation(
                         PurchaseOrder.PROPERTY_DOCUMENTTOTAL_NAME, PurchaseOrder.PROPERTY_DISCOUNTTOTAL_NAME, PurchaseOrder.PROPERTY_SHIPPINGSEXPENSETOTAL_NAME),
                     // 小数舍入（单据总计）
@@ -653,10 +693,12 @@ namespace purchase {
             afterParsing(): void {
                 // 计算部分业务逻辑
                 for (let rule of ibas.businessRulesManager.getRules(ibas.objects.typeOf(this))) {
-                    if (!(rule instanceof ibas.BusinessRuleSumElements)) {
-                        continue;
+                    if (rule instanceof ibas.BusinessRuleSumElements) {
+                        rule.execute(this);
+                    } else if (rule instanceof ibas.BusinessRuleSummation
+                        && rule.result === PurchaseOrder.PROPERTY_DOCUMENTTAXTOTAL_NAME) {
+                        rule.execute(this);
                     }
-                    rule.execute(this);
                 }
             }
         }

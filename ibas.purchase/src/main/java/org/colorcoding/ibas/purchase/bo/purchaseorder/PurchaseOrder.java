@@ -1779,35 +1779,6 @@ public class PurchaseOrder extends BusinessObject<PurchaseOrder> implements IPur
 	}
 
 	/**
-	 * 属性名称-项目的税总计
-	 */
-	private static final String PROPERTY_ITEMSTAXTOTAL_NAME = "ItemsTaxTotal";
-
-	/**
-	 * 项目的税总计 属性
-	 */
-	public static final IPropertyInfo<BigDecimal> PROPERTY_ITEMSTAXTOTAL = registerProperty(PROPERTY_ITEMSTAXTOTAL_NAME,
-			BigDecimal.class, MY_CLASS);
-
-	/**
-	 * 获取-项目的税总计
-	 * 
-	 * @return 值
-	 */
-	public final BigDecimal getItemsTaxTotal() {
-		return this.getProperty(PROPERTY_ITEMSTAXTOTAL);
-	}
-
-	/**
-	 * 设置-项目的税总计
-	 * 
-	 * @param value 值
-	 */
-	final void setItemsTaxTotal(BigDecimal value) {
-		this.setProperty(PROPERTY_ITEMSTAXTOTAL, value);
-	}
-
-	/**
 	 * 属性名称-运送费用总计
 	 */
 	private static final String PROPERTY_SHIPPINGSEXPENSETOTAL_NAME = "ShippingsExpenseTotal";
@@ -1853,7 +1824,7 @@ public class PurchaseOrder extends BusinessObject<PurchaseOrder> implements IPur
 						ShippingAddress.PROPERTY_EXPENSE), // 计算运输-费用总计
 				// 折扣后总计 = 项目-行总计 * 折扣
 				new BusinessRuleMultiplication(PROPERTY_DISCOUNTTOTAL, PROPERTY_ITEMSLINETOTAL, PROPERTY_DISCOUNT),
-				// 单据总计 = 折扣后总计 + 运输费用 + 税总额
+				// 单据总计 = 折扣后总计 + 运输费用
 				new BusinessRuleSummation(PROPERTY_DOCUMENTTOTAL, PROPERTY_DISCOUNTTOTAL,
 						PROPERTY_SHIPPINGSEXPENSETOTAL),
 				// 小数舍入（单据总计）

@@ -1778,35 +1778,6 @@ public class PurchaseDelivery extends BusinessObject<PurchaseDelivery> implement
 	}
 
 	/**
-	 * 属性名称-项目的税总计
-	 */
-	private static final String PROPERTY_ITEMSTAXTOTAL_NAME = "ItemsTaxTotal";
-
-	/**
-	 * 项目的税总计 属性
-	 */
-	public static final IPropertyInfo<BigDecimal> PROPERTY_ITEMSTAXTOTAL = registerProperty(PROPERTY_ITEMSTAXTOTAL_NAME,
-			BigDecimal.class, MY_CLASS);
-
-	/**
-	 * 获取-项目的税总计
-	 * 
-	 * @return 值
-	 */
-	public final BigDecimal getItemsTaxTotal() {
-		return this.getProperty(PROPERTY_ITEMSTAXTOTAL);
-	}
-
-	/**
-	 * 设置-项目的税总计
-	 * 
-	 * @param value 值
-	 */
-	final void setItemsTaxTotal(BigDecimal value) {
-		this.setProperty(PROPERTY_ITEMSTAXTOTAL, value);
-	}
-
-	/**
 	 * 属性名称-运送费用总计
 	 */
 	private static final String PROPERTY_SHIPPINGSEXPENSETOTAL_NAME = "ShippingsExpenseTotal";

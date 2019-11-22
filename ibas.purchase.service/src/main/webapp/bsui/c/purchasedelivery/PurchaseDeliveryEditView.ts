@@ -474,12 +474,12 @@ namespace purchase {
                                 path: "shippingsExpenseTotal",
                                 type: new sap.extension.data.Sum()
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasedelivery_itemstaxtotal") + ibas.i18n.prop("purchase_inclusion") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasedelivery_documenttaxtotal") }),
                             new sap.extension.m.Input("", {
                                 editable: false,
                                 type: sap.m.InputType.Number
                             }).bindProperty("bindingValue", {
-                                path: "itemsTaxTotal",
+                                path: "documentTaxTotal",
                                 type: new sap.extension.data.Sum()
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_purchasedelivery_documenttotal") }),

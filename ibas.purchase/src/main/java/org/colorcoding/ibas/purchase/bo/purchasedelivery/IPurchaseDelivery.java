@@ -822,12 +822,6 @@ public interface IPurchaseDelivery extends IBODocument, IShippingAddressParent {
 	BigDecimal getItemsLineTotal();
 
 	/**
-	 * 获取-项目的税总计
-	 * 
-	 */
-	BigDecimal getItemsTaxTotal();
-
-	/**
 	 * 获取-运送项目的总计
 	 * 
 	 */

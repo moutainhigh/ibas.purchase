@@ -805,10 +805,4 @@ public interface IPurchaseQuote extends IBODocument {
 	 */
 	BigDecimal getItemsLineTotal();
 
-	/**
-	 * 获取-项目的税总计
-	 * 
-	 */
-	BigDecimal getItemsTaxTotal();
-
 }
