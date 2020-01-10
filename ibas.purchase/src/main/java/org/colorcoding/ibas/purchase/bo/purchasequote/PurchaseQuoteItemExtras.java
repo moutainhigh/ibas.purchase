@@ -83,7 +83,7 @@ public class PurchaseQuoteItemExtras extends BusinessObjects<IPurchaseQuoteItemE
 	}
 
 	@Override
-	public void onParentPropertyChanged(PropertyChangeEvent evt) {
+	protected void onParentPropertyChanged(PropertyChangeEvent evt) {
 		super.onParentPropertyChanged(evt);
 		if (evt.getPropertyName().equals(PurchaseQuoteItem.PROPERTY_LINEID.getName())) {
 			for (IPurchaseQuoteItemExtra item : this) {
