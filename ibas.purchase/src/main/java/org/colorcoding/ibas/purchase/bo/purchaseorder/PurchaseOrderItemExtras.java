@@ -82,7 +82,7 @@ public class PurchaseOrderItemExtras extends BusinessObjects<IPurchaseOrderItemE
 	}
 
 	@Override
-	public void onParentPropertyChanged(PropertyChangeEvent evt) {
+	protected void onParentPropertyChanged(PropertyChangeEvent evt) {
 		super.onParentPropertyChanged(evt);
 		if (evt.getPropertyName().equals(PurchaseOrderItem.PROPERTY_LINEID.getName())) {
 			for (IPurchaseOrderItemExtra item : this) {

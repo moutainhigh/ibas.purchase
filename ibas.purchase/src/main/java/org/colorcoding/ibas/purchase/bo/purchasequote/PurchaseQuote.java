@@ -1,6 +1,7 @@
 package org.colorcoding.ibas.purchase.bo.purchasequote;
 
 import java.math.BigDecimal;
+import java.util.Iterator;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -35,8 +36,9 @@ import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequiredElements;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRoundingOff;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleSumElements;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleSummation;
-import org.colorcoding.ibas.businesspartner.logic.ISupplierCheckContract;
+import org.colorcoding.ibas.materials.logic.IMaterialPriceCheckContract;
 import org.colorcoding.ibas.purchase.MyConfiguration;
+import org.colorcoding.ibas.purchase.logic.ISupplierAndFloorListCheckContract;
 
 /**
  * 获取-采购报价
@@ -1767,11 +1769,13 @@ public class PurchaseQuote extends BusinessObject<PurchaseQuote>
 		this.setPaidTotal(Decimal.ZERO);
 	}
 
+	private Integer floorList;
+
 	@Override
 	public IBusinessLogicContract[] getContracts() {
 		return new IBusinessLogicContract[] {
-
-				new ISupplierCheckContract() {
+				// 客户检查
+				new ISupplierAndFloorListCheckContract() {
 					@Override
 					public String getIdentifiers() {
 						return PurchaseQuote.this.getIdentifiers();
@@ -1780,6 +1784,78 @@ public class PurchaseQuote extends BusinessObject<PurchaseQuote>
 					@Override
 					public String getSupplierCode() {
 						return PurchaseQuote.this.getSupplierCode();
+					}
+
+					@Override
+					public Integer getPriceList() {
+						return PurchaseQuote.this.getPriceList();
+					}
+
+					@Override
+					public void setFloorList(Integer value) {
+						PurchaseQuote.this.floorList = value;
+					}
+
+				},
+				// 价格检查
+				new IMaterialPriceCheckContract() {
+
+					@Override
+					public String getIdentifiers() {
+						return PurchaseQuote.this.getIdentifiers();
+					}
+
+					@Override
+					public Integer getPriceList() {
+						return PurchaseQuote.this.floorList;
+					}
+
+					@Override
+					public Iterable<IMaterialPrice> getMaterialPrices() {
+						return new Iterable<IMaterialPrice>() {
+
+							@Override
+							public Iterator<IMaterialPrice> iterator() {
+
+								return new Iterator<IMaterialPrice>() {
+
+									Iterator<IPurchaseQuoteItem> iterator = PurchaseQuote.this.getPurchaseQuoteItems()
+											.stream()
+											.filter(c -> c.isDeleted() != true && c.getDeleted() != emYesNo.YES)
+											.iterator();
+
+									@Override
+									public boolean hasNext() {
+										return iterator.hasNext();
+									}
+
+									@Override
+									public IMaterialPrice next() {
+
+										return new IMaterialPrice() {
+											IPurchaseQuoteItem item = iterator.next();
+
+											@Override
+											public String getItemCode() {
+												return item.getItemCode();
+											}
+
+											@Override
+											public BigDecimal getPrice() {
+												return item.getPrice();
+											}
+
+											@Override
+											public String getCurrency() {
+												return item.getCurrency();
+											}
+
+										};
+									}
+								};
+							}
+
+						};
 					}
 				}
 

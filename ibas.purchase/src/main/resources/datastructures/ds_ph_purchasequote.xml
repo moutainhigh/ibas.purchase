@@ -131,7 +131,7 @@
     <Property Name="Quantity" Description="数量" DataType="Decimal" DataSubType="Quantity" EditSize="8" Mapped="Quantity"/>
     <Property Name="Note" Description="备注" DataType="Alphanumeric" DataSubType="Default" EditSize="200" Mapped="Note"/>
   </Model>
-  <BusinessObject MappedModel="PurchaseQuote" ShortName="${COMPANY}_PH_PURCHQUOTE">
+  <BusinessObject MappedModel="PurchaseQuote" ShortName="${Company}_PH_PURCHQUOTE">
     <RelatedBO Relation="OneToMany" MappedModel="PurchaseQuoteItem">
       <RelatedBO Relation="OneToMany" MappedModel="PurchaseQuoteItemExtra"/>
     </RelatedBO>
