@@ -12,6 +12,7 @@
 /// <reference path="./purchaseorder/index.ts" />
 /// <reference path="./purchasereturn/index.ts" />
 /// <reference path="./purchasequote/index.ts" />
+/// <reference path="./purchaserequest/index.ts" />
 /// <reference path="./shippingaddress/index.ts" />
 namespace purchase {
     export namespace ui {
@@ -83,6 +84,18 @@ namespace purchase {
                         break;
                     case app.ShippingAddressesEditApp.APPLICATION_ID:
                         view = new c.ShippingAddressesEditView();
+                        break;
+                    case app.PurchaseRequestListApp.APPLICATION_ID:
+                        view = new c.PurchaseRequestListView();
+                        break;
+                    case app.PurchaseRequestChooseApp.APPLICATION_ID:
+                        view = new c.PurchaseRequestChooseView();
+                        break;
+                    case app.PurchaseRequestViewApp.APPLICATION_ID:
+                        view = new c.PurchaseRequestViewView();
+                        break;
+                    case app.PurchaseRequestEditApp.APPLICATION_ID:
+                        view = new c.PurchaseRequestEditView();
                         break;
                     default:
                         break;

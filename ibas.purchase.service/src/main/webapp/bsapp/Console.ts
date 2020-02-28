@@ -10,6 +10,7 @@
 /// <reference path="./purchaseorder/index.ts" />
 /// <reference path="./purchasereturn/index.ts" />
 /// <reference path="./purchasequote/index.ts" />
+/// <reference path="./purchaserequest/index.ts" />
 /// <reference path="./shippingaddress/index.ts" />
 namespace purchase {
     export namespace app {
@@ -34,6 +35,7 @@ namespace purchase {
             /** 初始化 */
             protected registers(): void {
                 // 注册功能
+                this.register(new PurchaseRequestFunc());
                 this.register(new PurchaseQuoteFunc());
                 this.register(new PurchaseOrderFunc());
                 this.register(new PurchaseDeliveryFunc());
@@ -47,6 +49,8 @@ namespace purchase {
                 this.register(new PurchaseQuoteLinkServiceMapping());
                 this.register(new PurchaseReturnChooseServiceMapping());
                 this.register(new PurchaseReturnLinkServiceMapping());
+                this.register(new PurchaseRequestChooseServiceMapping());
+                this.register(new PurchaseRequestLinkServiceMapping());
                 // 注册常驻应用
 
             }

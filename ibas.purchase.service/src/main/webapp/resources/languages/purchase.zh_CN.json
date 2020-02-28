@@ -1,6 +1,11 @@
 {
   "purchase": "采购管理",
   "purchase_icon": "sap-icon://basket",
+  "purchase_func_purchaserequest": "采购申请",
+  "purchase_app_purchaserequest_list": "采购申请列表",
+  "purchase_app_purchaserequest_choose": "采购申请选择",
+  "purchase_app_purchaserequest_view": "采购申请查看",
+  "purchase_app_purchaserequest_edit": "采购申请编辑",
   "purchase_func_purchasedelivery": "采购收货",
   "purchase_app_purchasedelivery_list": "采购收货列表",
   "purchase_app_purchasedelivery_choose": "采购收货选择",
