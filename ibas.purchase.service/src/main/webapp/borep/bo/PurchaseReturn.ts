@@ -616,10 +616,10 @@ namespace purchase {
                 return [
                     // 计算项目-行总计
                     new ibas.BusinessRuleSumElements(
-                        PurchaseReturn.PROPERTY_ITEMSLINETOTAL_NAME, PurchaseReturn.PROPERTY_PURCHASERETURNITEMS_NAME, PurchaseDeliveryItem.PROPERTY_LINETOTAL_NAME),
+                        PurchaseReturn.PROPERTY_ITEMSLINETOTAL_NAME, PurchaseReturn.PROPERTY_PURCHASERETURNITEMS_NAME, PurchaseReturnItem.PROPERTY_LINETOTAL_NAME),
                     // 计算项目-税总计
                     new ibas.BusinessRuleSumElements(
-                        PurchaseReturn.PROPERTY_ITEMSTAXTOTAL_NAME, PurchaseReturn.PROPERTY_PURCHASERETURNITEMS_NAME, PurchaseDeliveryItem.PROPERTY_TAXTOTAL_NAME),
+                        PurchaseReturn.PROPERTY_ITEMSTAXTOTAL_NAME, PurchaseReturn.PROPERTY_PURCHASERETURNITEMS_NAME, PurchaseReturnItem.PROPERTY_TAXTOTAL_NAME),
                     // 计算运输-费用总计
                     new ibas.BusinessRuleSumElements(
                         PurchaseReturn.PROPERTY_SHIPPINGSEXPENSETOTAL_NAME, PurchaseReturn.PROPERTY_SHIPPINGADDRESSS_NAME, ShippingAddress.PROPERTY_EXPENSE_NAME),

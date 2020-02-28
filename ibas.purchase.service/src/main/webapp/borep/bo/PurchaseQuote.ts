@@ -582,10 +582,10 @@ namespace purchase {
                 return [
                     // 计算项目-行总计
                     new ibas.BusinessRuleSumElements(
-                        PurchaseQuote.PROPERTY_ITEMSLINETOTAL_NAME, PurchaseQuote.PROPERTY_PURCHASEQUOTEITEMS_NAME, PurchaseDeliveryItem.PROPERTY_LINETOTAL_NAME),
+                        PurchaseQuote.PROPERTY_ITEMSLINETOTAL_NAME, PurchaseQuote.PROPERTY_PURCHASEQUOTEITEMS_NAME, PurchaseQuoteItem.PROPERTY_LINETOTAL_NAME),
                     // 计算项目-税总计
                     new ibas.BusinessRuleSumElements(
-                        PurchaseQuote.PROPERTY_ITEMSTAXTOTAL_NAME, PurchaseQuote.PROPERTY_PURCHASEQUOTEITEMS_NAME, PurchaseDeliveryItem.PROPERTY_TAXTOTAL_NAME),
+                        PurchaseQuote.PROPERTY_ITEMSTAXTOTAL_NAME, PurchaseQuote.PROPERTY_PURCHASEQUOTEITEMS_NAME, PurchaseQuoteItem.PROPERTY_TAXTOTAL_NAME),
                     // 折扣后总计 = 项目-行总计 * 折扣
                     new ibas.BusinessRuleMultiplication(
                         PurchaseQuote.PROPERTY_DISCOUNTTOTAL_NAME, PurchaseQuote.PROPERTY_ITEMSLINETOTAL_NAME, PurchaseQuote.PROPERTY_DISCOUNT_NAME
@@ -619,6 +619,93 @@ namespace purchase {
                     } else if (rule instanceof ibas.BusinessRuleSummation
                         && rule.result === PurchaseQuote.PROPERTY_DOCUMENTTAXTOTAL_NAME) {
                         rule.execute(this);
+                    }
+                }
+            }
+            /** 基于采购申请 */
+            baseDocument(document: IPurchaseRequest): void {
+                if (ibas.objects.instanceOf(document, PurchaseRequest)) {
+                    // 复制头信息
+                    this.deliveryDate = document.requestDate;
+                    this.documentDate = ibas.dates.today();
+                    this.postingDate = ibas.dates.today();
+                    this.reference1 = document.reference1;
+                    this.reference2 = document.reference2;
+                    this.remarks = document.remarks;
+                    this.project = document.project;
+                    this.priceList = document.priceList;
+                    this.documentCurrency = document.documentCurrency;
+                    // 复制自定义字段
+                    for (let item of document.userFields.forEach()) {
+                        let myItem: ibas.IUserField = this.userFields.get(item.name);
+                        if (ibas.objects.isNull(myItem)) {
+                            myItem = this.userFields.register(item.name, item.valueType);
+                        }
+                        if (myItem.valueType !== item.valueType) {
+                            continue;
+                        }
+                        myItem.value = item.value;
+                    }
+                    // 复制行项目
+                    for (let item of document.purchaseRequestItems) {
+                        if (item.canceled === ibas.emYesNo.YES) {
+                            continue;
+                        }
+                        if (item.lineStatus !== ibas.emDocumentStatus.RELEASED) {
+                            continue;
+                        }
+                        if (!ibas.strings.isEmpty(item.supplier) && !ibas.strings.equals(this.supplierCode, item.supplier)) {
+                            continue;
+                        }
+                        if (this.purchaseQuoteItems.firstOrDefault(
+                            c => c.baseDocumentType === item.objectCode
+                                && c.baseDocumentEntry === item.docEntry
+                                && c.baseDocumentLineId === item.lineId) !== null) {
+                            continue;
+                        }
+                        let myItem: IPurchaseQuoteItem = this.purchaseQuoteItems.create();
+                        myItem.baseDocumentType = item.objectCode;
+                        myItem.baseDocumentEntry = item.docEntry;
+                        myItem.baseDocumentLineId = item.lineId;
+                        myItem.originalDocumentType = item.baseDocumentType;
+                        myItem.originalDocumentEntry = item.baseDocumentEntry;
+                        myItem.originalDocumentLineId = item.baseDocumentLineId;
+                        myItem.distributionRule1 = item.distributionRule1;
+                        myItem.distributionRule2 = item.distributionRule2;
+                        myItem.distributionRule3 = item.distributionRule3;
+                        myItem.distributionRule4 = item.distributionRule4;
+                        myItem.distributionRule5 = item.distributionRule5;
+                        myItem.itemCode = item.itemCode;
+                        myItem.itemDescription = item.itemDescription;
+                        myItem.itemSign = item.itemSign;
+                        myItem.price = item.price;
+                        myItem.currency = item.currency;
+                        myItem.quantity = item.quantity;
+                        myItem.uom = item.uom;
+                        myItem.deliveryDate = item.requestDate;
+                        myItem.reference1 = item.reference1;
+                        myItem.reference2 = item.reference2;
+                        myItem.tax = item.tax;
+                        myItem.taxRate = item.taxRate;
+                        // 复制自定义字段
+                        for (let uItem of item.userFields.forEach()) {
+                            let myUItem: ibas.IUserField = myItem.userFields.get(uItem.name);
+                            if (ibas.objects.isNull(myItem)) {
+                                myUItem = myItem.userFields.register(uItem.name, uItem.valueType);
+                            }
+                            if (myUItem.valueType !== uItem.valueType) {
+                                continue;
+                            }
+                            myUItem.value = uItem.value;
+                        }
+                        // 复制额外信息
+                        for (let extra of item.purchaseRequestItemExtras) {
+                            let myExtra: IPurchaseOrderItemExtra = myItem.purchaseQuoteItemExtras.create();
+                            myExtra.extraType = extra.extraType;
+                            myExtra.extraKey = extra.extraKey;
+                            myExtra.note = extra.note;
+                            myExtra.quantity = extra.quantity;
+                        }
                     }
                 }
             }

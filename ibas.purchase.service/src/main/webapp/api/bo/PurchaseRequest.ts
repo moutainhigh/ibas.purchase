@@ -8,7 +8,7 @@
 namespace purchase {
     export namespace bo {
         /** 采购申请 */
-        export interface IPurchaseRequest extends ibas.IBODocument {
+        export interface IPurchaseRequest extends ibas.IBODocument, ibas.IBOUserFields {
             /** 凭证编号 */
             docEntry: number;
             /** 期间编号 */
@@ -104,7 +104,7 @@ namespace purchase {
         }
 
         /** 采购申请-行 */
-        export interface IPurchaseRequestItem extends ibas.IBODocumentLine {
+        export interface IPurchaseRequestItem extends ibas.IBODocumentLine, ibas.IBOUserFields {
             /** 编码 */
             docEntry: number;
             /** 行号 */

@@ -53,6 +53,10 @@ namespace purchase {
                     } else if (property === bo.PurchaseQuoteItem.PROPERTY_SERIALMANAGEMENT_NAME) {
                         return ibas.enums.toString(ibas.emYesNo, value);
                     }
+                } else if (boName === bo.PurchaseRequest.name) {
+                    if (property === bo.PurchaseRequest.PROPERTY_ROUNDING_NAME) {
+                        return ibas.enums.toString(ibas.emYesNo, value);
+                    }
                 } else if (boName === bo.PurchaseOrder.name) {
                     if (property === bo.PurchaseOrder.PROPERTY_ROUNDING_NAME) {
                         return ibas.enums.toString(ibas.emYesNo, value);
@@ -107,6 +111,10 @@ namespace purchase {
                     if (property === bo.PurchaseQuoteItem.PROPERTY_BATCHMANAGEMENT_NAME) {
                         return ibas.enums.valueOf(ibas.emYesNo, value);
                     } else if (property === bo.PurchaseQuoteItem.PROPERTY_SERIALMANAGEMENT_NAME) {
+                        return ibas.enums.valueOf(ibas.emYesNo, value);
+                    }
+                } else if (boName === bo.PurchaseRequest.name) {
+                    if (property === bo.PurchaseRequest.PROPERTY_ROUNDING_NAME) {
                         return ibas.enums.valueOf(ibas.emYesNo, value);
                     }
                 } else if (boName === bo.PurchaseOrder.name) {
@@ -228,15 +236,17 @@ namespace purchase {
             }
         }
         export function baseProduct(
-            target: IPurchaseQuoteItem | IPurchaseOrderItem | IPurchaseDeliveryItem | IPurchaseReturnItem,
+            target: PurchaseQuoteItem | PurchaseOrderItem | PurchaseDeliveryItem | PurchaseReturnItem | PurchaseRequestItem,
             source: materials.bo.IProduct
         ): void {
             target.itemCode = source.code;
             target.itemDescription = source.name;
             target.itemSign = source.sign;
-            target.serialManagement = source.serialManagement;
-            target.batchManagement = source.batchManagement;
-            target.warehouse = source.warehouse;
+            if (!(target instanceof PurchaseRequestItem)) {
+                target.serialManagement = source.serialManagement;
+                target.batchManagement = source.batchManagement;
+                target.warehouse = source.warehouse;
+            }
             target.quantity = 1;
             target.uom = source.inventoryUOM;
             if (!ibas.strings.isEmpty(source.purchaseTaxGroup)) {
