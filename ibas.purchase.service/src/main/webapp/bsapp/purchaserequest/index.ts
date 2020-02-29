@@ -10,3 +10,4 @@
 /// <reference path="./PurchaseRequestChooseApp.ts" />
 /// <reference path="./PurchaseRequestViewApp.ts" />
 /// <reference path="./PurchaseRequestEditApp.ts" />
+/// <reference path="./PurchaseRequestItemExtraApp.ts" />

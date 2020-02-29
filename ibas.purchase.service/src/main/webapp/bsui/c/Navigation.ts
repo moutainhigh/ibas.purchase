@@ -97,6 +97,9 @@ namespace purchase {
                     case app.PurchaseRequestEditApp.APPLICATION_ID:
                         view = new c.PurchaseRequestEditView();
                         break;
+                    case app.PurchaseRequestItemExtraApp.APPLICATION_ID:
+                        view = new c.PurchaseRequestItemExtraView();
+                        break;
                     default:
                         break;
                 }

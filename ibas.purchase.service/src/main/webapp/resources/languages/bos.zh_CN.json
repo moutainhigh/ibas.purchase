@@ -42,6 +42,7 @@
         "bo_purchaserequest_diffamount": "舍入差额",
         "bo_purchaserequest_project": "项目代码",
         "bo_purchaserequest_ordertype": "单据类型",
+        "bo_purchaserequest_documenttaxtotal": "税总计（含）",
         "bo_purchaserequest_purchaserequestitems": "采购申请-行集合",
         "bo_purchaserequestitem": "采购申请-行",
         "bo_purchaserequestitem_docentry": "编码",

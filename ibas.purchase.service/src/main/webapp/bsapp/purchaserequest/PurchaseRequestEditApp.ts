@@ -5,7 +5,7 @@
  * Use of this source code is governed by an Apache License, Version 2.0
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
  */
- namespace purchase {
+namespace purchase {
     export namespace app {
         /** 编辑应用-采购申请 */
         export class PurchaseRequestEditApp extends ibas.BOEditApplication<IPurchaseRequestEditView, bo.PurchaseRequest> {
@@ -31,6 +31,9 @@
                 this.view.createDataEvent = this.createData;
                 this.view.addPurchaseRequestItemEvent = this.addPurchaseRequestItem;
                 this.view.removePurchaseRequestItemEvent = this.removePurchaseRequestItem;
+                this.view.choosePurchaseRequestPriceListEvent = this.choosePurchaseRequestPriceList;
+                this.view.choosePurchaseRequestItemMaterialEvent = this.choosePurchaseRequestItemMaterial;
+                this.view.showPurchaseRequestItemExtraEvent = this.showPurchaseRequestItemExtra;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
@@ -174,9 +177,7 @@
             }
             /** 添加采购申请-行事件 */
             protected addPurchaseRequestItem(): void {
-                this.editData.purchaseRequestItems.create();
-                // 仅显示没有标记删除的
-                this.view.showPurchaseRequestItems(this.editData.purchaseRequestItems.filterDeleted());
+                this.choosePurchaseRequestItemMaterial(undefined);
             }
             /** 删除采购申请-行事件 */
             protected removePurchaseRequestItem(items: bo.PurchaseRequestItem[]): void {
@@ -202,6 +203,87 @@
                 // 仅显示没有标记删除的
                 this.view.showPurchaseRequestItems(this.editData.purchaseRequestItems.filterDeleted());
             }
+            /** 选择价格清单事件 */
+            private choosePurchaseRequestPriceList(): void {
+                let that: this = this;
+                ibas.servicesManager.runChooseService<materials.bo.IMaterialPriceList>({
+                    boCode: materials.bo.BO_CODE_MATERIALPRICELIST,
+                    chooseType: ibas.emChooseType.SINGLE,
+                    criteria: materials.app.conditions.materialpricelist.create(),
+                    onCompleted(selecteds: ibas.IList<materials.bo.IMaterialPriceList>): void {
+                        let selected: materials.bo.IMaterialPriceList = selecteds.firstOrDefault();
+                        that.editData.priceList = selected.objectKey;
+                        that.editData.documentCurrency = selected.currency;
+                    }
+                });
+            }
+            private choosePurchaseRequestItemMaterial(caller: bo.PurchaseRequestItem): void {
+                let that: this = this;
+                let condition: ibas.ICondition;
+                let conditions: ibas.IList<ibas.ICondition> = materials.app.conditions.product.create();
+                // 添加价格清单条件
+                if (this.editData.priceList > 0) {
+                    condition = new ibas.Condition();
+                    condition.alias = materials.app.conditions.product.CONDITION_ALIAS_PRICELIST;
+                    condition.value = this.editData.priceList.toString();
+                    condition.operation = ibas.emConditionOperation.EQUAL;
+                    condition.relationship = ibas.emConditionRelationship.AND;
+                    conditions.add(condition);
+                }
+                // 采购物料
+                condition = new ibas.Condition();
+                condition.alias = materials.app.conditions.product.CONDITION_ALIAS_PURCHASE_ITEM;
+                condition.value = ibas.emYesNo.YES.toString();
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.relationship = ibas.emConditionRelationship.AND;
+                conditions.add(condition);
+                // 调用选择服务
+                ibas.servicesManager.runChooseService<materials.bo.IProduct>({
+                    boCode: materials.bo.BO_CODE_PRODUCT,
+                    criteria: conditions,
+                    onCompleted(selecteds: ibas.IList<materials.bo.IProduct>): void {
+                        let index: number = that.editData.purchaseRequestItems.indexOf(caller);
+                        let item: bo.PurchaseRequestItem = that.editData.purchaseRequestItems[index];
+                        // 选择返回数量多余触发数量时,自动创建新的项目
+                        let created: boolean = false;
+                        for (let selected of selecteds) {
+                            if (ibas.objects.isNull(item)) {
+                                item = that.editData.purchaseRequestItems.create();
+                                created = true;
+                            }
+                            item.baseProduct(selected);
+                            if (!ibas.strings.isEmpty(item.tax)) {
+                                accounting.taxrate.assign(item.tax, (rate) => {
+                                    if (rate >= 0) {
+                                        item.taxRate = rate;
+                                        if (selected.taxed === ibas.emYesNo.NO) {
+                                            item.preTaxPrice = selected.price;
+                                        }
+                                    }
+                                });
+                            }
+                            item = null;
+                        }
+                        if (created) {
+                            // 创建了新的行项目
+                            that.view.showPurchaseRequestItems(that.editData.purchaseRequestItems.filterDeleted());
+                        }
+                    }
+                });
+            }
+            private showPurchaseRequestItemExtra(data: bo.PurchaseRequestItem): void {
+                // 检查目标数据
+                if (ibas.objects.isNull(data)) {
+                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
+                        ibas.i18n.prop("shell_data_view")
+                    ));
+                    return;
+                }
+                let app: PurchaseRequestItemExtraApp = new PurchaseRequestItemExtraApp();
+                app.navigation = this.navigation;
+                app.viewShower = this.viewShower;
+                app.run(data, this.editData);
+            }
 
         }
         /** 视图-采购申请 */
@@ -216,6 +298,12 @@
             addPurchaseRequestItemEvent: Function;
             /** 删除采购申请-行事件 */
             removePurchaseRequestItemEvent: Function;
+            /** 选择采购申请价格清单信息 */
+            choosePurchaseRequestPriceListEvent: Function;
+            /** 选择采购申请-行物料主数据 */
+            choosePurchaseRequestItemMaterialEvent: Function;
+            /** 显示采购申请额外信息事件 */
+            showPurchaseRequestItemExtraEvent: Function;
             /** 显示数据-采购申请-行 */
             showPurchaseRequestItems(datas: bo.PurchaseRequestItem[]): void;
         }
