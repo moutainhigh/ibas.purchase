@@ -242,9 +242,9 @@ namespace purchase {
             target.itemCode = source.code;
             target.itemDescription = source.name;
             target.itemSign = source.sign;
+            target.serialManagement = source.serialManagement;
+            target.batchManagement = source.batchManagement;
             if (!(target instanceof PurchaseRequestItem)) {
-                target.serialManagement = source.serialManagement;
-                target.batchManagement = source.batchManagement;
                 target.warehouse = source.warehouse;
             }
             target.quantity = 1;

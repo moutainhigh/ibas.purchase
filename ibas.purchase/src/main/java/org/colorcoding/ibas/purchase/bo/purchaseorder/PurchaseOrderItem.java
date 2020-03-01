@@ -36,6 +36,8 @@ import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItem;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItems;
 import org.colorcoding.ibas.materials.logic.IMaterialOrderedJournalContract;
 import org.colorcoding.ibas.purchase.MyConfiguration;
+import org.colorcoding.ibas.purchase.bo.purchasedelivery.PurchaseDeliveryItem;
+import org.colorcoding.ibas.purchase.logic.IPurchaseRequestClosingContract;
 import org.colorcoding.ibas.purchase.rules.BusinessRuleDeductionDiscountPrice;
 import org.colorcoding.ibas.purchase.rules.BusinessRuleDeductionTaxPrice;
 
@@ -2270,6 +2272,35 @@ public class PurchaseOrderItem extends BusinessObject<PurchaseOrderItem>
 				}
 			});
 		}
+		// 采购请求完成
+		contracts.add(new IPurchaseRequestClosingContract() {
+
+			@Override
+			public String getIdentifiers() {
+				return PurchaseOrderItem.this.getIdentifiers();
+			}
+
+			@Override
+			public BigDecimal getQuantity() {
+				return PurchaseOrderItem.this.getQuantity();
+			}
+
+			@Override
+			public String getBaseDocumentType() {
+				return PurchaseOrderItem.this.getBaseDocumentType();
+			}
+
+			@Override
+			public Integer getBaseDocumentEntry() {
+				return PurchaseOrderItem.this.getBaseDocumentEntry();
+			}
+
+			@Override
+			public Integer getBaseDocumentLineId() {
+				return PurchaseOrderItem.this.getBaseDocumentLineId();
+			}
+
+		});
 		return contracts.toArray(new IBusinessLogicContract[] {});
 	}
 }

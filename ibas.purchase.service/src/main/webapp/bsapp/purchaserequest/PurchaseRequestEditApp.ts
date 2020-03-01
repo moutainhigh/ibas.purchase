@@ -42,6 +42,7 @@ namespace purchase {
                 if (ibas.objects.isNull(this.editData)) {
                     // 创建编辑对象实例
                     this.editData = new bo.PurchaseRequest();
+                    this.editData.requester = ibas.variablesManager.getValue(ibas.VARIABLE_NAME_USER_NAME);
                     this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_data_created_new"));
                 }
                 this.view.showPurchaseRequest(this.editData);

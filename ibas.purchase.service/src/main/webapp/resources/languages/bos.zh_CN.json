@@ -75,6 +75,8 @@
         "bo_purchaserequestitem_itemcode": "物料编码",
         "bo_purchaserequestitem_itemsign": "物料标识",
         "bo_purchaserequestitem_itemdescription": "物料/服务描述",
+        "bo_purchaserequestitem_serialmanagement": "序号管理",
+        "bo_purchaserequestitem_batchmanagement": "批号管理",
         "bo_purchaserequestitem_quantity": "数量",
         "bo_purchaserequestitem_uom": "单位",
         "bo_purchaserequestitem_supplier": "供应商",

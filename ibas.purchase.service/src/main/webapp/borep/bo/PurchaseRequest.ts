@@ -870,6 +870,17 @@ namespace purchase {
                 this.setProperty(PurchaseRequestItem.PROPERTY_ITEMCODE_NAME, value);
             }
 
+            /** 映射的属性名称-物料/服务描述 */
+            static PROPERTY_ITEMDESCRIPTION_NAME: string = "ItemDescription";
+            /** 获取-物料/服务描述 */
+            get itemDescription(): string {
+                return this.getProperty<string>(PurchaseRequestItem.PROPERTY_ITEMDESCRIPTION_NAME);
+            }
+            /** 设置-物料/服务描述 */
+            set itemDescription(value: string) {
+                this.setProperty(PurchaseRequestItem.PROPERTY_ITEMDESCRIPTION_NAME, value);
+            }
+
             /** 映射的属性名称-物料标识 */
             static PROPERTY_ITEMSIGN_NAME: string = "ItemSign";
             /** 获取-物料标识 */
@@ -880,16 +891,26 @@ namespace purchase {
             set itemSign(value: string) {
                 this.setProperty(PurchaseRequestItem.PROPERTY_ITEMSIGN_NAME, value);
             }
-
-            /** 映射的属性名称-物料/服务描述 */
-            static PROPERTY_ITEMDESCRIPTION_NAME: string = "ItemDescription";
-            /** 获取-物料/服务描述 */
-            get itemDescription(): string {
-                return this.getProperty<string>(PurchaseRequestItem.PROPERTY_ITEMDESCRIPTION_NAME);
+            /** 映射的属性名称-序号管理 */
+            static PROPERTY_SERIALMANAGEMENT_NAME: string = "SerialManagement";
+            /** 获取-序号管理 */
+            get serialManagement(): ibas.emYesNo {
+                return this.getProperty<ibas.emYesNo>(PurchaseRequestItem.PROPERTY_SERIALMANAGEMENT_NAME);
             }
-            /** 设置-物料/服务描述 */
-            set itemDescription(value: string) {
-                this.setProperty(PurchaseRequestItem.PROPERTY_ITEMDESCRIPTION_NAME, value);
+            /** 设置-序号管理 */
+            set serialManagement(value: ibas.emYesNo) {
+                this.setProperty(PurchaseRequestItem.PROPERTY_SERIALMANAGEMENT_NAME, value);
+            }
+
+            /** 映射的属性名称-批号管理 */
+            static PROPERTY_BATCHMANAGEMENT_NAME: string = "BatchManagement";
+            /** 获取-批号管理 */
+            get batchManagement(): ibas.emYesNo {
+                return this.getProperty<ibas.emYesNo>(PurchaseRequestItem.PROPERTY_BATCHMANAGEMENT_NAME);
+            }
+            /** 设置-批号管理 */
+            set batchManagement(value: ibas.emYesNo) {
+                this.setProperty(PurchaseRequestItem.PROPERTY_BATCHMANAGEMENT_NAME, value);
             }
 
             /** 映射的属性名称-数量 */

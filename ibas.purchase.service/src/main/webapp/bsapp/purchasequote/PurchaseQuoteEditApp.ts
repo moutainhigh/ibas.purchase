@@ -36,6 +36,7 @@ namespace purchase {
                 this.view.choosePurchaseQuotePriceListEvent = this.choosePurchaseQuotePriceList;
                 this.view.choosePurchaseQuoteItemMaterialEvent = this.choosePurchaseQuoteItemMaterial;
                 this.view.choosePurchaseQuoteItemWarehouseEvent = this.choosePurchaseQuoteItemWarehouse;
+                this.view.choosePurchaseQuotePurchaseRequestEvent = this.choosePurchaseQuotePurchaseRequest;
                 this.view.showPurchaseQuoteItemExtraEvent = this.showPurchaseQuoteItemExtra;
             }
             /** 视图显示后 */
@@ -392,6 +393,56 @@ namespace purchase {
                 app.run(data, this.editData);
             }
 
+            /** 选择采购报价-采购请求事件 */
+            private choosePurchaseQuotePurchaseRequest(): void {
+                if (ibas.objects.isNull(this.editData) || ibas.strings.isEmpty(this.editData.supplierCode)) {
+                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
+                        ibas.i18n.prop("bo_purchaseorder_suppliercode")
+                    ));
+                    return;
+                }
+                let criteria: ibas.ICriteria = new ibas.Criteria();
+                let condition: ibas.ICondition = criteria.conditions.create();
+                // 未取消的
+                condition.alias = bo.PurchaseQuote.PROPERTY_CANCELED_NAME;
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.value = ibas.emYesNo.NO.toString();
+                // 未删除的
+                condition = criteria.conditions.create();
+                condition.alias = bo.PurchaseQuote.PROPERTY_DELETED_NAME;
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.value = ibas.emYesNo.NO.toString();
+                // 仅下达的
+                condition = criteria.conditions.create();
+                condition.alias = bo.PurchaseQuote.PROPERTY_DOCUMENTSTATUS_NAME;
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.value = ibas.emDocumentStatus.RELEASED.toString();
+                // 审批通过的或未进审批
+                condition = criteria.conditions.create();
+                condition.alias = bo.PurchaseQuote.PROPERTY_APPROVALSTATUS_NAME;
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.value = ibas.emApprovalStatus.APPROVED.toString();
+                condition.bracketOpen = 1;
+                condition = criteria.conditions.create();
+                condition.alias = bo.PurchaseQuote.PROPERTY_APPROVALSTATUS_NAME;
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.value = ibas.emApprovalStatus.UNAFFECTED.toString();
+                condition.relationship = ibas.emConditionRelationship.OR;
+                condition.bracketClose = 1;
+                // 调用选择服务
+                let that: this = this;
+                ibas.servicesManager.runChooseService<bo.PurchaseRequest>({
+                    boCode: bo.PurchaseRequest.BUSINESS_OBJECT_CODE,
+                    chooseType: ibas.emChooseType.MULTIPLE,
+                    criteria: criteria,
+                    onCompleted(selecteds: ibas.IList<bo.PurchaseRequest>): void {
+                        for (let selected of selecteds) {
+                            that.editData.baseDocument(selected);
+                        }
+                        that.view.showPurchaseQuoteItems(that.editData.purchaseQuoteItems.filterDeleted());
+                    }
+                });
+            }
         }
         /** 视图-采购报价 */
         export interface IPurchaseQuoteEditView extends ibas.IBOEditView {
@@ -419,6 +470,8 @@ namespace purchase {
             showPurchaseQuoteItemExtraEvent: Function;
             /** 显示数据 */
             showPurchaseQuoteItems(datas: bo.PurchaseQuoteItem[]): void;
+            /** 选择采购报价-采购申请事件 */
+            choosePurchaseQuotePurchaseRequestEvent: Function;
             /** 默认税组 */
             defaultTaxGroup: string;
         }

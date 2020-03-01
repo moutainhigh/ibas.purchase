@@ -626,6 +626,11 @@ namespace purchase {
                                 && c.baseDocumentLineId === item.lineId) !== null) {
                             continue;
                         }
+                        // 计算未交货数量
+                        let openQty: number = item.quantity - item.closedQuantity;
+                        if (openQty <= 0) {
+                            continue;
+                        }
                         let myItem: IPurchaseOrderItem = this.purchaseOrderItems.create();
                         myItem.baseDocumentType = item.objectCode;
                         myItem.baseDocumentEntry = item.docEntry;
@@ -641,9 +646,11 @@ namespace purchase {
                         myItem.itemCode = item.itemCode;
                         myItem.itemDescription = item.itemDescription;
                         myItem.itemSign = item.itemSign;
+                        myItem.serialManagement = item.serialManagement;
+                        myItem.batchManagement = item.batchManagement;
                         myItem.price = item.price;
                         myItem.currency = item.currency;
-                        myItem.quantity = item.quantity;
+                        myItem.quantity = openQty;
                         myItem.uom = item.uom;
                         myItem.deliveryDate = item.requestDate;
                         myItem.reference1 = item.reference1;
