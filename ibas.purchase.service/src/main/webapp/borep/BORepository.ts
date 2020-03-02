@@ -99,6 +99,20 @@ namespace purchase {
             savePurchaseQuote(saver: ibas.ISaveCaller<bo.PurchaseQuote>): void {
                 super.save(bo.PurchaseQuote.name, saver);
             }
+            /**
+             * 查询 采购申请
+             * @param fetcher 查询者
+             */
+            fetchPurchaseRequest(fetcher: ibas.IFetchCaller<bo.PurchaseRequest>): void {
+                super.fetch(bo.PurchaseRequest.name, fetcher);
+            }
+            /**
+             * 保存 采购申请
+             * @param saver 保存者
+             */
+            savePurchaseRequest(saver: ibas.ISaveCaller<bo.PurchaseRequest>): void {
+                super.save(bo.PurchaseRequest.name, saver);
+            }
 
         }
     }

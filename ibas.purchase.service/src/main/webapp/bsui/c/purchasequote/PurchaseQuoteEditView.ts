@@ -9,29 +9,31 @@ namespace purchase {
     export namespace ui {
         export namespace c {
             /**
-             * 编辑视图-采购订单
+             * 编辑视图-采购报价
              */
             export class PurchaseQuoteEditView extends ibas.BOEditView implements app.IPurchaseQuoteEditView {
                 /** 删除数据事件 */
                 deleteDataEvent: Function;
                 /** 新建数据事件，参数1：是否克隆 */
                 createDataEvent: Function;
-                /** 添加采购订单-行事件 */
+                /** 添加采购报价-行事件 */
                 addPurchaseQuoteItemEvent: Function;
-                /** 删除采购订单-行事件 */
+                /** 删除采购报价-行事件 */
                 removePurchaseQuoteItemEvent: Function;
-                /** 选择采购订单供应商信息 */
+                /** 选择采购报价供应商信息 */
                 choosePurchaseQuoteSupplierEvent: Function;
                 /** 选择采购报价联系人信息 */
                 choosePurchaseQuoteContactPersonEvent: Function;
-                /** 选择采购订单价格清单信息 */
+                /** 选择采购报价价格清单信息 */
                 choosePurchaseQuotePriceListEvent: Function;
-                /** 选择采购订单-行物料主数据 */
+                /** 选择采购报价-行物料主数据 */
                 choosePurchaseQuoteItemMaterialEvent: Function;
-                /** 选择采购订单-行 仓库 */
+                /** 选择采购报价-行 仓库 */
                 choosePurchaseQuoteItemWarehouseEvent: Function;
                 /** 显示采购报价额外信息事件 */
                 showPurchaseQuoteItemExtraEvent: Function;
+                /** 选择采购报价-采购申请事件 */
+                choosePurchaseQuotePurchaseRequestEvent: Function;
                 /** 绘制视图 */
                 draw(): any {
                     let that: this = this;
@@ -176,13 +178,26 @@ namespace purchase {
                                 },
                                 toolbar: new sap.m.Toolbar("", {
                                     content: [
-                                        new sap.m.Button("", {
-                                            text: ibas.i18n.prop("shell_data_add"),
+                                        new sap.m.MenuButton("", {
                                             type: sap.m.ButtonType.Transparent,
                                             icon: "sap-icon://add",
-                                            press: function (): void {
-                                                that.fireViewEvents(that.addPurchaseQuoteItemEvent);
-                                            }
+                                            text: ibas.i18n.prop("shell_data_add"),
+                                            menu: new sap.m.Menu("", {
+                                                items: [
+                                                    new sap.m.MenuItem("", {
+                                                        text: ibas.i18n.prop("shell_data_add_line"),
+                                                        press: function (): void {
+                                                            that.fireViewEvents(that.addPurchaseQuoteItemEvent);
+                                                        }
+                                                    }),
+                                                    new sap.m.MenuItem("", {
+                                                        text: ibas.i18n.prop("bo_purchaserequest"),
+                                                        press: function (): void {
+                                                            that.fireViewEvents(that.choosePurchaseQuotePurchaseRequestEvent);
+                                                        }
+                                                    }),
+                                                ]
+                                            })
                                         }),
                                         new sap.m.Button("", {
                                             text: ibas.i18n.prop("shell_data_remove"),

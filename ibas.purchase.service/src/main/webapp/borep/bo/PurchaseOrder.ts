@@ -545,10 +545,13 @@ namespace purchase {
             set shippingAddresss(value: ShippingAddresss) {
                 this.setProperty(PurchaseOrder.PROPERTY_SHIPPINGADDRESSS_NAME, value);
             }
-
-            /** 基于采购订单 */
-            baseDocument(document: IPurchaseQuote): void {
-                if (ibas.objects.instanceOf(document, PurchaseQuote)) {
+            /** 基于采购报价 */
+            baseDocument(document: IPurchaseQuote): void;
+            /** 基于采购申请 */
+            baseDocument(document: IPurchaseRequest): void;
+            baseDocument(): void {
+                if (ibas.objects.instanceOf(arguments[0], PurchaseQuote)) {
+                    let document: IPurchaseQuote = arguments[0];
                     if (!ibas.strings.equals(this.supplierCode, document.supplierCode)) {
                         return;
                     }
@@ -577,6 +580,97 @@ namespace purchase {
                         // 复制额外信息
                         for (let extra of item.purchaseQuoteItemExtras) {
                             let myExtra: PurchaseOrderItemExtra = myItem.purchaseOrderItemExtras.create();
+                            myExtra.extraType = extra.extraType;
+                            myExtra.extraKey = extra.extraKey;
+                            myExtra.note = extra.note;
+                            myExtra.quantity = extra.quantity;
+                        }
+                    }
+                } else if (ibas.objects.instanceOf(arguments[0], PurchaseRequest)) {
+                    let document: IPurchaseRequest = arguments[0];
+                    // 复制头信息
+                    this.deliveryDate = document.requestDate;
+                    this.documentDate = ibas.dates.today();
+                    this.postingDate = ibas.dates.today();
+                    this.reference1 = document.reference1;
+                    this.reference2 = document.reference2;
+                    this.remarks = document.remarks;
+                    this.project = document.project;
+                    this.priceList = document.priceList;
+                    this.documentCurrency = document.documentCurrency;
+                    // 复制自定义字段
+                    for (let item of document.userFields.forEach()) {
+                        let myItem: ibas.IUserField = this.userFields.get(item.name);
+                        if (ibas.objects.isNull(myItem)) {
+                            myItem = this.userFields.register(item.name, item.valueType);
+                        }
+                        if (myItem.valueType !== item.valueType) {
+                            continue;
+                        }
+                        myItem.value = item.value;
+                    }
+                    // 复制行项目
+                    for (let item of document.purchaseRequestItems) {
+                        if (item.canceled === ibas.emYesNo.YES) {
+                            continue;
+                        }
+                        if (item.lineStatus !== ibas.emDocumentStatus.RELEASED) {
+                            continue;
+                        }
+                        if (!ibas.strings.isEmpty(item.supplier) && !ibas.strings.equals(this.supplierCode, item.supplier)) {
+                            continue;
+                        }
+                        if (this.purchaseOrderItems.firstOrDefault(
+                            c => c.baseDocumentType === item.objectCode
+                                && c.baseDocumentEntry === item.docEntry
+                                && c.baseDocumentLineId === item.lineId) !== null) {
+                            continue;
+                        }
+                        // 计算未交货数量
+                        let openQty: number = item.quantity - item.closedQuantity;
+                        if (openQty <= 0) {
+                            continue;
+                        }
+                        let myItem: IPurchaseOrderItem = this.purchaseOrderItems.create();
+                        myItem.baseDocumentType = item.objectCode;
+                        myItem.baseDocumentEntry = item.docEntry;
+                        myItem.baseDocumentLineId = item.lineId;
+                        myItem.originalDocumentType = item.baseDocumentType;
+                        myItem.originalDocumentEntry = item.baseDocumentEntry;
+                        myItem.originalDocumentLineId = item.baseDocumentLineId;
+                        myItem.distributionRule1 = item.distributionRule1;
+                        myItem.distributionRule2 = item.distributionRule2;
+                        myItem.distributionRule3 = item.distributionRule3;
+                        myItem.distributionRule4 = item.distributionRule4;
+                        myItem.distributionRule5 = item.distributionRule5;
+                        myItem.itemCode = item.itemCode;
+                        myItem.itemDescription = item.itemDescription;
+                        myItem.itemSign = item.itemSign;
+                        myItem.serialManagement = item.serialManagement;
+                        myItem.batchManagement = item.batchManagement;
+                        myItem.price = item.price;
+                        myItem.currency = item.currency;
+                        myItem.quantity = openQty;
+                        myItem.uom = item.uom;
+                        myItem.deliveryDate = item.requestDate;
+                        myItem.reference1 = item.reference1;
+                        myItem.reference2 = item.reference2;
+                        myItem.tax = item.tax;
+                        myItem.taxRate = item.taxRate;
+                        // 复制自定义字段
+                        for (let uItem of item.userFields.forEach()) {
+                            let myUItem: ibas.IUserField = myItem.userFields.get(uItem.name);
+                            if (ibas.objects.isNull(myItem)) {
+                                myUItem = myItem.userFields.register(uItem.name, uItem.valueType);
+                            }
+                            if (myUItem.valueType !== uItem.valueType) {
+                                continue;
+                            }
+                            myUItem.value = uItem.value;
+                        }
+                        // 复制额外信息
+                        for (let extra of item.purchaseRequestItemExtras) {
+                            let myExtra: IPurchaseOrderItemExtra = myItem.purchaseOrderItemExtras.create();
                             myExtra.extraType = extra.extraType;
                             myExtra.extraKey = extra.extraKey;
                             myExtra.note = extra.note;
@@ -655,10 +749,10 @@ namespace purchase {
                 return [
                     // 计算项目-行总计
                     new ibas.BusinessRuleSumElements(
-                        PurchaseOrder.PROPERTY_ITEMSLINETOTAL_NAME, PurchaseOrder.PROPERTY_PURCHASEORDERITEMS_NAME, PurchaseDeliveryItem.PROPERTY_LINETOTAL_NAME),
+                        PurchaseOrder.PROPERTY_ITEMSLINETOTAL_NAME, PurchaseOrder.PROPERTY_PURCHASEORDERITEMS_NAME, PurchaseOrderItem.PROPERTY_LINETOTAL_NAME),
                     // 计算项目-税总计
                     new ibas.BusinessRuleSumElements(
-                        PurchaseOrder.PROPERTY_ITEMSTAXTOTAL_NAME, PurchaseOrder.PROPERTY_PURCHASEORDERITEMS_NAME, PurchaseDeliveryItem.PROPERTY_TAXTOTAL_NAME),
+                        PurchaseOrder.PROPERTY_ITEMSTAXTOTAL_NAME, PurchaseOrder.PROPERTY_PURCHASEORDERITEMS_NAME, PurchaseOrderItem.PROPERTY_TAXTOTAL_NAME),
                     // 计算运输-费用总计
                     new ibas.BusinessRuleSumElements(
                         PurchaseOrder.PROPERTY_SHIPPINGSEXPENSETOTAL_NAME, PurchaseOrder.PROPERTY_SHIPPINGADDRESSS_NAME, ShippingAddress.PROPERTY_EXPENSE_NAME),

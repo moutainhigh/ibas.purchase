@@ -10,7 +10,6 @@ namespace purchase {
 
         /** 业务仓库 */
         export interface IBORepositoryPurchase extends ibas.IBORepositoryApplication {
-
             /**
              * 上传文件
              * @param caller 调用者
@@ -64,6 +63,17 @@ namespace purchase {
              * @param saver 保存者
              */
             savePurchaseQuote(saver: ibas.ISaveCaller<bo.IPurchaseQuote>): void;
+            /**
+             * 查询 采购申请
+             * @param fetcher 查询者
+             */
+            fetchPurchaseRequest(fetcher: ibas.IFetchCaller<bo.IPurchaseRequest>): void;
+            /**
+             * 保存 采购申请
+             * @param saver 保存者
+             */
+            savePurchaseRequest(saver: ibas.ISaveCaller<bo.IPurchaseRequest>): void;
+
         }
     }
 }

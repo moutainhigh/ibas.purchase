@@ -39,6 +39,7 @@ namespace purchase {
                 this.view.choosePurchaseOrderItemMaterialBatchEvent = this.choosePurchaseOrderItemMaterialBatch;
                 this.view.choosePurchaseOrderItemMaterialSerialEvent = this.choosePurchaseOrderItemMaterialSerial;
                 this.view.choosePurchaseOrderPurchaseQuoteEvent = this.choosePurchaseOrderPurchaseQuote;
+                this.view.choosePurchaseOrderPurchaseRequestEvent = this.choosePurchaseOrderPurchaseRequest;
                 this.view.editShippingAddressesEvent = this.editShippingAddresses;
                 this.view.showPurchaseOrderItemExtraEvent = this.showSaleOrderItemExtra;
             }
@@ -484,6 +485,60 @@ namespace purchase {
                     }
                 });
             }
+            /** 选择采购订单-采购请求事件 */
+            private choosePurchaseOrderPurchaseRequest(): void {
+                if (ibas.objects.isNull(this.editData) || ibas.strings.isEmpty(this.editData.supplierCode)) {
+                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
+                        ibas.i18n.prop("bo_purchaseorder_suppliercode")
+                    ));
+                    return;
+                }
+                let criteria: ibas.ICriteria = new ibas.Criteria();
+                let condition: ibas.ICondition = criteria.conditions.create();
+                // 未取消的
+                condition.alias = bo.PurchaseQuote.PROPERTY_CANCELED_NAME;
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.value = ibas.emYesNo.NO.toString();
+                // 未删除的
+                condition = criteria.conditions.create();
+                condition.alias = bo.PurchaseQuote.PROPERTY_DELETED_NAME;
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.value = ibas.emYesNo.NO.toString();
+                // 仅下达的
+                condition = criteria.conditions.create();
+                condition.alias = bo.PurchaseQuote.PROPERTY_DOCUMENTSTATUS_NAME;
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.value = ibas.emDocumentStatus.RELEASED.toString();
+                // 审批通过的或未进审批
+                condition = criteria.conditions.create();
+                condition.alias = bo.PurchaseQuote.PROPERTY_APPROVALSTATUS_NAME;
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.value = ibas.emApprovalStatus.APPROVED.toString();
+                condition.bracketOpen = 1;
+                condition = criteria.conditions.create();
+                condition.alias = bo.PurchaseQuote.PROPERTY_APPROVALSTATUS_NAME;
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.value = ibas.emApprovalStatus.UNAFFECTED.toString();
+                condition.relationship = ibas.emConditionRelationship.OR;
+                condition.bracketClose = 1;
+                // 调用选择服务
+                let that: this = this;
+                ibas.servicesManager.runChooseService<bo.PurchaseRequest>({
+                    boCode: bo.PurchaseRequest.BUSINESS_OBJECT_CODE,
+                    chooseType: ibas.emChooseType.MULTIPLE,
+                    criteria: criteria,
+                    onCompleted(selecteds: ibas.IList<bo.PurchaseRequest>): void {
+                        for (let selected of selecteds) {
+                            that.editData.baseDocument(selected);
+                        }
+                        if (!ibas.strings.isEmpty(that.view.defaultWarehouse)) {
+                            that.editData.purchaseOrderItems.forEach(c =>
+                                ibas.strings.isEmpty(c.warehouse) ? c.warehouse = that.view.defaultWarehouse : c.warehouse = null);
+                        }
+                        that.view.showPurchaseOrderItems(that.editData.purchaseOrderItems.filterDeleted());
+                    }
+                });
+            }
 
             /** 选择联系人 */
             private choosePurchaseOrderContactPerson(): void {
@@ -568,6 +623,8 @@ namespace purchase {
             showPurchaseOrderItems(datas: bo.PurchaseOrderItem[]): void;
             /** 选择采购订单-采购报价事件 */
             choosePurchaseOrderPurchaseQuoteEvent: Function;
+            /** 选择采购订单-采购申请事件 */
+            choosePurchaseOrderPurchaseRequestEvent: Function;
             /** 编辑地址事件 */
             editShippingAddressesEvent: Function;
             /** 默认仓库 */

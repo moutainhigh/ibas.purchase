@@ -1,4 +1,4 @@
-package org.colorcoding.ibas.purchase.bo.purchaseorder;
+package org.colorcoding.ibas.purchase.bo.purchaserequest;
 
 import java.math.BigDecimal;
 
@@ -9,18 +9,13 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
-import org.colorcoding.ibas.bobas.bo.IBOTagCanceled;
-import org.colorcoding.ibas.bobas.bo.IBOTagDeleted;
 import org.colorcoding.ibas.bobas.bo.IBOUserFields;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
-import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
-import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
-import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
@@ -28,52 +23,42 @@ import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMultiplication;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleSubtraction;
-import org.colorcoding.ibas.materials.bo.materialbatch.IMaterialBatchItems;
-import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchItem;
-import org.colorcoding.ibas.materials.bo.materialbatch.MaterialBatchItems;
-import org.colorcoding.ibas.materials.bo.materialserial.IMaterialSerialItems;
-import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItem;
-import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItems;
-import org.colorcoding.ibas.materials.logic.IMaterialOrderedJournalContract;
 import org.colorcoding.ibas.purchase.MyConfiguration;
-import org.colorcoding.ibas.purchase.bo.purchasedelivery.PurchaseDeliveryItem;
-import org.colorcoding.ibas.purchase.logic.IPurchaseRequestClosingContract;
-import org.colorcoding.ibas.purchase.rules.BusinessRuleDeductionDiscountPrice;
 import org.colorcoding.ibas.purchase.rules.BusinessRuleDeductionTaxPrice;
 
 /**
- * 获取-采购订单-行
+ * 采购申请-行
  * 
  */
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(name = PurchaseOrderItem.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
-public class PurchaseOrderItem extends BusinessObject<PurchaseOrderItem>
-		implements IPurchaseOrderItem, IBOTagDeleted, IBOTagCanceled, IBusinessLogicsHost, IBOUserFields {
+@XmlType(name = PurchaseRequestItem.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
+public class PurchaseRequestItem extends BusinessObject<PurchaseRequestItem>
+		implements IPurchaseRequestItem, IBOUserFields {
 
 	/**
 	 * 序列化版本标记
 	 */
-	private static final long serialVersionUID = -3018263208677238434L;
+	private static final long serialVersionUID = -3336366084737271410L;
 
 	/**
 	 * 当前类型
 	 */
-	private static final Class<?> MY_CLASS = PurchaseOrderItem.class;
+	private static final Class<?> MY_CLASS = PurchaseRequestItem.class;
 
 	/**
 	 * 数据库表
 	 */
-	public static final String DB_TABLE_NAME = "${Company}_PH_POR1";
+	public static final String DB_TABLE_NAME = "${Company}_PH_PRQ1";
 
 	/**
 	 * 业务对象编码
 	 */
-	public static final String BUSINESS_OBJECT_CODE = "${Company}_PH_PURCHORDER";
+	public static final String BUSINESS_OBJECT_CODE = "${Company}_PH_PURCHREQUEST";
 
 	/**
 	 * 业务对象名称
 	 */
-	public static final String BUSINESS_OBJECT_NAME = "PurchaseOrderItem";
+	public static final String BUSINESS_OBJECT_NAME = "PurchaseRequestItem";
 
 	/**
 	 * 属性名称-编码
@@ -944,37 +929,6 @@ public class PurchaseOrderItem extends BusinessObject<PurchaseOrderItem>
 	}
 
 	/**
-	 * 属性名称-物料/服务描述
-	 */
-	private static final String PROPERTY_ITEMDESCRIPTION_NAME = "ItemDescription";
-
-	/**
-	 * 物料/服务描述 属性
-	 */
-	@DbField(name = "Dscription", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<String> PROPERTY_ITEMDESCRIPTION = registerProperty(PROPERTY_ITEMDESCRIPTION_NAME,
-			String.class, MY_CLASS);
-
-	/**
-	 * 获取-物料/服务描述
-	 * 
-	 * @return 值
-	 */
-	@XmlElement(name = PROPERTY_ITEMDESCRIPTION_NAME)
-	public final String getItemDescription() {
-		return this.getProperty(PROPERTY_ITEMDESCRIPTION);
-	}
-
-	/**
-	 * 设置-物料/服务描述
-	 * 
-	 * @param value 值
-	 */
-	public final void setItemDescription(String value) {
-		this.setProperty(PROPERTY_ITEMDESCRIPTION, value);
-	}
-
-	/**
 	 * 属性名称-物料标识
 	 */
 	private static final String PROPERTY_ITEMSIGN_NAME = "ItemSign";
@@ -1003,6 +957,37 @@ public class PurchaseOrderItem extends BusinessObject<PurchaseOrderItem>
 	 */
 	public final void setItemSign(String value) {
 		this.setProperty(PROPERTY_ITEMSIGN, value);
+	}
+
+	/**
+	 * 属性名称-物料/服务描述
+	 */
+	private static final String PROPERTY_ITEMDESCRIPTION_NAME = "ItemDescription";
+
+	/**
+	 * 物料/服务描述 属性
+	 */
+	@DbField(name = "Dscription", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_ITEMDESCRIPTION = registerProperty(PROPERTY_ITEMDESCRIPTION_NAME,
+			String.class, MY_CLASS);
+
+	/**
+	 * 获取-物料/服务描述
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_ITEMDESCRIPTION_NAME)
+	public final String getItemDescription() {
+		return this.getProperty(PROPERTY_ITEMDESCRIPTION);
+	}
+
+	/**
+	 * 设置-物料/服务描述
+	 * 
+	 * @param value 值
+	 */
+	public final void setItemDescription(String value) {
+		this.setProperty(PROPERTY_ITEMDESCRIPTION, value);
 	}
 
 	/**
@@ -1157,34 +1142,34 @@ public class PurchaseOrderItem extends BusinessObject<PurchaseOrderItem>
 	}
 
 	/**
-	 * 属性名称-仓库
+	 * 属性名称-供应商
 	 */
-	private static final String PROPERTY_WAREHOUSE_NAME = "Warehouse";
+	private static final String PROPERTY_SUPPLIER_NAME = "Supplier";
 
 	/**
-	 * 仓库 属性
+	 * 供应商 属性
 	 */
-	@DbField(name = "WhsCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<String> PROPERTY_WAREHOUSE = registerProperty(PROPERTY_WAREHOUSE_NAME,
-			String.class, MY_CLASS);
+	@DbField(name = "Supplier", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_SUPPLIER = registerProperty(PROPERTY_SUPPLIER_NAME, String.class,
+			MY_CLASS);
 
 	/**
-	 * 获取-仓库
+	 * 获取-供应商
 	 * 
 	 * @return 值
 	 */
-	@XmlElement(name = PROPERTY_WAREHOUSE_NAME)
-	public final String getWarehouse() {
-		return this.getProperty(PROPERTY_WAREHOUSE);
+	@XmlElement(name = PROPERTY_SUPPLIER_NAME)
+	public final String getSupplier() {
+		return this.getProperty(PROPERTY_SUPPLIER);
 	}
 
 	/**
-	 * 设置-仓库
+	 * 设置-供应商
 	 * 
 	 * @param value 值
 	 */
-	public final void setWarehouse(String value) {
-		this.setProperty(PROPERTY_WAREHOUSE, value);
+	public final void setSupplier(String value) {
+		this.setProperty(PROPERTY_SUPPLIER, value);
 	}
 
 	/**
@@ -1393,34 +1378,34 @@ public class PurchaseOrderItem extends BusinessObject<PurchaseOrderItem>
 	}
 
 	/**
-	 * 属性名称-行交货日期
+	 * 属性名称-需求日期
 	 */
-	private static final String PROPERTY_DELIVERYDATE_NAME = "DeliveryDate";
+	private static final String PROPERTY_REQUESTDATE_NAME = "RequestDate";
 
 	/**
-	 * 行交货日期 属性
+	 * 需求日期 属性
 	 */
-	@DbField(name = "ShipDate", type = DbFieldType.DATE, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<DateTime> PROPERTY_DELIVERYDATE = registerProperty(PROPERTY_DELIVERYDATE_NAME,
+	@DbField(name = "RequestDate", type = DbFieldType.DATE, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<DateTime> PROPERTY_REQUESTDATE = registerProperty(PROPERTY_REQUESTDATE_NAME,
 			DateTime.class, MY_CLASS);
 
 	/**
-	 * 获取-行交货日期
+	 * 获取-需求日期
 	 * 
 	 * @return 值
 	 */
-	@XmlElement(name = PROPERTY_DELIVERYDATE_NAME)
-	public final DateTime getDeliveryDate() {
-		return this.getProperty(PROPERTY_DELIVERYDATE);
+	@XmlElement(name = PROPERTY_REQUESTDATE_NAME)
+	public final DateTime getRequestDate() {
+		return this.getProperty(PROPERTY_REQUESTDATE);
 	}
 
 	/**
-	 * 设置-行交货日期
+	 * 设置-需求日期
 	 * 
 	 * @param value 值
 	 */
-	public final void setDeliveryDate(DateTime value) {
-		this.setProperty(PROPERTY_DELIVERYDATE, value);
+	public final void setRequestDate(DateTime value) {
+		this.setProperty(PROPERTY_REQUESTDATE, value);
 	}
 
 	/**
@@ -1479,180 +1464,6 @@ public class PurchaseOrderItem extends BusinessObject<PurchaseOrderItem>
 	 */
 	public final void setClosedQuantity(double value) {
 		this.setClosedQuantity(Decimal.valueOf(value));
-	}
-
-	/**
-	 * 属性名称-行折扣
-	 */
-	private static final String PROPERTY_DISCOUNT_NAME = "Discount";
-
-	/**
-	 * 行折扣 属性
-	 */
-	@DbField(name = "DiscPrcnt", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<BigDecimal> PROPERTY_DISCOUNT = registerProperty(PROPERTY_DISCOUNT_NAME,
-			BigDecimal.class, MY_CLASS);
-
-	/**
-	 * 获取-行折扣
-	 * 
-	 * @return 值
-	 */
-	@XmlElement(name = PROPERTY_DISCOUNT_NAME)
-	public final BigDecimal getDiscount() {
-		return this.getProperty(PROPERTY_DISCOUNT);
-	}
-
-	/**
-	 * 设置-行折扣
-	 * 
-	 * @param value 值
-	 */
-	public final void setDiscount(BigDecimal value) {
-		this.setProperty(PROPERTY_DISCOUNT, value);
-	}
-
-	/**
-	 * 设置-行折扣
-	 * 
-	 * @param value 值
-	 */
-	public final void setDiscount(String value) {
-		this.setDiscount(Decimal.valueOf(value));
-	}
-
-	/**
-	 * 设置-行折扣
-	 * 
-	 * @param value 值
-	 */
-	public final void setDiscount(int value) {
-		this.setDiscount(Decimal.valueOf(value));
-	}
-
-	/**
-	 * 设置-行折扣
-	 * 
-	 * @param value 值
-	 */
-	public final void setDiscount(double value) {
-		this.setDiscount(Decimal.valueOf(value));
-	}
-
-	/**
-	 * 属性名称-已清金额
-	 */
-	private static final String PROPERTY_CLOSEDAMOUNT_NAME = "ClosedAmount";
-
-	/**
-	 * 已清金额 属性
-	 */
-	@DbField(name = "ClosedAmt", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<BigDecimal> PROPERTY_CLOSEDAMOUNT = registerProperty(PROPERTY_CLOSEDAMOUNT_NAME,
-			BigDecimal.class, MY_CLASS);
-
-	/**
-	 * 获取-已清金额
-	 * 
-	 * @return 值
-	 */
-	@XmlElement(name = PROPERTY_CLOSEDAMOUNT_NAME)
-	public final BigDecimal getClosedAmount() {
-		return this.getProperty(PROPERTY_CLOSEDAMOUNT);
-	}
-
-	/**
-	 * 设置-已清金额
-	 * 
-	 * @param value 值
-	 */
-	public final void setClosedAmount(BigDecimal value) {
-		this.setProperty(PROPERTY_CLOSEDAMOUNT, value);
-	}
-
-	/**
-	 * 设置-已清金额
-	 * 
-	 * @param value 值
-	 */
-	public final void setClosedAmount(String value) {
-		this.setClosedAmount(Decimal.valueOf(value));
-	}
-
-	/**
-	 * 设置-已清金额
-	 * 
-	 * @param value 值
-	 */
-	public final void setClosedAmount(int value) {
-		this.setClosedAmount(Decimal.valueOf(value));
-	}
-
-	/**
-	 * 设置-已清金额
-	 * 
-	 * @param value 值
-	 */
-	public final void setClosedAmount(double value) {
-		this.setClosedAmount(Decimal.valueOf(value));
-	}
-
-	/**
-	 * 属性名称-折扣前价格
-	 */
-	private static final String PROPERTY_UNITPRICE_NAME = "UnitPrice";
-
-	/**
-	 * 折扣前价格 属性
-	 */
-	@DbField(name = "UnitPrice", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<BigDecimal> PROPERTY_UNITPRICE = registerProperty(PROPERTY_UNITPRICE_NAME,
-			BigDecimal.class, MY_CLASS);
-
-	/**
-	 * 获取-折扣前价格
-	 * 
-	 * @return 值
-	 */
-	@XmlElement(name = PROPERTY_UNITPRICE_NAME)
-	public final BigDecimal getUnitPrice() {
-		return this.getProperty(PROPERTY_UNITPRICE);
-	}
-
-	/**
-	 * 设置-折扣前价格
-	 * 
-	 * @param value 值
-	 */
-	public final void setUnitPrice(BigDecimal value) {
-		this.setProperty(PROPERTY_UNITPRICE, value);
-	}
-
-	/**
-	 * 设置-折扣前价格
-	 * 
-	 * @param value 值
-	 */
-	public final void setUnitPrice(String value) {
-		this.setUnitPrice(Decimal.valueOf(value));
-	}
-
-	/**
-	 * 设置-折扣前价格
-	 * 
-	 * @param value 值
-	 */
-	public final void setUnitPrice(int value) {
-		this.setUnitPrice(Decimal.valueOf(value));
-	}
-
-	/**
-	 * 设置-折扣前价格
-	 * 
-	 * @param value 值
-	 */
-	public final void setUnitPrice(double value) {
-		this.setUnitPrice(Decimal.valueOf(value));
 	}
 
 	/**
@@ -2074,99 +1885,35 @@ public class PurchaseOrderItem extends BusinessObject<PurchaseOrderItem>
 	}
 
 	/**
-	 * 属性名称-采购订单-行-额外信息
+	 * 属性名称-采购申请-行-额外信息
 	 */
-	private static final String PROPERTY_PURCHASEORDERITEMEXTRAS_NAME = "PurchaseOrderItemExtras";
+	private static final String PROPERTY_PURCHASEREQUESTITEMEXTRAS_NAME = "PurchaseRequestItemExtras";
 
 	/**
-	 * 采购订单-行-额外信息的集合属性
+	 * 采购申请-行-额外信息的集合属性
 	 * 
 	 */
-	public static final IPropertyInfo<IPurchaseOrderItemExtras> PROPERTY_PURCHASEORDERITEMEXTRAS = registerProperty(
-			PROPERTY_PURCHASEORDERITEMEXTRAS_NAME, IPurchaseOrderItemExtras.class, MY_CLASS);
+	public static final IPropertyInfo<IPurchaseRequestItemExtras> PROPERTY_PURCHASEREQUESTITEMEXTRAS = registerProperty(
+			PROPERTY_PURCHASEREQUESTITEMEXTRAS_NAME, IPurchaseRequestItemExtras.class, MY_CLASS);
 
 	/**
-	 * 获取-采购订单-行-额外信息集合
+	 * 获取-采购申请-行-额外信息集合
 	 * 
 	 * @return 值
 	 */
-	@XmlElementWrapper(name = PROPERTY_PURCHASEORDERITEMEXTRAS_NAME)
-	@XmlElement(name = PurchaseOrderItemExtra.BUSINESS_OBJECT_NAME, type = PurchaseOrderItemExtra.class)
-	public final IPurchaseOrderItemExtras getPurchaseOrderItemExtras() {
-		return this.getProperty(PROPERTY_PURCHASEORDERITEMEXTRAS);
+	@XmlElementWrapper(name = PROPERTY_PURCHASEREQUESTITEMEXTRAS_NAME)
+	@XmlElement(name = PurchaseRequestItemExtra.BUSINESS_OBJECT_NAME, type = PurchaseRequestItemExtra.class)
+	public final IPurchaseRequestItemExtras getPurchaseRequestItemExtras() {
+		return this.getProperty(PROPERTY_PURCHASEREQUESTITEMEXTRAS);
 	}
 
 	/**
-	 * 设置-采购订单-行-额外信息集合
+	 * 设置-采购申请-行-额外信息集合
 	 * 
 	 * @param value 值
 	 */
-	public final void setPurchaseOrderItemExtras(IPurchaseOrderItemExtras value) {
-		this.setProperty(PROPERTY_PURCHASEORDERITEMEXTRAS, value);
-	}
-
-	/**
-	 * 属性名称-物料批次
-	 */
-	private static final String PROPERTY_MATERIALBATCHES_NAME = "MaterialBatches";
-
-	/**
-	 * 物料批次的集合属性
-	 *
-	 */
-	public static final IPropertyInfo<IMaterialBatchItems> PROPERTY_MATERIALBATCHES = registerProperty(
-			PROPERTY_MATERIALBATCHES_NAME, IMaterialBatchItems.class, MY_CLASS);
-
-	/**
-	 * 获取-物料批次集合
-	 *
-	 * @return 值
-	 */
-	@XmlElementWrapper(name = PROPERTY_MATERIALBATCHES_NAME)
-	@XmlElement(name = MaterialBatchItem.BUSINESS_OBJECT_NAME, type = MaterialBatchItem.class)
-	public final IMaterialBatchItems getMaterialBatches() {
-		return this.getProperty(PROPERTY_MATERIALBATCHES);
-	}
-
-	/**
-	 * 设置-物料批次集合
-	 *
-	 * @param value 值
-	 */
-	public final void setMaterialBatches(IMaterialBatchItems value) {
-		this.setProperty(PROPERTY_MATERIALBATCHES, value);
-	}
-
-	/**
-	 * 属性名称-物料序列
-	 */
-	private static final String PROPERTY_MATERIALSERIALS_NAME = "MaterialSerials";
-
-	/**
-	 * 物料序列的集合属性
-	 *
-	 */
-	public static final IPropertyInfo<IMaterialSerialItems> PROPERTY_MATERIALSERIALS = registerProperty(
-			PROPERTY_MATERIALSERIALS_NAME, IMaterialSerialItems.class, MY_CLASS);
-
-	/**
-	 * 获取-物料序列集合
-	 *
-	 * @return 值
-	 */
-	@XmlElementWrapper(name = PROPERTY_MATERIALSERIALS_NAME)
-	@XmlElement(name = MaterialSerialItem.BUSINESS_OBJECT_NAME, type = MaterialSerialItem.class)
-	public final IMaterialSerialItems getMaterialSerials() {
-		return this.getProperty(PROPERTY_MATERIALSERIALS);
-	}
-
-	/**
-	 * 设置-物料序列集合
-	 *
-	 * @param value 值
-	 */
-	public final void setMaterialSerials(IMaterialSerialItems value) {
-		this.setProperty(PROPERTY_MATERIALSERIALS, value);
+	public final void setPurchaseRequestItemExtras(IPurchaseRequestItemExtras value) {
+		this.setProperty(PROPERTY_PURCHASEREQUESTITEMEXTRAS, value);
 	}
 
 	/**
@@ -2175,13 +1922,9 @@ public class PurchaseOrderItem extends BusinessObject<PurchaseOrderItem>
 	@Override
 	protected void initialize() {
 		super.initialize();// 基类初始化，不可去除
-		this.setPurchaseOrderItemExtras(new PurchaseOrderItemExtras(this));
-		this.setMaterialBatches(new MaterialBatchItems(this));
-		this.setMaterialSerials(new MaterialSerialItems(this));
+		this.setPurchaseRequestItemExtras(new PurchaseRequestItemExtras(this));
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
-		this.setDiscount(Decimal.ONE);
 		this.setTaxRate(Decimal.ZERO);
-
 	}
 
 	@Override
@@ -2189,18 +1932,12 @@ public class PurchaseOrderItem extends BusinessObject<PurchaseOrderItem>
 		return new IBusinessRule[] {
 				// 注册的业务规则
 				new BusinessRuleRequired(PROPERTY_ITEMCODE), // 要求有值
-				new BusinessRuleRequired(PROPERTY_WAREHOUSE), // 要求有值
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_CLOSEDQUANTITY), // 不能低于0
-				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_CLOSEDAMOUNT), // 不能低于0
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_QUANTITY), // 不能低于0
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_PRICE), // 不能低于0
-				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_UNITPRICE), // 不能低于0
-				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_DISCOUNT), // 不能低于0
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_PRETAXPRICE), // 不能低于0
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_RATE), // 不能低于0
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_TAXRATE), // 不能低于0
-				// 推导 价格 = 折扣前价格 * 折扣
-				new BusinessRuleDeductionDiscountPrice(PROPERTY_DISCOUNT, PROPERTY_UNITPRICE, PROPERTY_PRICE),
 				// 计算总计 = 数量 * 价格
 				new BusinessRuleMultiplication(PROPERTY_LINETOTAL, PROPERTY_QUANTITY, PROPERTY_PRICE),
 				// 计算税前价格 = 税后价格 * 税率
@@ -2212,95 +1949,17 @@ public class PurchaseOrderItem extends BusinessObject<PurchaseOrderItem>
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_LINETOTAL), // 不能低于0
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_PRETAXLINETOTAL), // 不能低于0
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_TAXTOTAL), // 不能低于0
-
 		};
 	}
 
 	@Override
 	public void reset() {
 		super.reset();
-		this.setClosedAmount(Decimal.ZERO);
 		this.setClosedQuantity(Decimal.ZERO);
 	}
 
 	/**
 	 * 父项
 	 */
-	IPurchaseOrder parent;
-
-	@Override
-	public IBusinessLogicContract[] getContracts() {
-		ArrayList<IBusinessLogicContract> contracts = new ArrayList<>(2);
-		if (this.getLineStatus() == emDocumentStatus.RELEASED) {
-			// 物料已订购数量
-			contracts.add(new IMaterialOrderedJournalContract() {
-
-				@Override
-				public String getIdentifiers() {
-					return PurchaseOrderItem.this.getIdentifiers();
-				}
-
-				@Override
-				public String getItemCode() {
-					return PurchaseOrderItem.this.getItemCode();
-				}
-
-				@Override
-				public String getWarehouse() {
-					return PurchaseOrderItem.this.getWarehouse();
-				}
-
-				@Override
-				public BigDecimal getQuantity() {
-					// 订购数量 = 订单数量 - 已收货数量
-					return PurchaseOrderItem.this.getQuantity().subtract(PurchaseOrderItem.this.getClosedQuantity());
-				}
-
-				@Override
-				public String getDocumentType() {
-					return PurchaseOrderItem.this.getObjectCode();
-				}
-
-				@Override
-				public Integer getDocumentEntry() {
-					return PurchaseOrderItem.this.getDocEntry();
-				}
-
-				@Override
-				public Integer getDocumentLineId() {
-					return PurchaseOrderItem.this.getLineId();
-				}
-			});
-		}
-		// 采购请求完成
-		contracts.add(new IPurchaseRequestClosingContract() {
-
-			@Override
-			public String getIdentifiers() {
-				return PurchaseOrderItem.this.getIdentifiers();
-			}
-
-			@Override
-			public BigDecimal getQuantity() {
-				return PurchaseOrderItem.this.getQuantity();
-			}
-
-			@Override
-			public String getBaseDocumentType() {
-				return PurchaseOrderItem.this.getBaseDocumentType();
-			}
-
-			@Override
-			public Integer getBaseDocumentEntry() {
-				return PurchaseOrderItem.this.getBaseDocumentEntry();
-			}
-
-			@Override
-			public Integer getBaseDocumentLineId() {
-				return PurchaseOrderItem.this.getBaseDocumentLineId();
-			}
-
-		});
-		return contracts.toArray(new IBusinessLogicContract[] {});
-	}
+	IPurchaseRequest parent;
 }
