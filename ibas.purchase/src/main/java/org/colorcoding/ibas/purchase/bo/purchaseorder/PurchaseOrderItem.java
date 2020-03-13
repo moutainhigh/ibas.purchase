@@ -36,7 +36,6 @@ import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItem;
 import org.colorcoding.ibas.materials.bo.materialserial.MaterialSerialItems;
 import org.colorcoding.ibas.materials.logic.IMaterialOrderedJournalContract;
 import org.colorcoding.ibas.purchase.MyConfiguration;
-import org.colorcoding.ibas.purchase.bo.purchasedelivery.PurchaseDeliveryItem;
 import org.colorcoding.ibas.purchase.logic.IPurchaseRequestClosingContract;
 import org.colorcoding.ibas.purchase.rules.BusinessRuleDeductionDiscountPrice;
 import org.colorcoding.ibas.purchase.rules.BusinessRuleDeductionTaxPrice;

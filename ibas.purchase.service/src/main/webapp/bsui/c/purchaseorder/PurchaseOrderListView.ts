@@ -131,6 +131,14 @@ namespace purchase {
                                 }),
                             }),
                             new sap.extension.table.DataColumn("", {
+                                label: ibas.i18n.prop("bo_purchaseorder_dataowner"),
+                                template: new sap.extension.m.UserText("", {
+                                }).bindProperty("bindingValue", {
+                                    path: "dataOwner",
+                                    type: new sap.extension.data.Alphanumeric()
+                                }),
+                            }),
+                            new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_purchaseorder_reference1"),
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {

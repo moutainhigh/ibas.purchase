@@ -33,9 +33,6 @@ namespace purchase {
                                 header: ibas.i18n.prop("bo_purchasequoteitem_quantity"),
                             }),
                             new sap.extension.m.Column("", {
-                                header: ibas.i18n.prop("bo_purchasequoteitem_warehouse"),
-                            }),
-                            new sap.extension.m.Column("", {
                                 header: ibas.i18n.prop("bo_purchasequoteitem_price"),
                             }),
                             new sap.extension.m.Column("", {
@@ -83,18 +80,6 @@ namespace purchase {
                                             path: "uom",
                                             type: new sap.extension.data.Alphanumeric(),
                                         }
-                                    }),
-                                    new sap.extension.m.RepositoryObjectAttribute("", {
-                                        text: {
-                                            path: "warehouse",
-                                            type: new sap.extension.data.Alphanumeric(),
-                                        },
-                                        repository: materials.bo.BORepositoryMaterials,
-                                        dataInfo: {
-                                            type: materials.bo.Warehouse,
-                                            key: materials.bo.Warehouse.PROPERTY_CODE_NAME,
-                                            text: materials.bo.Warehouse.PROPERTY_NAME_NAME
-                                        },
                                     }),
                                     new sap.extension.m.ObjectNumber("", {
                                         number: {
@@ -147,11 +132,11 @@ namespace purchase {
                             objectSubtitle: {
                                 parts: [
                                     {
-                                        path: "supplierName",
+                                        path: "cause",
                                         type: new sap.extension.data.Alphanumeric(),
                                     },
                                     {
-                                        path: "supplierCode",
+                                        path: "requester",
                                         type: new sap.extension.data.Alphanumeric(),
                                         formatter(data: string): any {
                                             return ibas.strings.format("({0})", data);
@@ -240,13 +225,6 @@ namespace purchase {
                             new sap.ui.layout.VerticalLayout("", {
                                 width: "30%",
                                 content: [
-                                    new sap.extension.m.ObjectStatus("", {
-                                        title: ibas.i18n.prop("bo_purchasequote_consumer"),
-                                        text: {
-                                            path: "consumer",
-                                            type: new sap.extension.data.Alphanumeric(),
-                                        }
-                                    }),
                                     new sap.extension.m.RepositoryObjectAttribute("", {
                                         title: ibas.i18n.prop("bo_purchasequote_pricelist"),
                                         text: {
@@ -277,9 +255,9 @@ namespace purchase {
                                 width: "30%",
                                 content: [
                                     new sap.extension.m.ObjectAttribute("", {
-                                        title: ibas.i18n.prop("bo_purchasequote_postingdate"),
+                                        title: ibas.i18n.prop("bo_purchaserequest_requestdate"),
                                         text: {
-                                            path: "postingDate",
+                                            path: "requestDate",
                                             type: new sap.extension.data.Date(),
                                         }
                                     }),
@@ -288,55 +266,6 @@ namespace purchase {
                                         text: {
                                             path: "documentDate",
                                             type: new sap.extension.data.Date(),
-                                        }
-                                    }),
-                                    new sap.extension.m.ObjectAttribute("", {
-                                        title: ibas.i18n.prop("bo_purchasequote_deliverydate"),
-                                        text: {
-                                            path: "deliveryDate",
-                                            type: new sap.extension.data.Date(),
-                                        }
-                                    }),
-                                ]
-                            }),
-                            new sap.ui.layout.VerticalLayout("", {
-                                width: "30%",
-                                content: [
-                                    new sap.extension.m.ObjectAttribute("", {
-                                        title: ibas.i18n.prop("bo_purchasequote_discount"),
-                                        text: {
-                                            path: "discount",
-                                            type: new sap.extension.data.Percentage(),
-                                        }
-                                    }),
-                                    new sap.extension.m.ObjectAttribute("", {
-                                        title: ibas.i18n.prop("bo_purchasequote_discounttotal"),
-                                        text: {
-                                            parts: [
-                                                {
-                                                    path: "discountTotal",
-                                                    type: new sap.extension.data.Sum(),
-                                                },
-                                                {
-                                                    path: "documentCurrency",
-                                                    type: new sap.extension.data.Alphanumeric()
-                                                },
-                                            ]
-                                        }
-                                    }),
-                                    new sap.extension.m.ObjectAttribute("", {
-                                        title: ibas.i18n.prop("bo_purchasequote_paidtotal"),
-                                        text: {
-                                            parts: [
-                                                {
-                                                    path: "paidTotal",
-                                                    type: new sap.extension.data.Sum(),
-                                                },
-                                                {
-                                                    path: "documentCurrency",
-                                                    type: new sap.extension.data.Alphanumeric()
-                                                },
-                                            ]
                                         }
                                     }),
                                 ]
