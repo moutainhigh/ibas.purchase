@@ -145,6 +145,26 @@ namespace purchase {
                                 that.editData = opRslt.resultObjects.firstOrDefault();
                                 that.messages(ibas.emMessageType.SUCCESS,
                                     ibas.i18n.prop("shell_data_save") + ibas.i18n.prop("shell_sucessful"));
+                                // 保存序列号信息
+                                if (!ibas.objects.isNull(that.serials) && that.serials.save instanceof Function) {
+                                    that.serials.save(
+                                        (error) => {
+                                            if (error instanceof Error) {
+                                                that.messages(error);
+                                            }
+                                        }
+                                    )
+                                }
+                                // 保存批次号信息
+                                if (!ibas.objects.isNull(that.batches) && that.batches.save instanceof Function) {
+                                    that.batches.save(
+                                        (error) => {
+                                            if (error instanceof Error) {
+                                                that.messages(error);
+                                            }
+                                        }
+                                    )
+                                }
                             }
                             // 刷新当前视图
                             that.viewShowed();
@@ -388,6 +408,7 @@ namespace purchase {
                 // 仅显示没有标记删除的
                 this.view.showPurchaseDeliveryItems(this.editData.purchaseDeliveryItems.filterDeleted());
             }
+            private batches: materials.app.IServiceExtraBatches;
             /** 选择物料批次事件 */
             private choosePurchaseDeliveryItemMaterialBatch(): void {
                 let contracts: ibas.ArrayList<materials.app.IMaterialBatchContract> = new ibas.ArrayList<materials.app.IMaterialBatchContract>();
@@ -402,10 +423,14 @@ namespace purchase {
                         materialBatches: item.materialBatches,
                     });
                 }
-                ibas.servicesManager.runApplicationService<materials.app.IMaterialBatchContract[]>({
-                    proxy: new materials.app.MaterialBatchReceiptServiceProxy(contracts)
+                ibas.servicesManager.runApplicationService<materials.app.IMaterialBatchContract[], materials.app.IServiceExtraBatches>({
+                    proxy: new materials.app.MaterialBatchReceiptServiceProxy(contracts),
+                    onCompleted: (results) => {
+                        this.batches = results;
+                    }
                 });
             }
+            private serials: materials.app.IServiceExtraSerials;
             /** 选择物料序列事件 */
             private choosePurchaseDeliveryItemMaterialSerial(): void {
                 let contracts: ibas.ArrayList<materials.app.IMaterialSerialContract> = new ibas.ArrayList<materials.app.IMaterialSerialContract>();
@@ -420,8 +445,11 @@ namespace purchase {
                         materialSerials: item.materialSerials
                     });
                 }
-                ibas.servicesManager.runApplicationService<materials.app.IMaterialSerialContract[]>({
-                    proxy: new materials.app.MaterialSerialReceiptServiceProxy(contracts)
+                ibas.servicesManager.runApplicationService<materials.app.IMaterialSerialContract[], materials.app.IServiceExtraSerials>({
+                    proxy: new materials.app.MaterialSerialReceiptServiceProxy(contracts),
+                    onCompleted: (results) => {
+                        this.serials = results;
+                    }
                 });
             }
             /** 选择采购收货-采购订单事件 */
