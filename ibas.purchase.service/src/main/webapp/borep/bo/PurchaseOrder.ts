@@ -1477,9 +1477,10 @@ namespace purchase {
                     new ibas.BusinessRuleMultiplication(
                         PurchaseOrderItem.PROPERTY_PRETAXLINETOTAL_NAME, PurchaseOrderItem.PROPERTY_QUANTITY_NAME, PurchaseOrderItem.PROPERTY_PRETAXPRICE_NAME
                         , ibas.config.get(ibas.CONFIG_ITEM_DECIMAL_PLACES_SUM)),
-                    // 计算税总额 = 税后总计 - 税前总计
-                    new ibas.BusinessRuleSubtraction(
-                        PurchaseOrderItem.PROPERTY_TAXTOTAL_NAME, PurchaseOrderItem.PROPERTY_LINETOTAL_NAME, PurchaseOrderItem.PROPERTY_PRETAXLINETOTAL_NAME),
+                    // 计算税总额 = 总计 * 税率
+                    new ibas.BusinessRuleMultiplication(
+                        PurchaseOrderItem.PROPERTY_TAXTOTAL_NAME, PurchaseOrderItem.PROPERTY_LINETOTAL_NAME, PurchaseOrderItem.PROPERTY_TAXRATE_NAME
+                        , ibas.config.get(ibas.CONFIG_ITEM_DECIMAL_PLACES_SUM)),
                 ];
             }
             /** 重置 */

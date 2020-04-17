@@ -1432,9 +1432,10 @@ namespace purchase {
                     new ibas.BusinessRuleMultiplication(
                         PurchaseReturnItem.PROPERTY_PRETAXLINETOTAL_NAME, PurchaseReturnItem.PROPERTY_QUANTITY_NAME, PurchaseReturnItem.PROPERTY_PRETAXPRICE_NAME
                         , ibas.config.get(ibas.CONFIG_ITEM_DECIMAL_PLACES_SUM)),
-                    // 计算税总额 = 税后总计 - 税前总计
-                    new ibas.BusinessRuleSubtraction(
-                        PurchaseReturnItem.PROPERTY_TAXTOTAL_NAME, PurchaseReturnItem.PROPERTY_LINETOTAL_NAME, PurchaseReturnItem.PROPERTY_PRETAXLINETOTAL_NAME),
+                    // 计算税总额 = 总计 * 税率
+                    new ibas.BusinessRuleMultiplication(
+                        PurchaseReturnItem.PROPERTY_TAXTOTAL_NAME, PurchaseReturnItem.PROPERTY_LINETOTAL_NAME, PurchaseReturnItem.PROPERTY_TAXRATE_NAME
+                        , ibas.config.get(ibas.CONFIG_ITEM_DECIMAL_PLACES_SUM)),
                 ];
             }
             /** 重置 */
