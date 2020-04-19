@@ -8,7 +8,7 @@
 namespace purchase {
     export namespace app {
         /** 编辑应用-采购退货 */
-        export class PurchaseReturnEditApp extends ibas.BOEditApplication<IPurchaseReturnEditView, bo.PurchaseReturn> {
+        export class PurchaseReturnEditApp extends ibas.BOEditService<IPurchaseReturnEditView, bo.PurchaseReturn> {
             /** 应用标识 */
             static APPLICATION_ID: string = "ead5bd17-e0b9-4787-adb8-4bd50b2a1a8f";
             /** 应用名称 */
@@ -101,8 +101,6 @@ namespace purchase {
                 }
                 super.run.apply(this, arguments);
             }
-            /** 待编辑的数据 */
-            protected editData: bo.PurchaseReturn;
             /** 保存数据 */
             protected saveData(): void {
                 this.busy(true);
@@ -578,6 +576,21 @@ namespace purchase {
             editShippingAddressesEvent: Function;
             /** 默认仓库 */
             defaultWarehouse: string;
+        }
+        /** 采购退货编辑服务映射 */
+        export class PurchaseReturnEditServiceMapping extends ibas.BOEditServiceMapping {
+            /** 构造函数 */
+            constructor() {
+                super();
+                this.id = PurchaseReturnEditApp.APPLICATION_ID;
+                this.name = PurchaseReturnEditApp.APPLICATION_NAME;
+                this.boCode = PurchaseReturnEditApp.BUSINESS_OBJECT_CODE;
+                this.description = ibas.i18n.prop(this.name);
+            }
+            /** 创建服务实例 */
+            create(): ibas.IService<ibas.IBOEditServiceCaller<bo.PurchaseReturn>> {
+                return new PurchaseReturnEditApp();
+            }
         }
     }
 }

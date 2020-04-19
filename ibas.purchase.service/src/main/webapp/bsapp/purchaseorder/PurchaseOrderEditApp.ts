@@ -8,7 +8,7 @@
 namespace purchase {
     export namespace app {
         /** 编辑应用-采购订单 */
-        export class PurchaseOrderEditApp extends ibas.BOEditApplication<IPurchaseOrderEditView, bo.PurchaseOrder> {
+        export class PurchaseOrderEditApp extends ibas.BOEditService<IPurchaseOrderEditView, bo.PurchaseOrder> {
             /** 应用标识 */
             static APPLICATION_ID: string = "91733b83-5360-4703-83c9-6e4a038808f4";
             /** 应用名称 */
@@ -122,8 +122,6 @@ namespace purchase {
                 }
                 super.run.apply(this, arguments);
             }
-            /** 待编辑的数据 */
-            protected editData: bo.PurchaseOrder;
             /** 保存数据 */
             protected saveData(): void {
                 this.busy(true);
@@ -659,6 +657,21 @@ namespace purchase {
             defaultWarehouse: string;
             /** 默认税组 */
             defaultTaxGroup: string;
+        }
+        /** 采购订单编辑服务映射 */
+        export class PurchaseOrderEditServiceMapping extends ibas.BOEditServiceMapping {
+            /** 构造函数 */
+            constructor() {
+                super();
+                this.id = PurchaseOrderEditApp.APPLICATION_ID;
+                this.name = PurchaseOrderEditApp.APPLICATION_NAME;
+                this.boCode = PurchaseOrderEditApp.BUSINESS_OBJECT_CODE;
+                this.description = ibas.i18n.prop(this.name);
+            }
+            /** 创建服务实例 */
+            create(): ibas.IService<ibas.IBOEditServiceCaller<bo.PurchaseOrder>> {
+                return new PurchaseOrderEditApp();
+            }
         }
     }
 }

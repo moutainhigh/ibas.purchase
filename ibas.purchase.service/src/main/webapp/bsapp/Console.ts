@@ -43,14 +43,19 @@ namespace purchase {
                 // 注册服务应用
                 this.register(new PurchaseDeliveryChooseServiceMapping());
                 this.register(new PurchaseDeliveryLinkServiceMapping());
+                this.register(new PurchaseDeliveryEditServiceMapping());
                 this.register(new PurchaseOrderChooseServiceMapping());
                 this.register(new PurchaseOrderLinkServiceMapping());
+                this.register(new PurchaseOrderEditServiceMapping());
                 this.register(new PurchaseQuoteChooseServiceMapping());
                 this.register(new PurchaseQuoteLinkServiceMapping());
+                this.register(new PurchaseQuoteEditServiceMapping());
                 this.register(new PurchaseReturnChooseServiceMapping());
                 this.register(new PurchaseReturnLinkServiceMapping());
+                this.register(new PurchaseReturnEditServiceMapping());
                 this.register(new PurchaseRequestChooseServiceMapping());
                 this.register(new PurchaseRequestLinkServiceMapping());
+                this.register(new PurchaseRequestEditServiceMapping());
                 // 注册常驻应用
 
             }

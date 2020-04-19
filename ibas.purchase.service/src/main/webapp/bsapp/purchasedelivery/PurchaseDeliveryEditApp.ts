@@ -8,7 +8,7 @@
 namespace purchase {
     export namespace app {
         /** 编辑应用-采购收货 */
-        export class PurchaseDeliveryEditApp extends ibas.BOEditApplication<IPurchaseDeliveryEditView, bo.PurchaseDelivery> {
+        export class PurchaseDeliveryEditApp extends ibas.BOEditService<IPurchaseDeliveryEditView, bo.PurchaseDelivery> {
             /** 应用标识 */
             static APPLICATION_ID: string = "ed53a313-bf87-4ca9-b9f5-b2b8ace28e21";
             /** 应用名称 */
@@ -120,8 +120,6 @@ namespace purchase {
                 }
                 super.run.apply(this, arguments);
             }
-            /** 待编辑的数据 */
-            protected editData: bo.PurchaseDelivery;
             /** 保存数据 */
             protected saveData(): void {
                 this.busy(true);
@@ -583,6 +581,21 @@ namespace purchase {
             defaultWarehouse: string;
             /** 默认税组 */
             defaultTaxGroup: string;
+        }
+        /** 采购收货编辑服务映射 */
+        export class PurchaseDeliveryEditServiceMapping extends ibas.BOEditServiceMapping {
+            /** 构造函数 */
+            constructor() {
+                super();
+                this.id = PurchaseDeliveryEditApp.APPLICATION_ID;
+                this.name = PurchaseDeliveryEditApp.APPLICATION_NAME;
+                this.boCode = PurchaseDeliveryEditApp.BUSINESS_OBJECT_CODE;
+                this.description = ibas.i18n.prop(this.name);
+            }
+            /** 创建服务实例 */
+            create(): ibas.IService<ibas.IBOEditServiceCaller<bo.PurchaseDelivery>> {
+                return new PurchaseDeliveryEditApp();
+            }
         }
     }
 }

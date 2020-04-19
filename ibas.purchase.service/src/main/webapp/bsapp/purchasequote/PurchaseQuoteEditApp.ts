@@ -8,7 +8,7 @@
 namespace purchase {
     export namespace app {
         /** 编辑应用-采购报价 */
-        export class PurchaseQuoteEditApp extends ibas.BOEditApplication<IPurchaseQuoteEditView, bo.PurchaseQuote> {
+        export class PurchaseQuoteEditApp extends ibas.BOEditService<IPurchaseQuoteEditView, bo.PurchaseQuote> {
             /** 应用标识 */
             static APPLICATION_ID: string = "80630046-a857-4f88-8c61-a91cf567a9d5";
             /** 应用名称 */
@@ -115,8 +115,6 @@ namespace purchase {
                 }
                 super.run.apply(this, arguments);
             }
-            /** 待编辑的数据 */
-            protected editData: bo.PurchaseQuote;
             /** 保存数据 */
             protected saveData(): void {
                 this.busy(true);
@@ -474,6 +472,21 @@ namespace purchase {
             choosePurchaseQuotePurchaseRequestEvent: Function;
             /** 默认税组 */
             defaultTaxGroup: string;
+        }
+        /** 采购报价编辑服务映射 */
+        export class PurchaseQuoteEditServiceMapping extends ibas.BOEditServiceMapping {
+            /** 构造函数 */
+            constructor() {
+                super();
+                this.id = PurchaseQuoteEditApp.APPLICATION_ID;
+                this.name = PurchaseQuoteEditApp.APPLICATION_NAME;
+                this.boCode = PurchaseQuoteEditApp.BUSINESS_OBJECT_CODE;
+                this.description = ibas.i18n.prop(this.name);
+            }
+            /** 创建服务实例 */
+            create(): ibas.IService<ibas.IBOEditServiceCaller<bo.PurchaseQuote>> {
+                return new PurchaseQuoteEditApp();
+            }
         }
     }
 }

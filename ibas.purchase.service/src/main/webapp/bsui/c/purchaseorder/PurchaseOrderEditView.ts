@@ -471,7 +471,7 @@ namespace purchase {
                                 type: new sap.extension.data.Alphanumeric()
                             }),
                             new sap.ui.core.Title("", { text: ibas.i18n.prop("purchase_title_total") }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_purchaseorder_discount") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_purchaseorder_discounttotal") }),
                             new sap.extension.m.Input("", {
                                 editable: false,
                                 type: sap.m.InputType.Number
