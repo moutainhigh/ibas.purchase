@@ -39,6 +39,7 @@ import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRoundingOff;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleSumElements;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleSummation;
 import org.colorcoding.ibas.businesspartner.logic.ISupplierCheckContract;
+import org.colorcoding.ibas.document.IDocumentPaidTotalOperator;
 import org.colorcoding.ibas.purchase.MyConfiguration;
 import org.colorcoding.ibas.purchase.bo.shippingaddress.IShippingAddresss;
 import org.colorcoding.ibas.purchase.bo.shippingaddress.ShippingAddress;
@@ -52,8 +53,9 @@ import org.colorcoding.ibas.purchase.bo.shippingaddress.ShippingAddresss;
 @XmlType(name = PurchaseDelivery.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlRootElement(name = PurchaseDelivery.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @BusinessObjectUnit(code = PurchaseDelivery.BUSINESS_OBJECT_CODE)
-public class PurchaseDelivery extends BusinessObject<PurchaseDelivery> implements IPurchaseDelivery, IDataOwnership,
-		IApprovalData, IPeriodData, IProjectData, IBOTagDeleted, IBOTagCanceled, IBusinessLogicsHost, IBOUserFields {
+public class PurchaseDelivery extends BusinessObject<PurchaseDelivery>
+		implements IPurchaseDelivery, IDataOwnership, IApprovalData, IPeriodData, IProjectData, IBOTagDeleted,
+		IBOTagCanceled, IBusinessLogicsHost, IBOUserFields, IDocumentPaidTotalOperator {
 
 	/**
 	 * 序列化版本标记
