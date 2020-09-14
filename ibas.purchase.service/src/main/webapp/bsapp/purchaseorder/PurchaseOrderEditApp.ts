@@ -153,7 +153,7 @@ namespace purchase {
                                                 that.messages(error);
                                             }
                                         }
-                                    )
+                                    );
                                 }
                                 // 保存批次号信息
                                 if (!ibas.objects.isNull(that.batches) && that.batches.save instanceof Function) {
@@ -163,7 +163,7 @@ namespace purchase {
                                                 that.messages(error);
                                             }
                                         }
-                                    )
+                                    );
                                 }
                             }
                             // 刷新当前视图
